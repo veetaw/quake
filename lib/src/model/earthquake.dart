@@ -36,6 +36,7 @@ class Earthquake {
   final String magnitudeAuthor;
   final String eventLocationName;
 
+  /// Standard constructor
   Earthquake({
     @required this.eventID,
     @required this.time,
@@ -52,6 +53,7 @@ class Earthquake {
     @required this.eventLocationName,
   });
 
+  /// Named constructor that must be used with a valid string response from the API
   Earthquake.fromText(String rawText)
       : assert(rawText.split('|')?.length == 13),
         this.eventID = int.parse(rawText.split('|')[0] ?? null),
@@ -68,6 +70,7 @@ class Earthquake {
         this.magnitudeAuthor = rawText.split('|')[11] ?? "",
         this.eventLocationName = rawText.split('|')[12] ?? "";
 
+  /// This constructor is here because of future implementation of caching
   Earthquake.fromMap(Map map)
       : assert(map != null),
         this.eventID = map["eventID"] ?? 0,
@@ -84,6 +87,7 @@ class Earthquake {
         this.magnitudeAuthor = map["magnitudeAuthor"] ?? "",
         this.eventLocationName = map["eventLocationName"] ?? "";
 
+  /// This method is here because of future implementation of caching
   Map toMap() {
     return {
       "eventID": eventID,
