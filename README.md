@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/veetaw/quake.svg?branch=master)](https://travis-ci.com/veetaw/quake)
 # quake
 > WIP, see [projects](https://github.com/veetaw/quake/projects)
 

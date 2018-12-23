@@ -44,9 +44,9 @@ void main() {
       expect(() async => await api.getData(), throwsException);
     });
 
-    test("Test empty response", () async {
+    test("Test empty response", () {
       when(client.get(any)).thenAnswer((_) async => http.Response("", 200));
-      expect(await api.getData(), isEmpty);
+      expect(() async => await api.getData(), throwsException);
     });
   });
 
