@@ -1,3 +1,49 @@
 # quake
+> WIP, see [projects](https://github.com/veetaw/quake/projects)
 
-WIP, see [projects](https://github.com/veetaw/quake/projects)
+![](.github/readme/base_design.png)
+
+### what's quake?
+Quake is going to be a cross platform (iOS, Android) mobile application that will show you the last earthquakes happened around the world, or near you, with a focus on beautiful design and functionality.
+
+### why?
+All earthquake feed reader applications are poorly designed and some of them can drain battery because of asking an external server every n seconds for new events to send notifications, quake will not do that. A server will send a notification to every user who subscribed to feeds in a particular area.
+
+### goals
+- [ ] Completely cross platform
+- [ ] Stable
+- [ ] Functional
+- [ ] Simple to use
+
+### development
+- [ ] Business logic
+    - [x] Earthquake Model
+    - [x] API Wrapper
+    - [ ] DB Helper
+    - [ ] All Earthquakes BLOC
+    - [ ] Nearby Earthquakes BLOC
+    - [ ] Map Provider for detail page and map page
+- [ ] Permissions
+    - [x] Internet
+    - [ ] Location
+- [ ] UI
+    - [ ] AppBar
+    - [ ] BottomAppBar
+    - [ ] earthquake card model
+    - [ ] basic listview
+    - [ ] Page Switching
+    - [ ] Detail Page
+    - [ ] Map Page
+    - [ ] Settings
+    - [ ] Themes
+- [ ] Notifications
+    - [ ] Backend
+    - [ ] Firebase Auth
+- [ ] Android only features
+    - [ ] Widget
+- [ ] Testing
+    - [x] Unit tests
+        - [x] Earthquake Model
+        - [x] API Wrapper
+    - [ ] Widget tests
+    - [ ] Integration tests
