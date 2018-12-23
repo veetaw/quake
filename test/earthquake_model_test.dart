@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:quake/src/model/earthquake.dart';
 
 void main() {
-  String test_string =
+  String testString =
       "21225591|2018-12-16T05:12:38.400000|42.6073|13.3263|13.2|SURVEY-INGV||||ML|2.0|--|4 km SE Amatrice (RI)";
-  Map test_map = {
+  Map testMap = {
     "eventID": 21225591,
     "time": DateTime.parse("2018-12-16 05:12:38.400"),
     "latitude": 42.6073,
@@ -21,12 +21,12 @@ void main() {
   };
 
   test('Check if Earthquake fromText constructor works correctly', () {
-    Earthquake earthquake = Earthquake.fromText(test_string);
-    expect(earthquake.toMap(), test_map);
+    Earthquake earthquake = Earthquake.fromText(testString);
+    expect(earthquake.toMap(), testMap);
   });
 
   test('Check if Earthquake fromMap constructor works correctly', () {
-    Earthquake earthquake = Earthquake.fromMap(test_map);
+    Earthquake earthquake = Earthquake.fromMap(testMap);
 
     expect(earthquake.eventID, 21225591);
     expect(earthquake.time, DateTime.parse("2018-12-16 05:12:38.400"));
