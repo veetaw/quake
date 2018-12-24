@@ -13,9 +13,9 @@ before_install:
   - sudo apt-get install python3
 before_script:
   - git clone https://github.com/flutter/flutter.git $HOME/flutter
-  - ./$HOME/flutter/bin/flutter doctor
+  - .$HOME/flutter/bin/flutter doctor
 script:
-  - ./$HOME/flutter/bin/flutter test
+  - .$HOME/flutter/bin/flutter test
 after_script:
   - python3 format_files.py
 cache:
