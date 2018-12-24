@@ -1,7 +1,6 @@
 # from https://medium.com/flutter-io/test-flutter-apps-on-travis-3fd5142ecd8c
 os:
   - linux
-sudo: false
 addons:
   apt:
     sources:
@@ -9,11 +8,16 @@ addons:
     packages:
       - libstdc++6
       - fonts-droid
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install python3
 before_script:
-  - git clone https://github.com/flutter/flutter.git
-  - ./flutter/bin/flutter doctor
+  - git clone https://github.com/flutter/flutter.git $HOME/flutter
+  - ./$HOME/flutter/bin/flutter doctor
 script:
-  - ./flutter/bin/flutter test
+  - ./$HOME/flutter/bin/flutter test
+after_script:
+  - python3 format_files.py
 cache:
   directories:
     - $HOME/.pub-cache
