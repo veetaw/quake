@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quake/src/db/earthquake_provider.dart';
 
-
 /// TODO tests
 void main() {
   // EarthquakeProvider earthquakeProvider = EarthquakeProvider();
