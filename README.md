@@ -20,7 +20,10 @@ All earthquake feed reader applications are poorly designed and some of them can
 - [ ] Business logic
     - [x] Earthquake Model
     - [x] API Wrapper
-    - [ ] DB Helper
+    - [x] DB Helper
+    - [x] Check if it's first time opening app on startup
+    - [ ] Check connection
+    - [ ] Localization
     - [ ] All Earthquakes BLOC
     - [ ] Nearby Earthquakes BLOC
     - [ ] Map Provider for detail page and map page
@@ -46,5 +49,6 @@ All earthquake feed reader applications are poorly designed and some of them can
     - [x] Unit tests
         - [x] Earthquake Model
         - [x] API Wrapper
+        - [ ] Database helper
     - [ ] Widget tests
     - [ ] Integration tests
