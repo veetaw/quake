@@ -11,7 +11,7 @@ addons:
       - fonts-droid
 before_install:
   - sudo apt-get update
-  - sudo apt-get install python3
+  - sudo apt-get install python3.6
 before_script:
   - git clone https://github.com/flutter/flutter.git ../flutter
   - ../flutter/bin/flutter doctor

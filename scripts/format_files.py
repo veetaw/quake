@@ -5,7 +5,7 @@ import os
 
 BRANCH = "travis-"+os.getenv("TRAVIS_BUILD_NUMBER", "unknown")
 subprocess.call("git checkout -b " + BRANCH, shell=True)
-subprocess.call("../../flutter/bin/flutter format ...lib/ ../test/", shell=True)
+subprocess.call("../../flutter/bin/flutter format ../lib/ ../test/", shell=True)
 subprocess.call("git config --global user.email \"travis@travis-ci.org\"", shell=True)
 subprocess.call("git config --global user.name \"Travis CI\"", shell=True)
 
