@@ -12,7 +12,7 @@ subprocess.call("git config --global user.name \"Travis CI\"", shell=True)
 changes = subprocess.run(("git diff-index --name-only HEAD --".split(" ")), stdout=subprocess.PIPE)
 
 if len(changes.stdout.decode()) > 0:
-    commit_message = "TRAVIS BUILD: " + os.getenv("TRAVIS_BUILD_NUMBER", default="unknown")
+    commit_message = "[travis skip] TRAVIS BUILD: " + os.getenv("TRAVIS_BUILD_NUMBER", default="unknown")
     commit_message += "\nformatted files:\n"
     commit_message += changes.stdout.decode()
 
