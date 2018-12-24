@@ -23,7 +23,7 @@ All earthquake feed reader applications are poorly designed and some of them can
     - [x] DB Helper
     - [x] Check if it's first time opening app on startup
     - [ ] Check connection
-    - [ ] Localization
+    - [x] Localization
     - [ ] All Earthquakes BLOC
     - [ ] Nearby Earthquakes BLOC
     - [ ] Map Provider for detail page and map page
