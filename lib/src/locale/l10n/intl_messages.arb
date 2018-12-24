@@ -1,0 +1,9 @@
+{
+  "@@last_modified": "2018-12-24T16:15:35.795464",
+  "applicationName": "Quake",
+  "@applicationName": {
+    "description": "application name",
+    "type": "text",
+    "placeholders": {}
+  }
+}
