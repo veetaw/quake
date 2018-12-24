@@ -1,4 +1,5 @@
 # from https://medium.com/flutter-io/test-flutter-apps-on-travis-3fd5142ecd8c
+
 os:
   - linux
 addons:
