@@ -18,10 +18,10 @@ const List<String> columns = [
 ///
 /// Columns:
 /// eventID, time, latitude, longitude, depth, magnitude, eventLocationName
-class EarthquakeProvider {
-  static final EarthquakeProvider _instance = EarthquakeProvider._();
-  factory EarthquakeProvider() => _instance;
-  EarthquakeProvider._();
+class EarthquakePersistentCacheProvider {
+  static final EarthquakePersistentCacheProvider _instance = EarthquakePersistentCacheProvider._();
+  factory EarthquakePersistentCacheProvider() => _instance;
+  EarthquakePersistentCacheProvider._();
 
   Database db;
   String dbPath;
