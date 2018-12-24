@@ -87,7 +87,19 @@ class Earthquake {
         this.magnitudeAuthor = map["magnitudeAuthor"] ?? "",
         this.eventLocationName = map["eventLocationName"] ?? "";
 
-  /// This method is here because of future implementation of caching
+  /// A shrinked version if [toMap()]
+  Map toDBMap() {
+    return {
+      "eventID": eventID,
+      "time": time,
+      "latitude": latitude,
+      "longitude": longitude,
+      "depth": depth,
+      "magnitude": magnitude,
+      "eventLocationName": eventLocationName,
+    };
+  }
+
   Map toMap() {
     return {
       "eventID": eventID,
