@@ -17,9 +17,9 @@ class IngvAPI {
   static const String _kLimit = "10000";
 
   Client client;
-  
+
   /// constructor
-  /// 
+  ///
   /// client is an optional parameter, useful for testing
   IngvAPI({this.client}) {
     if (client == null) {
@@ -28,8 +28,8 @@ class IngvAPI {
   }
 
   /// get a future of list of earthquake (s)
-  /// 
-  /// There are optional parameters like [startTime], [endTime], [minMagnitude] etc.. 
+  ///
+  /// There are optional parameters like [startTime], [endTime], [minMagnitude] etc..
   Future<List<Earthquake>> getData({
     DateTime startTime,
     DateTime endTime,
@@ -83,12 +83,10 @@ class IngvAPI {
     data.removeWhere((earthquake) => earthquake.isEmpty || earthquake == null);
 
     /// list empty after removing header
-    if(data.length == 0) throw Exception('no results');
+    if (data.length == 0) throw Exception('no results');
 
     try {
-      return data
-          .map((earthquake) => Earthquake.fromText(earthquake))
-          .toList();
+      return data.map((earthquake) => Earthquake.fromText(earthquake)).toList();
     } catch (_) {
       /// something bad happened during parsing text
       throw Exception('parse exception');

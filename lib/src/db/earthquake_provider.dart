@@ -19,7 +19,8 @@ const List<String> columns = [
 /// Columns:
 /// eventID, time, latitude, longitude, depth, magnitude, eventLocationName
 class EarthquakePersistentCacheProvider {
-  static final EarthquakePersistentCacheProvider _instance = EarthquakePersistentCacheProvider._();
+  static final EarthquakePersistentCacheProvider _instance =
+      EarthquakePersistentCacheProvider._();
   factory EarthquakePersistentCacheProvider() => _instance;
   EarthquakePersistentCacheProvider._();
 
