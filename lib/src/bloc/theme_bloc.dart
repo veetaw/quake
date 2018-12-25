@@ -1,22 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeBloc {
   final StreamController<ThemeData> _stream = StreamController<ThemeData>();
   StreamSubscription _subscription;
   
   static ThemeBloc _instance = ThemeBloc._();
-  ThemeBloc._() {
-    /// save theme when it's changed
-    _subscription = _stream.stream.listen((ThemeData themeData) async {
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      // sharedPreferences.setString("theme", );
-      // TODO !!
-      // themes should have and ID so it will be possible to save and load themes
-    });
-  }
+  ThemeBloc._();
   factory ThemeBloc() => _instance;
 
   Stream<ThemeData> get theme => _stream.stream;
