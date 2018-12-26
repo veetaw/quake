@@ -21,22 +21,6 @@ class HomeState extends State<Home> {
       builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) =>
           MaterialApp(
             theme: snapshot.data,
-            // TODO : This is just a test it must be removed.
-            home: Scaffold(
-              appBar: AppBar(title: Text(".")),
-              body: Center(
-                child: ListView.builder(
-                  itemCount: themeProvider.getAllThemes()?.length ?? 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    return MaterialButton(
-                        child: Text(themeProvider.getAllThemes()[index]),
-                        onPressed: () => themeBloc.setTheme(
-                            themeProvider.getThemeByName(
-                                themeProvider.getAllThemes()[index])));
-                  },
-                ),
-              ),
-            ),
           ),
     );
   }
