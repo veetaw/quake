@@ -1,5 +1,7 @@
 import 'package:quake/src/app.dart';
+import 'package:quake/src/bloc/theme_bloc.dart';
 import 'package:quake/src/routes/landing_page.dart';
+import 'package:quake/src/themes/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +18,21 @@ Future<bool> isFirstTime() async {
 }
 
 main() async {
-  if (await isFirstTime())
-    runApp(LandingPage());
-  else
-    runApp(Home());
+  ThemeBloc themeBloc = ThemeBloc();
+
+  return runApp(
+    StreamBuilder(
+      stream: themeBloc.theme,
+      initialData: ThemeData.light(),
+      builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) =>
+          MaterialApp(
+            theme: snapshot.data,
+            home: FutureBuilder(
+              future: isFirstTime(),
+              builder: (context, snapshot) =>
+                  snapshot.data ?? true ? LandingPage() : Home(),
+            ),
+          ),
+    ),
+  );
 }

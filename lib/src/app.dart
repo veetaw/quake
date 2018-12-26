@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quake/src/bloc/theme_bloc.dart';
+import 'package:quake/src/routes/landing_page.dart';
 import 'package:quake/src/themes/theme_provider.dart';
 
 class Home extends StatefulWidget {
@@ -10,24 +11,17 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  ThemeBloc themeBloc = ThemeBloc();
-  ThemeProvider themeProvider = ThemeProvider();
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: themeBloc.theme,
-      initialData: ThemeData.light(),
-      builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) =>
-          MaterialApp(
-            theme: snapshot.data,
-          ),
+    return Scaffold(
+      appBar: AppBar(),
     );
   }
 
   @override
   void dispose() {
-    themeBloc.dispose();
+    // this dispose will be called when the whole app is being closed, so dispose ThemeBloc.
+    ThemeBloc().dispose();
     super.dispose();
   }
 }
