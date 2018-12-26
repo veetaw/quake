@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quake/src/bloc/theme_bloc.dart';
-import 'package:quake/src/routes/landing_page.dart';
-import 'package:quake/src/themes/theme_provider.dart';
 
 class Home extends StatefulWidget {
   @override
