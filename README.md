@@ -24,8 +24,9 @@ All earthquake feed reader applications are poorly designed and some of them can
     - [x] Check if it's first time opening app on startup
     - [ ] Check connection
     - [x] Localization
-    - [ ] All Earthquakes BLOC
+    - [x] All Earthquakes BLOC
     - [ ] Nearby Earthquakes BLOC
+    - [ ] Search earthquake
     - [ ] Map Provider for detail page and map page
 - [ ] Permissions
     - [x] Internet
@@ -39,9 +40,10 @@ All earthquake feed reader applications are poorly designed and some of them can
     - [ ] Detail Page
     - [ ] Map Page
     - [ ] Settings
-    - [ ] Themes
+    - [x] Themes
 - [ ] Notifications
     - [ ] Backend
+    - [ ] OneSignal
     - [ ] Firebase Auth
 - [ ] Android only features
     - [ ] Widget
@@ -50,5 +52,7 @@ All earthquake feed reader applications are poorly designed and some of them can
         - [x] Earthquake Model
         - [x] API Wrapper
         - [ ] Database helper
+        - [ ] Earthquake Bloc
     - [ ] Widget tests
+        - [ ] Theme switch
     - [ ] Integration tests
