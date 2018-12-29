@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "applicationName" : MessageLookupByLibrary.simpleMessage("Quake"),
     "next" : MessageLookupByLibrary.simpleMessage("next"),
-    "skip" : MessageLookupByLibrary.simpleMessage("skip")
+    "skip" : MessageLookupByLibrary.simpleMessage("skip"),
+    "title" : MessageLookupByLibrary.simpleMessage("Quake")
   };
 }

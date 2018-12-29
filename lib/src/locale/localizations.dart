@@ -28,6 +28,11 @@ class QuakeLocalizations {
         desc: "application name",
       );
 
+  String get title => Intl.message(
+        "Quake",
+        name: "title",
+      );
+
   String get skip => Intl.message(
         "skip",
         name: "skip",

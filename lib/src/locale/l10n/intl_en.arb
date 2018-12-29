@@ -1,8 +1,13 @@
 {
-  "@@last_modified": "2018-12-29T15:51:58.817845",
+  "@@last_modified": "2018-12-29T15:59:37.430189",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "title": "Quake",
+  "@title": {
     "type": "text",
     "placeholders": {}
   },
