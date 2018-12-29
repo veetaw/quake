@@ -1,35 +1,34 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 class LandingPage extends StatelessWidget {
   final PageController _controller = PageController();
+
+  final List<Widget> _pages = <Widget>[
+    _LandingPageScreen(
+      backgroundColor: _IntroPalette._kLightBlue,
+    ),
+    _LandingPageScreen(
+      backgroundColor: _IntroPalette._kLightGreen,
+    ),
+    _LandingPageScreen(
+      backgroundColor: _IntroPalette._kGreen,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          PageView(
+          PageView.builder(
+            itemCount: _pages.length,
             controller: _controller,
-            children: <Widget>[
-              ConstrainedBox(
-                constraints: BoxConstraints.expand(),
-                child: Container(
-                  color: _IntroPalette._kLightBlue,
-                ),
-              ),
-              ConstrainedBox(
-                constraints: BoxConstraints.expand(),
-                child: Container(color: _IntroPalette._kLightGreen),
-              ),
-              ConstrainedBox(
-                constraints: BoxConstraints.expand(),
-                child: Container(
-                  color: _IntroPalette._kGreen,
-                ),
-              ),
-            ],
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int page) =>
+                _pages[page % _pages.length],
           ),
           Positioned(
             bottom: 0.0,
@@ -40,7 +39,7 @@ class LandingPage extends StatelessWidget {
               child: Center(
                 child: DotsRow(
                   controller: _controller,
-                  itemCount: 3,
+                  itemCount: _pages.length,
                   dotMaxZoom: 1.5,
                   dotSize: 5.0,
                   dotSpacing: 15.0,
@@ -50,6 +49,25 @@ class LandingPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// This represents a page of the initial introuction to the app
+class _LandingPageScreen extends StatelessWidget {
+  final Color backgroundColor;
+
+  _LandingPageScreen({
+    @required this.backgroundColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints.expand(),
+      child: Container(
+        color: backgroundColor,
       ),
     );
   }
@@ -65,6 +83,8 @@ class LandingPage extends StatelessWidget {
 /// [dotMaxZoom] : how many times should be increased the dot when "active"
 /// [dotSpacing] : the space between dots
 /// [color] : dots' color
+///
+/// TODO: add trailing and leading for "SKIP" and "NEXT" button
 class DotsRow extends AnimatedWidget {
   final PageController controller;
   final int itemCount;
