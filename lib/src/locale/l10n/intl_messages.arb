@@ -1,8 +1,18 @@
 {
-  "@@last_modified": "2018-12-24T16:15:35.795464",
+  "@@last_modified": "2018-12-29T15:51:58.817845",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "skip": "skip",
+  "@skip": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "next": "next",
+  "@next": {
     "type": "text",
     "placeholders": {}
   }

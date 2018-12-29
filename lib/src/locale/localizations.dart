@@ -27,6 +27,16 @@ class QuakeLocalizations {
         name: "applicationName",
         desc: "application name",
       );
+
+  String get skip => Intl.message(
+        "skip",
+        name: "skip",
+      );
+
+  String get next => Intl.message(
+        "next",
+        name: "next",
+      );
 }
 
 class _QuakeLocalizationsDelegate
