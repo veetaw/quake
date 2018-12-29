@@ -92,16 +92,74 @@ class LandingPage extends StatelessWidget {
 /// This represents a page of the initial introuction to the app
 class _LandingPageScreen extends StatelessWidget {
   final Color backgroundColor;
+  final String imagePath;
+  final String title;
+  final String description;
 
   _LandingPageScreen({
     @required this.backgroundColor,
+    @required this.imagePath,
+    @required this.title,
+    @required this.description,
   });
 
+
+  // TODO: finish this
   @override
   Widget build(BuildContext context) => ConstrainedBox(
         constraints: BoxConstraints.expand(),
         child: Container(
           color: backgroundColor,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        this.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.clip,  // title should *never* overflow
+                        style: TextStyle(
+                          color: _IntroTheme._kTextcolor,
+                          fontFamily: _IntroTheme._kFontFamily,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                      ),
+                      Text(
+                        this.description,
+                        maxLines: 4,
+                        overflow: TextOverflow.clip, 
+                        style: TextStyle(
+                          color: _IntroTheme._kTextcolor,
+                          fontFamily: _IntroTheme._kFontFamily,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }
@@ -183,5 +241,6 @@ class _IntroTheme {
   static const Color _kLightGreen = Color(0xFF3DFAFF);
   static const Color _kGreen = Color(0xFF43C59E);
   static const Color _kDotColor = Color(0xFFFFFFFF);
+  static const Color _kTextcolor = Color(0xFFFFFFFF);
   static const String _kFontFamily = "Montserrat";
 }
