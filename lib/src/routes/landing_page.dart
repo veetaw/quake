@@ -30,7 +30,8 @@ class LandingPage extends StatelessWidget {
 
 /// This should not depend on theme.
 class _IntroPalette {
-  static const Color _lightBlue = Color(0xFF48BEFF);
-  static const Color _lightGreen = Color(0xFF3DFAFF);
-  static const Color _green = Color(0xFF43C59E);
+  static const Color _kLightBlue = Color(0xFF48BEFF);
+  static const Color _kLightGreen = Color(0xFF3DFAFF);
+  static const Color _kGreen = Color(0xFF43C59E);
+  static const Color _kDotColor = Color(0xFFFFFFFF);
 }
