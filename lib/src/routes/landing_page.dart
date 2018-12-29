@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:quake/src/locale/localizations.dart';
 
 class LandingPage extends StatelessWidget {
   final PageController _controller = PageController();
@@ -19,37 +20,66 @@ class LandingPage extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          PageView.builder(
-            itemCount: _pages.length,
-            controller: _controller,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (BuildContext context, int page) =>
-                _pages[page % _pages.length],
-          ),
-          Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Center(
-                child: DotsRow(
-                  controller: _controller,
-                  itemCount: _pages.length,
-                  dotMaxZoom: 1.5,
-                  dotSize: 5.0,
-                  dotSpacing: 15.0,
-                  color: _IntroPalette._kDotColor,
+  Widget build(BuildContext context) => Scaffold(
+        body: Stack(
+          children: <Widget>[
+            PageView.builder(
+              itemCount: _pages.length,
+              controller: _controller,
+              itemBuilder: (BuildContext context, int page) =>
+                  _pages[page % _pages.length],
+            ),
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: DotsRow(
+                    controller: _controller,
+                    itemCount: _pages.length,
+                    dotMaxZoom: 1.5,
+                    dotSize: 5.0,
+                    dotSpacing: 15.0,
+                    color: _IntroPalette._kDotColor,
+                    leading: _buildMaterialButton(
+                      title: QuakeLocalizations.of(context).skip,
+                      skip: true,
+                    ),
+                    trailing: _buildMaterialButton(
+                      title: QuakeLocalizations.of(context).next,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+      );
+
+  /// util to build the two bottom buttons
+  MaterialButton _buildMaterialButton({
+    @required String title,
+    bool skip = false,
+  }) {
+    const Curve _kCurve = Curves.ease;
+    const Duration _kDuration = Duration(milliseconds: 300);
+
+    return MaterialButton(
+      child: Text(
+        title.toUpperCase(),
       ),
+      onPressed: () => skip
+          ? _controller.animateToPage(
+              _pages.length - 1,
+              curve: _kCurve,
+              duration: _kDuration,
+            )
+          : _controller.nextPage(
+              curve: _kCurve,
+              duration: _kDuration,
+            ),
     );
   }
 }
@@ -63,14 +93,12 @@ class _LandingPageScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints.expand(),
-      child: Container(
-        color: backgroundColor,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ConstrainedBox(
+        constraints: BoxConstraints.expand(),
+        child: Container(
+          color: backgroundColor,
+        ),
+      );
 }
 
 /// dots row model (maybe should be moved to `ui/models/` (or maybe `models/ui/`))
@@ -93,12 +121,17 @@ class DotsRow extends AnimatedWidget {
   final double dotSpacing;
   final Color color;
 
+  final MaterialButton leading;
+  final MaterialButton trailing;
+
   DotsRow({
     @required this.controller,
     @required this.itemCount,
     @required this.dotSize,
     @required this.dotMaxZoom,
     @required this.dotSpacing,
+    @required this.leading,
+    @required this.trailing,
     this.color: Colors.white,
   }) : super(listenable: controller);
 
@@ -126,12 +159,17 @@ class DotsRow extends AnimatedWidget {
     );
   }
 
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List<Widget>.generate(itemCount, _buildDot),
-    );
-  }
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          leading,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List<Widget>.generate(itemCount, _buildDot),
+          ),
+          trailing,
+        ],
+      );
 }
 
 /// This should not depend on theme.
