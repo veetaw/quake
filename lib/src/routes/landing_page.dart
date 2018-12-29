@@ -9,13 +9,13 @@ class LandingPage extends StatelessWidget {
 
   final List<Widget> _pages = <Widget>[
     _LandingPageScreen(
-      backgroundColor: _IntroPalette._kLightBlue,
+      backgroundColor: _IntroTheme._kLightBlue,
     ),
     _LandingPageScreen(
-      backgroundColor: _IntroPalette._kLightGreen,
+      backgroundColor: _IntroTheme._kLightGreen,
     ),
     _LandingPageScreen(
-      backgroundColor: _IntroPalette._kGreen,
+      backgroundColor: _IntroTheme._kGreen,
     ),
   ];
 
@@ -42,7 +42,7 @@ class LandingPage extends StatelessWidget {
                     dotMaxZoom: 1.5,
                     dotSize: 5.0,
                     dotSpacing: 15.0,
-                    color: _IntroPalette._kDotColor,
+                    color: _IntroTheme._kDotColor,
                     leading: _buildMaterialButton(
                       title: QuakeLocalizations.of(context).skip,
                       skip: true,
@@ -69,6 +69,11 @@ class LandingPage extends StatelessWidget {
     return MaterialButton(
       child: Text(
         title.toUpperCase(),
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: _IntroTheme._kFontFamily,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       onPressed: () => skip
           ? _controller.animateToPage(
@@ -173,9 +178,10 @@ class DotsRow extends AnimatedWidget {
 }
 
 /// This should not depend on theme.
-class _IntroPalette {
+class _IntroTheme {
   static const Color _kLightBlue = Color(0xFF48BEFF);
   static const Color _kLightGreen = Color(0xFF3DFAFF);
   static const Color _kGreen = Color(0xFF43C59E);
   static const Color _kDotColor = Color(0xFFFFFFFF);
+  static const String _kFontFamily = "Montserrat";
 }
