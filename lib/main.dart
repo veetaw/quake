@@ -1,8 +1,10 @@
 import 'package:quake/src/app.dart';
 import 'package:quake/src/bloc/theme_bloc.dart';
+import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/routes/landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<bool> isFirstTime() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,6 +28,15 @@ main() async {
       initialData: ThemeData.light(),
       builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) =>
           MaterialApp(
+            localizationsDelegates: [
+              QuakeLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            onGenerateTitle: (context) => QuakeLocalizations.of(context).title,
+            supportedLocales: [
+              Locale('en'),
+            ],
             theme: snapshot.data,
             home: FutureBuilder(
               future: isFirstTime(),
