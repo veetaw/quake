@@ -3,21 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:quake/src/locale/localizations.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class LandingPage extends StatelessWidget {
   final PageController _controller = PageController();
 
-  final List<Widget> _pages = <Widget>[
-    _LandingPageScreen(
-      backgroundColor: _IntroTheme._kLightBlue,
-    ),
-    _LandingPageScreen(
-      backgroundColor: _IntroTheme._kLightGreen,
-    ),
-    _LandingPageScreen(
-      backgroundColor: _IntroTheme._kGreen,
-    ),
-  ];
+  // TODO
+  final List<Widget> _pages = <Widget>[];
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -90,21 +82,28 @@ class LandingPage extends StatelessWidget {
 }
 
 /// This represents a page of the initial introuction to the app
+/// 
+/// params:
+/// [backgroundColor] : page background color
+/// [title] : brief title, max one line
+/// [description] : brief description max 3 lines
+/// [animationPath] : Flare animation path
+/// [animationName] : Flare animation name
 class _LandingPageScreen extends StatelessWidget {
   final Color backgroundColor;
-  final String imagePath;
   final String title;
   final String description;
+  final String animationPath;
+  final String animationName;
 
   _LandingPageScreen({
     @required this.backgroundColor,
-    @required this.imagePath,
     @required this.title,
     @required this.description,
+    @required this.animationPath,
+    @required this.animationName,
   });
 
-
-  // TODO: finish this
   @override
   Widget build(BuildContext context) => ConstrainedBox(
         constraints: BoxConstraints.expand(),
@@ -115,10 +114,12 @@ class _LandingPageScreen extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.all(32.0),
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.fill,
+                    padding: EdgeInsets.all(40.0),
+                    child: FlareActor(
+                      animationPath,
+                      animation: animationName,
+                      alignment: Alignment.bottomCenter,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
@@ -129,29 +130,38 @@ class _LandingPageScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        this.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,  // title should *never* overflow
-                        style: TextStyle(
-                          color: _IntroTheme._kTextcolor,
-                          fontFamily: _IntroTheme._kFontFamily,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20.0,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow
+                              .clip, // title should *never* overflow
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: _IntroTheme._kTextcolor,
+                            fontFamily: _IntroTheme._kFontFamily,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22.0,
+                          ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.0),
                       ),
-                      Text(
-                        this.description,
-                        maxLines: 4,
-                        overflow: TextOverflow.clip, 
-                        style: TextStyle(
-                          color: _IntroTheme._kTextcolor,
-                          fontFamily: _IntroTheme._kFontFamily,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          description,
+                          maxLines: 4,
+                          overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: _IntroTheme._kTextcolor,
+                            fontFamily: _IntroTheme._kFontFamily,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
                     ],
@@ -164,7 +174,7 @@ class _LandingPageScreen extends StatelessWidget {
       );
 }
 
-/// dots row model (maybe should be moved to `ui/models/` (or maybe `models/ui/`))
+/// dots row model
 /// inspired from https://gist.github.com/collinjackson/4fddbfa2830ea3ac033e34622f278824
 ///
 /// @params:
@@ -174,8 +184,8 @@ class _LandingPageScreen extends StatelessWidget {
 /// [dotMaxZoom] : how many times should be increased the dot when "active"
 /// [dotSpacing] : the space between dots
 /// [color] : dots' color
-///
-/// TODO: add trailing and leading for "SKIP" and "NEXT" button
+/// [leading] : the button positioned at the left
+/// [trailing] : the button positioned at the right
 class DotsRow extends AnimatedWidget {
   final PageController controller;
   final int itemCount;
@@ -237,9 +247,6 @@ class DotsRow extends AnimatedWidget {
 
 /// This should not depend on theme.
 class _IntroTheme {
-  static const Color _kLightBlue = Color(0xFF48BEFF);
-  static const Color _kLightGreen = Color(0xFF3DFAFF);
-  static const Color _kGreen = Color(0xFF43C59E);
   static const Color _kDotColor = Color(0xFFFFFFFF);
   static const Color _kTextcolor = Color(0xFFFFFFFF);
   static const String _kFontFamily = "Montserrat";
