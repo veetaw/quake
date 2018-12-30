@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quake/src/bloc/theme_bloc.dart';
 
 class Home extends StatefulWidget {
+  static const routeName = "/home";
   @override
   HomeState createState() {
     return new HomeState();
@@ -18,8 +18,6 @@ class HomeState extends State<Home> {
 
   @override
   void dispose() {
-    // this dispose will be called when the whole app is being closed, so dispose ThemeBloc.
-    ThemeBloc().dispose();
     super.dispose();
   }
 }
