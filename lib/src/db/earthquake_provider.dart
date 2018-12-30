@@ -53,6 +53,7 @@ class EarthquakePersistentCacheProvider {
   ///
   /// This will be useful when opening earthquake detail page
   Future<Earthquake> getEarthquakeById({@required int eventID}) async {
+    if (eventID == null) throw Exception('null_id');
     List results = await db.query(
       table_name,
       columns: columns,
@@ -75,18 +76,22 @@ class EarthquakePersistentCacheProvider {
 
   /// Add earthquake to the cache
   Future<Null> addEarthquake({@required Earthquake earthquake}) async {
+    if (earthquake == null) throw Exception('null_earthquake');
     await db.insert(table_name, earthquake.toDBMap());
   }
 
   /// Add a list of earthquakes to the cache
   /// (Just a wrapper over [addEarthquakes()])
   Future<Null> addEarthquakes({@required List<Earthquake> earthquakes}) async {
+    if (earthquakes == null || earthquakes.isEmpty)
+      throw Exception('null_earthquake');
     earthquakes.map((earthquake) async =>
         (await db.insert(table_name, earthquake.toDBMap())));
   }
 
   /// Delete earthquake by eventID
   Future<Null> deleteEarthquake({@required int eventID}) async {
+    if (eventID == null) throw Exception('null_id');
     try {
       await db
           .delete(table_name, where: "${columns[0]} = ?", whereArgs: [eventID]);
