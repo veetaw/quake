@@ -44,14 +44,29 @@ void main() {
       expect(() async => await api.getData(), throwsException);
     });
 
+    test("Test null respose", () {
+      when(client.get(any)).thenAnswer((_) async => null);
+      expect(() async => await api.getData(), throwsException);
+    });
+
     test("Test empty response", () {
       when(client.get(any)).thenAnswer((_) async => http.Response("", 200));
       expect(() async => await api.getData(), throwsException);
+    });
+
+    test("Test malformed response", () {
+      when(client.get(any)).thenAnswer((_) async => http.Response("cats\nFFFFFFFFFF\n\nfffffff", 200));
+      expect(() async => await api.getData(), throwsException);
+    });
+
+    tearDown(() {
+      api.dispose();
     });
   });
 
   test('Test API with real data', () async {
     IngvAPI api = IngvAPI();
     expect(await api.getData(), isNotNull);
+    api.dispose();
   });
 }
