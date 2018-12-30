@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2018-12-29T15:59:37.430189",
+  "@@last_modified": "2018-12-30T09:57:55.140599",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -18,6 +18,30 @@
   },
   "next": "next",
   "@next": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "welcomeTitle": "Welcome to Quake!",
+  "@welcomeTitle": {
+    "description": "the title of the first landing page screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "welcomeDescription": "Keep track of the earthquakes near you to stay safe.",
+  "@welcomeDescription": {
+    "description": "the description of the first landing page screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appStatusTitle": "You can make Quake better!",
+  "@appStatusTitle": {
+    "description": "the title of the second landing page screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appStatusDescription": "The app is in an active development state. Help the developer by reporting bug or suggesting features to add.",
+  "@appStatusDescription": {
+    "description": "the description of the first landing page screen",
     "type": "text",
     "placeholders": {}
   }

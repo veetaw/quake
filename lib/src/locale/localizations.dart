@@ -22,6 +22,7 @@ class QuakeLocalizations {
   static QuakeLocalizations of(BuildContext context) =>
       Localizations.of<QuakeLocalizations>(context, QuakeLocalizations);
 
+  // == SECTION general ==
   String get applicationName => Intl.message(
         "Quake",
         name: "applicationName",
@@ -33,6 +34,7 @@ class QuakeLocalizations {
         name: "title",
       );
 
+  // == SECTION intro ==
   String get skip => Intl.message(
         "skip",
         name: "skip",
@@ -42,6 +44,30 @@ class QuakeLocalizations {
         "next",
         name: "next",
       );
+  
+  String get welcomeTitle => Intl.message(
+    "Welcome to Quake!",
+    name: "welcomeTitle",
+    desc: "the title of the first landing page screen",
+  );
+
+  String get welcomeDescription => Intl.message(
+    "Keep track of the earthquakes near you to stay safe.",
+    name: "welcomeDescription",
+    desc: "the description of the first landing page screen"
+  );
+  
+  String get appStatusTitle => Intl.message(
+    "You can make Quake better!",
+    name: "appStatusTitle",
+    desc: "the title of the second landing page screen",
+  );
+
+  String get appStatusDescription => Intl.message(
+    "The app is in an active development state. Help the developer by reporting bug or suggesting features to add.",
+    name: "appStatusDescription",
+    desc: "the description of the first landing page screen"
+  );
 }
 
 class _QuakeLocalizationsDelegate
