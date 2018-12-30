@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2018-12-30T10:14:30.823190",
+  "@@last_modified": "2018-12-30T16:21:29.291549",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -47,6 +47,21 @@
   "appStatusDescription": "The app is in an active development state. Help the developer by reporting bug or suggesting features to add.",
   "@appStatusDescription": {
     "description": "the description of the first landing page screen",
+    "type": "text",
+    "placeholders": {}
+  },
+  "all": "All",
+  "@all": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nearby": "Nearby",
+  "@nearby": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "map": "Map",
+  "@map": {
     "type": "text",
     "placeholders": {}
   }

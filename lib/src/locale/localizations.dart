@@ -71,6 +71,22 @@ class QuakeLocalizations {
       "The app is in an active development state. Help the developer by reporting bug or suggesting features to add.",
       name: "appStatusDescription",
       desc: "the description of the first landing page screen");
+
+  // == SECTION bottomAppBar ==
+  String get all => Intl.message(
+    "All",
+    name: "all",
+  );
+
+  String get nearby => Intl.message(
+    "Nearby",
+    name: "nearby",
+  );
+
+  String get map => Intl.message(
+    "Map",
+    name: "map",
+  );
 }
 
 class _QuakeLocalizationsDelegate

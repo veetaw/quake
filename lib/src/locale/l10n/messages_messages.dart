@@ -19,19 +19,18 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'messages';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
-        "appStatusDescription": MessageLookupByLibrary.simpleMessage(
-            "The app is in an active development state. Help the developer by reporting bug or suggesting features to add."),
-        "appStatusTitle":
-            MessageLookupByLibrary.simpleMessage("You can make Quake better!"),
-        "applicationName": MessageLookupByLibrary.simpleMessage("Quake"),
-        "finish": MessageLookupByLibrary.simpleMessage("finish"),
-        "next": MessageLookupByLibrary.simpleMessage("next"),
-        "skip": MessageLookupByLibrary.simpleMessage("skip"),
-        "title": MessageLookupByLibrary.simpleMessage("Quake"),
-        "welcomeDescription": MessageLookupByLibrary.simpleMessage(
-            "Keep track of the earthquakes near you to stay safe."),
-        "welcomeTitle":
-            MessageLookupByLibrary.simpleMessage("Welcome to Quake!")
-      };
+  static _notInlinedMessages(_) => <String, Function> {
+    "all" : MessageLookupByLibrary.simpleMessage("All"),
+    "appStatusDescription" : MessageLookupByLibrary.simpleMessage("The app is in an active development state. Help the developer by reporting bug or suggesting features to add."),
+    "appStatusTitle" : MessageLookupByLibrary.simpleMessage("You can make Quake better!"),
+    "applicationName" : MessageLookupByLibrary.simpleMessage("Quake"),
+    "finish" : MessageLookupByLibrary.simpleMessage("finish"),
+    "map" : MessageLookupByLibrary.simpleMessage("Map"),
+    "nearby" : MessageLookupByLibrary.simpleMessage("Nearby"),
+    "next" : MessageLookupByLibrary.simpleMessage("next"),
+    "skip" : MessageLookupByLibrary.simpleMessage("skip"),
+    "title" : MessageLookupByLibrary.simpleMessage("Quake"),
+    "welcomeDescription" : MessageLookupByLibrary.simpleMessage("Keep track of the earthquakes near you to stay safe."),
+    "welcomeTitle" : MessageLookupByLibrary.simpleMessage("Welcome to Quake!")
+  };
 }
