@@ -37,7 +37,7 @@ main() async {
               Locale('en'),
             ],
             routes: {
-              Home.routeName : (_) => Home(),
+              Home.routeName: (_) => Home(),
             },
             theme: snapshot.data,
             home: FutureBuilder(
