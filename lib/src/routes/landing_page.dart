@@ -2,11 +2,22 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:quake/src/app.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
+  @override
+  LandingPageState createState() => LandingPageState();
+}
+
+class LandingPageState extends State<LandingPage> {
   final PageController _controller = PageController();
+
+  static const Curve _kCurve = Curves.ease;
+  static const Duration _kDuration = Duration(milliseconds: 300);
+
+  int _page = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +44,7 @@ class LandingPage extends StatelessWidget {
           PageView.builder(
             itemCount: _pages.length,
             controller: _controller,
+            onPageChanged: (int page) => setState(() => _page = page),
             itemBuilder: (BuildContext context, int page) =>
                 _pages[page % _pages.length],
           ),
@@ -50,14 +62,32 @@ class LandingPage extends StatelessWidget {
                   dotSize: 5.0,
                   dotSpacing: 15.0,
                   color: _IntroTheme._kDotColor,
-                  leading: _buildMaterialButton(
-                    title: QuakeLocalizations.of(context).skip,
-                    skip: true,
-                    pages: _pages,
-                  ),
+                  leading: _page == 0
+                      ? _buildMaterialButton(
+                          title: QuakeLocalizations.of(context).skip,
+                          pages: _pages,
+                          onPressed: () => _controller.animateToPage(
+                                // skip button logic
+                                _pages.length - 1,
+                                curve: _kCurve,
+                                duration: _kDuration,
+                              ),
+                        )
+                      : MaterialButton(
+                          onPressed: null,
+                        ), // blank button as placeholder
                   trailing: _buildMaterialButton(
-                    title: QuakeLocalizations.of(context).next,
+                    title: _page != _pages.length - 1
+                        ? QuakeLocalizations.of(context).next
+                        : QuakeLocalizations.of(context).finish,
                     pages: _pages,
+                    onPressed: () => _page != _pages.length - 1
+                        ? _controller.nextPage(
+                            // next / start button logic
+                            curve: _kCurve,
+                            duration: _kDuration,
+                          )
+                        : _closeLandingPage(context),
                   ),
                 ),
               ),
@@ -68,36 +98,26 @@ class LandingPage extends StatelessWidget {
     );
   }
 
+  void _closeLandingPage(BuildContext context) =>
+      Navigator.of(context).pushReplacementNamed(Home.routeName);
+
   /// util to build the two bottom buttons
   MaterialButton _buildMaterialButton({
     @required String title,
     @required List<Widget> pages,
-    bool skip = false,
-  }) {
-    const Curve _kCurve = Curves.ease;
-    const Duration _kDuration = Duration(milliseconds: 300);
-
-    return MaterialButton(
-      child: Text(
-        title.toUpperCase(),
-        style: TextStyle(
-          color: _IntroTheme._kTextcolor,
-          fontFamily: _IntroTheme._kFontFamily,
-          fontWeight: FontWeight.w500,
+    @required VoidCallback onPressed,
+  }) =>
+      MaterialButton(
+        child: Text(
+          title.toUpperCase(),
+          style: TextStyle(
+            color: _IntroTheme._kTextcolor,
+            fontFamily: _IntroTheme._kFontFamily,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-      ),
-      onPressed: () => skip
-          ? _controller.animateToPage(
-              pages.length - 1,
-              curve: _kCurve,
-              duration: _kDuration,
-            )
-          : _controller.nextPage(
-              curve: _kCurve,
-              duration: _kDuration,
-            ),
-    );
-  }
+        onPressed: onPressed,
+      );
 }
 
 /// This represents a page of the initial introuction to the app
