@@ -8,51 +8,70 @@ import 'package:flare_flutter/flare_actor.dart';
 class LandingPage extends StatelessWidget {
   final PageController _controller = PageController();
 
-  // TODO
-  final List<Widget> _pages = <Widget>[];
-
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: <Widget>[
-            PageView.builder(
-              itemCount: _pages.length,
-              controller: _controller,
-              itemBuilder: (BuildContext context, int page) =>
-                  _pages[page % _pages.length],
-            ),
-            Positioned(
-              bottom: 0.0,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: Center(
-                  child: DotsRow(
-                    controller: _controller,
-                    itemCount: _pages.length,
-                    dotMaxZoom: 1.5,
-                    dotSize: 5.0,
-                    dotSpacing: 15.0,
-                    color: _IntroTheme._kDotColor,
-                    leading: _buildMaterialButton(
-                      title: QuakeLocalizations.of(context).skip,
-                      skip: true,
-                    ),
-                    trailing: _buildMaterialButton(
-                      title: QuakeLocalizations.of(context).next,
-                    ),
+  Widget build(BuildContext context) {
+    final List<Widget> _pages = <Widget>[
+      _LandingPageScreen(
+        title: QuakeLocalizations.of(context).welcomeTitle,
+        description: QuakeLocalizations.of(context).welcomeDescription,
+        animationPath: "assets/flare/earth.flr",
+        animationName: "Untitled",
+        backgroundColor: _IntroTheme._kWelcomeBackgroundColor,
+      ),
+      _LandingPageScreen(
+        title: QuakeLocalizations.of(context).appStatusTitle,
+        description: QuakeLocalizations.of(context).appStatusDescription,
+        animationPath: "assets/flare/monitor.flr",
+        animationName: "monitor code",
+        backgroundColor: _IntroTheme._kAppStatusBackgroundColor,
+      ),
+    ];
+
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          PageView.builder(
+            itemCount: _pages.length,
+            controller: _controller,
+            itemBuilder: (BuildContext context, int page) =>
+                _pages[page % _pages.length],
+          ),
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                child: DotsRow(
+                  controller: _controller,
+                  itemCount: _pages.length,
+                  dotMaxZoom: 1.5,
+                  dotSize: 5.0,
+                  dotSpacing: 15.0,
+                  color: _IntroTheme._kDotColor,
+                  leading: _buildMaterialButton(
+                    title: QuakeLocalizations.of(context).skip,
+                    skip: true,
+                    pages: _pages,
+                  ),
+                  trailing: _buildMaterialButton(
+                    title: QuakeLocalizations.of(context).next,
+                    pages: _pages,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 
   /// util to build the two bottom buttons
   MaterialButton _buildMaterialButton({
     @required String title,
+    @required List<Widget> pages,
     bool skip = false,
   }) {
     const Curve _kCurve = Curves.ease;
@@ -62,14 +81,14 @@ class LandingPage extends StatelessWidget {
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
-          color: Colors.white,
+          color: _IntroTheme._kTextcolor,
           fontFamily: _IntroTheme._kFontFamily,
           fontWeight: FontWeight.w500,
         ),
       ),
       onPressed: () => skip
           ? _controller.animateToPage(
-              _pages.length - 1,
+              pages.length - 1,
               curve: _kCurve,
               duration: _kDuration,
             )
@@ -82,7 +101,7 @@ class LandingPage extends StatelessWidget {
 }
 
 /// This represents a page of the initial introuction to the app
-/// 
+///
 /// params:
 /// [backgroundColor] : page background color
 /// [title] : brief title, max one line
@@ -247,7 +266,9 @@ class DotsRow extends AnimatedWidget {
 
 /// This should not depend on theme.
 class _IntroTheme {
-  static const Color _kDotColor = Color(0xFFFFFFFF);
-  static const Color _kTextcolor = Color(0xFFFFFFFF);
+  static const Color _kDotColor = Color(0xFF000000);
+  static const Color _kTextcolor = Color(0xFF000000);
   static const String _kFontFamily = "Montserrat";
+  static const Color _kWelcomeBackgroundColor = Color(0xFFFFFFFF);
+  static const Color _kAppStatusBackgroundColor = Color(0xFFFFFFFF);
 }
