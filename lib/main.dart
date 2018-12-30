@@ -15,8 +15,7 @@ Future<bool> isFirstTime() async {
   /// if it's the first time now it won't be the next time, so set it to false  D:
   if (firstTime) prefs.setBool("firstTime", false);
 
-  // return firstTime;
-  return true;
+  return firstTime;
 }
 
 main() async {
@@ -37,6 +36,9 @@ main() async {
             supportedLocales: [
               Locale('en'),
             ],
+            routes: {
+              Home.routeName : (_) => Home(),
+            },
             theme: snapshot.data,
             home: FutureBuilder(
               future: isFirstTime(),
