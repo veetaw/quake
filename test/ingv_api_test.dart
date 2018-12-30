@@ -55,7 +55,8 @@ void main() {
     });
 
     test("Test malformed response", () {
-      when(client.get(any)).thenAnswer((_) async => http.Response("cats\nFFFFFFFFFF\n\nfffffff", 200));
+      when(client.get(any)).thenAnswer(
+          (_) async => http.Response("cats\nFFFFFFFFFF\n\nfffffff", 200));
       expect(() async => await api.getData(), throwsException);
     });
 
