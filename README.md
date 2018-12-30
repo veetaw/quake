@@ -2,7 +2,14 @@
 # quake
 > WIP, see [projects](https://github.com/veetaw/quake/projects)
 
-![](.github/readme/base_design.png)
+### Screenshots
+Landing page first screen  |  Landing page second screen
+:-------------------------:|:-------------------------:
+![1](.github/readme/intro_screen.jpg)  |  ![2](.github/readme/intro_screen_2.jpg)
+
+
+### Renders
+![1](.github/readme/base_design.png)
 
 ### what's quake?
 Quake is going to be a cross platform (iOS, Android) mobile application that will show you the last earthquakes happened around the world, or near you, with a focus on beautiful design and functionality.
