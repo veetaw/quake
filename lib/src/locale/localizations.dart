@@ -44,6 +44,11 @@ class QuakeLocalizations {
         "next",
         name: "next",
       );
+
+  String get finish => Intl.message(
+        "finish",
+        name: "finish",
+      );
   
   String get welcomeTitle => Intl.message(
     "Welcome to Quake!",

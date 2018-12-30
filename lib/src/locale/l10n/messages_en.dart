@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "appStatusDescription" : MessageLookupByLibrary.simpleMessage("The app is in an active development state. Help the developer by reporting bug or suggesting features to add."),
     "appStatusTitle" : MessageLookupByLibrary.simpleMessage("You can make Quake better!"),
     "applicationName" : MessageLookupByLibrary.simpleMessage("Quake"),
+    "finish" : MessageLookupByLibrary.simpleMessage("finish"),
     "next" : MessageLookupByLibrary.simpleMessage("next"),
     "skip" : MessageLookupByLibrary.simpleMessage("skip"),
     "title" : MessageLookupByLibrary.simpleMessage("Quake"),
