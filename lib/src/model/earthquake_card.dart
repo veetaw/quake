@@ -112,7 +112,21 @@ class _EarthquakeCardBottomInfos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        _EarthquakeCardBottomTile(
+          title: earthquake.magnitude.toString(),
+          // subtitle: QuakeLocalizations.of(context).magnitude, TODO,
+          // icon: , TODO pulse icon,
+        ),
+        _EarthquakeCardBottomTile(
+          title: earthquake.depth.toString(), // TODO add unit of measurement
+          // subtitle: QuakeLocalizations.of(context).depth, TODO: add string
+          // icon: , TODO: earth icon
+        ),
+      ],
+    );
   }
 }
 
@@ -124,7 +138,8 @@ class _EarthquakeCardBottomTile extends StatelessWidget {
   const _EarthquakeCardBottomTile({
     @required this.title,
     @required this.subtitle,
-    @required this.icon,});
+    @required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
