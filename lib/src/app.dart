@@ -17,7 +17,8 @@ class HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).bottomAppBarColor,
-        brightness: Theme.of(context).brightness, // make status bar icons dark or light depending on the brightness
+        brightness: Theme.of(context)
+            .brightness, // make status bar icons dark or light depending on the brightness
         centerTitle: Theme.of(context).platform ==
             TargetPlatform.iOS, // center title if running on ios
         primary: true,
@@ -39,24 +40,26 @@ class HomeState extends State<Home> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          _buildBottomNavigationBarItem(icon: Icons.chrome_reader_mode, text: ""),
-          _buildBottomNavigationBarItem(icon: Icons.location_on, text: ""),
-          _buildBottomNavigationBarItem(icon: Icons.map, text: ""),
+          _buildBottomNavigationBarItem(
+              icon: Icons.chrome_reader_mode,
+              text: QuakeLocalizations.of(context).all),
+          _buildBottomNavigationBarItem(
+              icon: Icons.location_on,
+              text: QuakeLocalizations.of(context).nearby),
+          _buildBottomNavigationBarItem(
+              icon: Icons.map, text: QuakeLocalizations.of(context).map),
         ],
         currentIndex: 0, // TODO, bloc
       ),
     );
   }
 
-  BottomNavigationBarItem _buildBottomNavigationBarItem({@required IconData icon, @required String text}) {
-    return BottomNavigationBarItem(
-          icon: Icon(icon),
-          title: Text(text),
-        );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  BottomNavigationBarItem _buildBottomNavigationBarItem({
+    @required IconData icon,
+    @required String text,
+  }) =>
+      BottomNavigationBarItem(
+        icon: Icon(icon),
+        title: Text(text),
+      );
 }
