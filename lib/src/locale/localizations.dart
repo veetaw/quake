@@ -74,19 +74,19 @@ class QuakeLocalizations {
 
   // == SECTION bottomAppBar ==
   String get all => Intl.message(
-    "All",
-    name: "all",
-  );
+        "All",
+        name: "all",
+      );
 
   String get nearby => Intl.message(
-    "Nearby",
-    name: "nearby",
-  );
+        "Nearby",
+        name: "nearby",
+      );
 
   String get map => Intl.message(
-    "Map",
-    name: "map",
-  );
+        "Map",
+        name: "map",
+      );
 }
 
 class _QuakeLocalizationsDelegate
