@@ -87,3 +87,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Montserrat-Regular.ttf
           weight: 500
+    - family: Quake
+      fonts:
+        - asset: assets/fonts/Quake.ttf
