@@ -30,6 +30,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "map" : MessageLookupByLibrary.simpleMessage("Map"),
     "nearby" : MessageLookupByLibrary.simpleMessage("Nearby"),
     "next" : MessageLookupByLibrary.simpleMessage("next"),
+    "searchTooltip" : MessageLookupByLibrary.simpleMessage("search"),
+    "settingsTooltip" : MessageLookupByLibrary.simpleMessage("search"),
     "skip" : MessageLookupByLibrary.simpleMessage("skip"),
     "title" : MessageLookupByLibrary.simpleMessage("Quake"),
     "welcomeDescription" : MessageLookupByLibrary.simpleMessage("Keep track of the earthquakes near you to stay safe."),

@@ -87,6 +87,17 @@ class QuakeLocalizations {
         "Map",
         name: "map",
       );
+  
+  // == SECTION tooltips ==
+  String get searchTooltip => Intl.message(
+    "search",
+    name: "searchTooltip",
+  );
+
+  String get settingsTooltip => Intl.message(
+    "search",
+    name: "settingsTooltip",
+  );
 
   // == SECTION earthquakeCard ==
   String get magnitude => Intl.message(

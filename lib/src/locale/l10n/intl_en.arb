@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-01-05T10:01:26.555674",
+  "@@last_modified": "2019-01-05T10:17:32.725186",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -62,6 +62,16 @@
   },
   "map": "Map",
   "@map": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchTooltip": "search",
+  "@searchTooltip": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTooltip": "search",
+  "@settingsTooltip": {
     "type": "text",
     "placeholders": {}
   },
