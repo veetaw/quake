@@ -87,6 +87,16 @@ class QuakeLocalizations {
         "Map",
         name: "map",
       );
+
+  // == SECTION earthquakeCard ==
+  String get magnitude => Intl.message(
+    "magnitude",
+    name: "magnitude",
+  );
+  String get depth => Intl.message(
+    "depth",
+    name: "depth",
+  );
 }
 
 class _QuakeLocalizationsDelegate
