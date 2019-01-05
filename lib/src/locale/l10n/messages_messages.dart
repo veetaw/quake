@@ -19,22 +19,26 @@ class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'messages';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "all" : MessageLookupByLibrary.simpleMessage("All"),
-    "appStatusDescription" : MessageLookupByLibrary.simpleMessage("The app is in an active development state. Help the developer by reporting bug or suggesting features to add."),
-    "appStatusTitle" : MessageLookupByLibrary.simpleMessage("You can make Quake better!"),
-    "applicationName" : MessageLookupByLibrary.simpleMessage("Quake"),
-    "depth" : MessageLookupByLibrary.simpleMessage("depth"),
-    "finish" : MessageLookupByLibrary.simpleMessage("finish"),
-    "magnitude" : MessageLookupByLibrary.simpleMessage("magnitude"),
-    "map" : MessageLookupByLibrary.simpleMessage("Map"),
-    "nearby" : MessageLookupByLibrary.simpleMessage("Nearby"),
-    "next" : MessageLookupByLibrary.simpleMessage("next"),
-    "searchTooltip" : MessageLookupByLibrary.simpleMessage("search"),
-    "settingsTooltip" : MessageLookupByLibrary.simpleMessage("search"),
-    "skip" : MessageLookupByLibrary.simpleMessage("skip"),
-    "title" : MessageLookupByLibrary.simpleMessage("Quake"),
-    "welcomeDescription" : MessageLookupByLibrary.simpleMessage("Keep track of the earthquakes near you to stay safe."),
-    "welcomeTitle" : MessageLookupByLibrary.simpleMessage("Welcome to Quake!")
-  };
+  static _notInlinedMessages(_) => <String, Function>{
+        "all": MessageLookupByLibrary.simpleMessage("All"),
+        "appStatusDescription": MessageLookupByLibrary.simpleMessage(
+            "The app is in an active development state. Help the developer by reporting bug or suggesting features to add."),
+        "appStatusTitle":
+            MessageLookupByLibrary.simpleMessage("You can make Quake better!"),
+        "applicationName": MessageLookupByLibrary.simpleMessage("Quake"),
+        "depth": MessageLookupByLibrary.simpleMessage("depth"),
+        "finish": MessageLookupByLibrary.simpleMessage("finish"),
+        "magnitude": MessageLookupByLibrary.simpleMessage("magnitude"),
+        "map": MessageLookupByLibrary.simpleMessage("Map"),
+        "nearby": MessageLookupByLibrary.simpleMessage("Nearby"),
+        "next": MessageLookupByLibrary.simpleMessage("next"),
+        "searchTooltip": MessageLookupByLibrary.simpleMessage("search"),
+        "settingsTooltip": MessageLookupByLibrary.simpleMessage("search"),
+        "skip": MessageLookupByLibrary.simpleMessage("skip"),
+        "title": MessageLookupByLibrary.simpleMessage("Quake"),
+        "welcomeDescription": MessageLookupByLibrary.simpleMessage(
+            "Keep track of the earthquakes near you to stay safe."),
+        "welcomeTitle":
+            MessageLookupByLibrary.simpleMessage("Welcome to Quake!")
+      };
 }

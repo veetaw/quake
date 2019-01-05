@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/themes/quake_icons.dart';
-import 'package:quake/src/model/vertical_divider.dart' as vd; // to ignore ambiguos import
+import 'package:quake/src/model/vertical_divider.dart'
+    as vd; // to ignore ambiguos import
 
 class EarthquakeCard extends StatelessWidget {
   final Earthquake earthquake;
@@ -56,7 +57,8 @@ class EarthquakeCard extends StatelessWidget {
                     vertical: _kPaddingBetweenText / 2,
                   ),
                 ),
-                FutureBuilder(  // TODO: check if this works
+                FutureBuilder(
+                  // TODO: check if this works
                   future: initializeDateFormatting(
                     QuakeLocalizations.localeCode,
                     null,

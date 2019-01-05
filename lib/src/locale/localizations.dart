@@ -87,27 +87,27 @@ class QuakeLocalizations {
         "Map",
         name: "map",
       );
-  
+
   // == SECTION tooltips ==
   String get searchTooltip => Intl.message(
-    "search",
-    name: "searchTooltip",
-  );
+        "search",
+        name: "searchTooltip",
+      );
 
   String get settingsTooltip => Intl.message(
-    "search",
-    name: "settingsTooltip",
-  );
+        "search",
+        name: "settingsTooltip",
+      );
 
   // == SECTION earthquakeCard ==
   String get magnitude => Intl.message(
-    "magnitude",
-    name: "magnitude",
-  );
+        "magnitude",
+        name: "magnitude",
+      );
   String get depth => Intl.message(
-    "depth",
-    name: "depth",
-  );
+        "depth",
+        name: "depth",
+      );
 }
 
 class _QuakeLocalizationsDelegate
