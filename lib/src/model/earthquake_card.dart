@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
+import 'package:quake/src/themes/quake_icons.dart';
+import 'package:quake/src/model/vertical_divider.dart' as vd; // to ignore ambiguos import
 
 class EarthquakeCard extends StatelessWidget {
   final Earthquake earthquake;
@@ -23,6 +26,7 @@ class EarthquakeCard extends StatelessWidget {
   static const double _kEarthquakeHourSize = 14;
   static const double _kPaddingBetweenText = 9;
   static const double _kPaddingTopBottomInfos = 2;
+  static const double _kCardContentPadding = 8;
 
   @override
   Widget build(BuildContext context) {
@@ -36,48 +40,59 @@ class EarthquakeCard extends StatelessWidget {
         margin: _kCardMargin,
         child: InkWell(
           onTap: onTap,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _buildText(
-                context: context,
-                text: earthquake.eventLocationName,
-                size: _kEarthquakeLocationNameSize,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: _kPaddingBetweenText,
-                  vertical: _kPaddingBetweenText / 2,
+          child: Padding(
+            padding: const EdgeInsets.all(_kCardContentPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildText(
+                  context: context,
+                  text: earthquake.eventLocationName,
+                  size: _kEarthquakeLocationNameSize,
                 ),
-              ),
-              _buildText(
-                context: context,
-                text: earthquake.time.toString(), // TODO: date localization
-                size: _kEarthquakeDateSize,
-                weight: FontWeight.w300,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: _kPaddingBetweenText,
-                  vertical: _kPaddingBetweenText / 2,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _kPaddingBetweenText,
+                    vertical: _kPaddingBetweenText / 2,
+                  ),
                 ),
-              ),
-              _buildText(
-                context: context,
-                text: DateFormat.Hm(QuakeLocalizations.localeCode)
-                    .format(earthquake.time),
-                size: _kEarthquakeHourSize,
-                weight: FontWeight.w200,
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: _kPaddingTopBottomInfos,
+                FutureBuilder(  // TODO: check if this works
+                  future: initializeDateFormatting(
+                    QuakeLocalizations.localeCode,
+                    null,
+                  ),
+                  builder: (context, _) => _buildText(
+                        context: context,
+                        text: DateFormat.yMMMMd()
+                            .format(earthquake.time)
+                            .toString(),
+                        size: _kEarthquakeDateSize,
+                        weight: FontWeight.w300,
+                      ),
                 ),
-              ),
-              _EarthquakeCardBottomInfos(
-                earthquake: earthquake,
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _kPaddingBetweenText,
+                    vertical: _kPaddingBetweenText / 2,
+                  ),
+                ),
+                _buildText(
+                  context: context,
+                  text: DateFormat.Hm(QuakeLocalizations.localeCode)
+                      .format(earthquake.time),
+                  size: _kEarthquakeHourSize,
+                  weight: FontWeight.w200,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: _kPaddingTopBottomInfos,
+                  ),
+                ),
+                _EarthquakeCardBottomInfos(
+                  earthquake: earthquake,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,13 +132,14 @@ class _EarthquakeCardBottomInfos extends StatelessWidget {
       children: <Widget>[
         _EarthquakeCardBottomTile(
           title: earthquake.magnitude.toString(),
-          // subtitle: QuakeLocalizations.of(context).magnitude, TODO,
-          // icon: , TODO pulse icon,
+          subtitle: QuakeLocalizations.of(context).magnitude,
+          icon: QuakeIcons.pulse,
         ),
+        vd.VerticalDivider(),
         _EarthquakeCardBottomTile(
           title: earthquake.depth.toString(), // TODO add unit of measurement
-          // subtitle: QuakeLocalizations.of(context).depth, TODO: add string
-          // icon: , TODO: earth icon
+          subtitle: QuakeLocalizations.of(context).depth,
+          icon: QuakeIcons.earth,
         ),
       ],
     );
@@ -160,7 +176,7 @@ class _EarthquakeCardBottomTile extends StatelessWidget {
                   fontStyle: FontStyle.normal,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryTextTheme.title.color,
+                  color: Theme.of(context).textTheme.title.color,
                 ),
               ),
               Text(
@@ -170,7 +186,7 @@ class _EarthquakeCardBottomTile extends StatelessWidget {
                   fontStyle: FontStyle.normal,
                   fontSize: 12,
                   fontWeight: FontWeight.w300,
-                  color: Theme.of(context).primaryTextTheme.title.color,
+                  color: Theme.of(context).textTheme.title.color,
                 ),
               ),
             ],
