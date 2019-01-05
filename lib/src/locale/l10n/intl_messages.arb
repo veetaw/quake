@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-01-05T10:17:32.725186",
+  "@@last_modified": "2019-01-05T11:46:32.384169",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -70,7 +70,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsTooltip": "search",
+  "settingsTooltip": "settings",
   "@settingsTooltip": {
     "type": "text",
     "placeholders": {}

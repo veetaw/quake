@@ -11,76 +11,76 @@
     "type": "text",
     "placeholders": {}
   },
-  "skip": "skip",
+  "skip": "salta",
   "@skip": {
     "type": "text",
     "placeholders": {}
   },
-  "next": "next",
+  "next": "avanti",
   "@next": {
     "type": "text",
     "placeholders": {}
   },
-  "finish": "finish",
+  "finish": "fine",
   "@finish": {
     "type": "text",
     "placeholders": {}
   },
-  "welcomeTitle": "Welcome to Quake!",
+  "welcomeTitle": "Benvenuto in Quake!",
   "@welcomeTitle": {
     "description": "the title of the first landing page screen",
     "type": "text",
     "placeholders": {}
   },
-  "welcomeDescription": "Keep track of the earthquakes near you to stay safe.",
+  "welcomeDescription": "Rimani aggiornato sui terremoti vicino a te per rimanere sicuro.",
   "@welcomeDescription": {
     "description": "the description of the first landing page screen",
     "type": "text",
     "placeholders": {}
   },
-  "appStatusTitle": "You can make Quake better!",
+  "appStatusTitle": "Puoi aiutare a migliorare Quake!",
   "@appStatusTitle": {
     "description": "the title of the second landing page screen",
     "type": "text",
     "placeholders": {}
   },
-  "appStatusDescription": "The app is in an active development state. Help the developer by reporting bug or suggesting features to add.",
+  "appStatusDescription": "L'applicazione è ancora in uno stato di sviluppo. Aiuta lo sviluppatore segnalando bug o suggerendo nuove funzioni da aggiungere.",
   "@appStatusDescription": {
     "description": "the description of the first landing page screen",
     "type": "text",
     "placeholders": {}
   },
-  "all": "All",
+  "all": "Tutti",
   "@all": {
     "type": "text",
     "placeholders": {}
   },
-  "nearby": "Nearby",
+  "nearby": "Vicino",
   "@nearby": {
     "type": "text",
     "placeholders": {}
   },
-  "map": "Map",
+  "map": "Mappa",
   "@map": {
     "type": "text",
     "placeholders": {}
   },
-  "searchTooltip": "search",
+  "searchTooltip": "cerca",
   "@searchTooltip": {
     "type": "text",
     "placeholders": {}
   },
-  "settingsTooltip": "settings",
+  "settingsTooltip": "impostazioni",
   "@settingsTooltip": {
     "type": "text",
     "placeholders": {}
   },
-  "magnitude": "magnitude",
+  "magnitude": "magnitudo",
   "@magnitude": {
     "type": "text",
     "placeholders": {}
   },
-  "depth": "depth",
+  "depth": "profondità",
   "@depth": {
     "type": "text",
     "placeholders": {}

@@ -95,7 +95,7 @@ class QuakeLocalizations {
       );
 
   String get settingsTooltip => Intl.message(
-        "search",
+        "settings",
         name: "settingsTooltip",
       );
 
@@ -112,7 +112,7 @@ class QuakeLocalizations {
 
 class _QuakeLocalizationsDelegate
     extends LocalizationsDelegate<QuakeLocalizations> {
-  static const List<String> supportedLocales = ['en'];
+  static const List<String> supportedLocales = ['en', 'it'];
 
   @override
   bool isSupported(Locale locale) =>
@@ -123,5 +123,5 @@ class _QuakeLocalizationsDelegate
       QuakeLocalizations.load(locale);
 
   @override
-  bool shouldReload(LocalizationsDelegate<QuakeLocalizations> old) => false;
+  bool shouldReload(LocalizationsDelegate<QuakeLocalizations> old) => old != this;
 }

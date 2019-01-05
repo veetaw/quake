@@ -35,6 +35,7 @@ main() async {
             onGenerateTitle: (context) => QuakeLocalizations.of(context).title,
             supportedLocales: [
               Locale('en'),
+              Locale('it'),
             ],
             routes: {
               Home.routeName: (_) => Home(),
