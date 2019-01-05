@@ -36,10 +36,12 @@ class HomeState extends State<Home> {
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {},
+                tooltip: QuakeLocalizations.of(context).searchTooltip,
               ),
               IconButton(
                 icon: Icon(Icons.settings),
                 onPressed: () {},
+                tooltip: QuakeLocalizations.of(context).settingsTooltip,
               ),
             ],
           ),
