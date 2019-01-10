@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quake/src/bloc/home_screen_switch_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
+import 'package:quake/src/model/homepage_all.dart';
+import 'package:quake/src/model/homepage_map.dart';
+import 'package:quake/src/model/homepage_nearby.dart';
 
 class Home extends StatefulWidget {
   static const routeName = "/home";
@@ -13,6 +16,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   static const double _kAppBarElevation = 2.0;
   final HomeScreenSwitchBloc indexBloc = HomeScreenSwitchBloc();
+  final List screens = List.unmodifiable([HomePageAll(), null, null]);
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +64,21 @@ class HomeState extends State<Home> {
             currentIndex: snapshot.data ?? 0,
             onTap: (int index) => indexBloc.setIndex(index),
           ),
+          body: _getWidget(snapshot.data),
         );
       },
     );
+  }
+
+  Widget _getWidget(int index) {
+    if(screens[index] == null) {
+      if(index == 2) {
+        screens[index] = HomePageNearby();
+      } else if(index == 3) {
+        screens[index] = HomePageMap();
+      }
+    }
+    return screens[index ?? 0];
   }
 
   BottomNavigationBarItem _buildBottomNavigationBarItem({
