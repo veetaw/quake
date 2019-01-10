@@ -34,7 +34,7 @@ class EarthquakesBloc {
 
   Observable<List<Earthquake>> get earthquakes => _stream.stream;
 
-  void fetchData() async =>
+  Future fetchData() async =>
       _stream.sink.add(await _earthquakesRepository.fetchData());
 
   // must be called by the subscriber in order to correctly free resources
@@ -54,7 +54,7 @@ class EarthquakesSearchBloc {
   Observable<List<Earthquake>> get earthquakes => _stream.stream;
   Observable<SearchingStatus> get status => _searchStatusStream.stream;
 
-  void search({SearchOptions options}) async {
+  Future search({SearchOptions options}) async {
     // no search "terms" (options) given
     if (options == null || options.isEmpty) {
       _searchStatusStream.sink.add(SearchingStatus.emptySearch);
