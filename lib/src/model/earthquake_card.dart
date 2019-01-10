@@ -58,7 +58,6 @@ class EarthquakeCard extends StatelessWidget {
                   ),
                 ),
                 FutureBuilder(
-                  // TODO: check if this works
                   future: initializeDateFormatting(
                     QuakeLocalizations.localeCode,
                     null,
