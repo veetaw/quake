@@ -32,10 +32,29 @@ class EarthquakesBloc {
   final EarthquakesRepository _earthquakesRepository = EarthquakesRepository();
   final PublishSubject _stream = PublishSubject<List<Earthquake>>();
 
+  List<Earthquake> _cache = List();
+
   Observable<List<Earthquake>> get earthquakes => _stream.stream;
 
-  Future fetchData() async =>
-      _stream.sink.add(await _earthquakesRepository.fetchData());
+  Future fetchData() async {
+    if (_cache.isEmpty)
+      _cache = await _earthquakesRepository.fetchData();
+    else
+      // HACK: if this micro delay is removed stream observer won't get anything
+      await Future.delayed(Duration(microseconds: 1));
+
+    _stream.sink.add(_cache);
+  }
+
+  void invalidateCacheAndFetch() {
+    clearCache();
+
+    fetchData();
+  }
+
+  void clearCache() {
+    _cache = List();
+  }
 
   // must be called by the subscriber in order to correctly free resources
   void dispose() {
@@ -48,8 +67,7 @@ class EarthquakesSearchBloc {
   final EarthquakesRepository _earthquakesRepository = EarthquakesRepository();
   final PublishSubject _stream = PublishSubject<List<Earthquake>>();
   // observer should listen for status changes too
-  final PublishSubject _searchStatusStream =
-      PublishSubject<SearchingStatus>();
+  final PublishSubject _searchStatusStream = PublishSubject<SearchingStatus>();
 
   Observable<List<Earthquake>> get earthquakes => _stream.stream;
   Observable<SearchingStatus> get status => _searchStatusStream.stream;
