@@ -16,7 +16,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   static const double _kAppBarElevation = 2.0;
   final HomeScreenSwitchBloc indexBloc = HomeScreenSwitchBloc();
-  final List screens = List.unmodifiable([HomePageAll(), null, null]);
+  final List screens = [HomePageAll(), null, null];
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +72,9 @@ class HomeState extends State<Home> {
 
   Widget _getWidget(int index) {
     if(screens[index] == null) {
-      if(index == 2) {
+      if(index == 1) {
         screens[index] = HomePageNearby();
-      } else if(index == 3) {
+      } else if(index == 2) {
         screens[index] = HomePageMap();
       }
     }
