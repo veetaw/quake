@@ -3,6 +3,7 @@ import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake_card.dart';
 import 'package:quake/src/model/error.dart' as error;
+import 'package:quake/src/model/loading.dart';
 
 final EarthquakesBloc earthquakesBloc = EarthquakesBloc();
 
@@ -29,11 +30,11 @@ class HomePageAll extends StatelessWidget {
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (BuildContext context, int index) => EarthquakeCard(
                     earthquake: snapshot.data[index],
-                    onTap: () {},
+                    onTap: () {}, // TODO:
                   ),
             );
           else
-            return CircularProgressIndicator(); // TODO:
+            return Loading();
         },
       ),
     );
