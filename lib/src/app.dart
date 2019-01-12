@@ -71,10 +71,10 @@ class HomeState extends State<Home> {
   }
 
   Widget _getWidget(int index) {
-    if(screens[index] == null) {
-      if(index == 1) {
+    if (screens[index] == null) {
+      if (index == 1) {
         screens[index] = HomePageNearby();
-      } else if(index == 2) {
+      } else if (index == 2) {
         screens[index] = HomePageMap();
       }
     }
