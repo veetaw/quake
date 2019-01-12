@@ -39,7 +39,7 @@ void main() {
     });
   }, skip: true);
 
-  test('try to test earthquakes search bloc', () async{
+  test('try to test earthquakes search bloc', () async {
     await searchBloc.search(
       options: SearchOptions(
         startTime: DateTime.now().subtract(Duration(days: 1)),
