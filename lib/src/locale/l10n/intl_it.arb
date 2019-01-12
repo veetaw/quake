@@ -84,5 +84,10 @@
   "@depth": {
     "type": "text",
     "placeholders": {}
+  },
+  "allEarthquakesError": "Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto perchè è successo qualcosa di inaspettato.",
+  "@allEarthquakesError": {
+    "type": "text",
+    "placeholders": {}
   }
 }

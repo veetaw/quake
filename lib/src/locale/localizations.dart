@@ -108,6 +108,12 @@ class QuakeLocalizations {
         "depth",
         name: "depth",
       );
+
+  // == SECTION error messages ==
+  String get allEarthquakesError => Intl.message(
+        "Failed to get the list of earthquakes, try again later because something bad happened.",
+        name: "allEarthquakesError",
+      );
 }
 
 class _QuakeLocalizationsDelegate
@@ -123,5 +129,6 @@ class _QuakeLocalizationsDelegate
       QuakeLocalizations.load(locale);
 
   @override
-  bool shouldReload(LocalizationsDelegate<QuakeLocalizations> old) => old != this;
+  bool shouldReload(LocalizationsDelegate<QuakeLocalizations> old) =>
+      old != this;
 }

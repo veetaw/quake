@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "all" : MessageLookupByLibrary.simpleMessage("Tutti"),
+    "allEarthquakesError" : MessageLookupByLibrary.simpleMessage("Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto perchè è successo qualcosa di inaspettato."),
     "appStatusDescription" : MessageLookupByLibrary.simpleMessage("L\'applicazione è ancora in uno stato di sviluppo. Aiuta lo sviluppatore segnalando bug o suggerendo nuove funzioni da aggiungere."),
     "appStatusTitle" : MessageLookupByLibrary.simpleMessage("Puoi aiutare a migliorare Quake!"),
     "applicationName" : MessageLookupByLibrary.simpleMessage("Quake"),

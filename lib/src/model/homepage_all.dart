@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
+import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake_card.dart';
+import 'package:quake/src/model/error.dart' as error;
 
 final EarthquakesBloc earthquakesBloc = EarthquakesBloc();
 
@@ -18,9 +20,10 @@ class HomePageAll extends StatelessWidget {
         stream: earthquakesBloc.earthquakes,
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           if (snapshot.hasError)
-            return Container(
-              child: Text("error"),
-            ); // TODO:
+            error.ErrorWidget(
+              message: QuakeLocalizations.of(context).allEarthquakesError,
+              size: 50,
+            );
           else if (snapshot.hasData)
             return ListView.builder(
               itemCount: snapshot.data?.length ?? 0,
