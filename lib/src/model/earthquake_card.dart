@@ -138,7 +138,7 @@ class _EarthquakeCardBottomInfos extends StatelessWidget {
         ),
         vd.VerticalDivider(),
         _EarthquakeCardBottomTile(
-          title: earthquake.depth.toString(), // TODO add unit of measurement
+          title: "${earthquake.depth.toString()} km",
           subtitle: QuakeLocalizations.of(context).depth,
           icon: QuakeIcons.earth,
         ),
