@@ -32,7 +32,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "welcomeDescription": "Rimani aggiornato sui terremoti vicino a te per rimanere sicuro.",
+  "welcomeDescription": "Rimani aggiornato sui terremoti nei dintorni per rimanere sicuro.",
   "@welcomeDescription": {
     "description": "the description of the first landing page screen",
     "type": "text",
@@ -55,7 +55,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "nearby": "Vicino",
+  "nearby": "Nei dintorni",
   "@nearby": {
     "type": "text",
     "placeholders": {}
@@ -70,7 +70,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsTooltip": "impostazioni",
+  "settingsTooltip": "Impostazioni",
   "@settingsTooltip": {
     "type": "text",
     "placeholders": {}
@@ -85,7 +85,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "allEarthquakesError": "Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto perchè è successo qualcosa di inaspettato.",
+  "allEarthquakesError": "Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto.",
   "@allEarthquakesError": {
     "type": "text",
     "placeholders": {}
