@@ -22,7 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function>{
         "all": MessageLookupByLibrary.simpleMessage("Tutti"),
         "allEarthquakesError": MessageLookupByLibrary.simpleMessage(
-            "Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto perchè è successo qualcosa di inaspettato."),
+            "Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto."),
         "appStatusDescription": MessageLookupByLibrary.simpleMessage(
             "L\'applicazione è ancora in uno stato di sviluppo. Aiuta lo sviluppatore segnalando bug o suggerendo nuove funzioni da aggiungere."),
         "appStatusTitle": MessageLookupByLibrary.simpleMessage(
@@ -32,14 +32,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "finish": MessageLookupByLibrary.simpleMessage("fine"),
         "magnitude": MessageLookupByLibrary.simpleMessage("magnitudo"),
         "map": MessageLookupByLibrary.simpleMessage("Mappa"),
-        "nearby": MessageLookupByLibrary.simpleMessage("Vicino"),
+        "nearby": MessageLookupByLibrary.simpleMessage("Nei dintorni"),
         "next": MessageLookupByLibrary.simpleMessage("avanti"),
         "searchTooltip": MessageLookupByLibrary.simpleMessage("cerca"),
-        "settingsTooltip": MessageLookupByLibrary.simpleMessage("impostazioni"),
+        "settingsTooltip": MessageLookupByLibrary.simpleMessage("Impostazioni"),
         "skip": MessageLookupByLibrary.simpleMessage("salta"),
         "title": MessageLookupByLibrary.simpleMessage("Quake"),
         "welcomeDescription": MessageLookupByLibrary.simpleMessage(
-            "Rimani aggiornato sui terremoti vicino a te per rimanere sicuro."),
+            "Rimani aggiornato sui terremoti nei dintorni per rimanere sicuro."),
         "welcomeTitle":
             MessageLookupByLibrary.simpleMessage("Benvenuto in Quake!")
       };
