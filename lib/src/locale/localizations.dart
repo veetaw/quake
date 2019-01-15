@@ -114,6 +114,34 @@ class QuakeLocalizations {
         "Failed to get the list of earthquakes, try again later because something bad happened.",
         name: "allEarthquakesError",
       );
+
+  // == SECTION nearby screen ==
+  String get locationNotEnabled => Intl.message(
+        "You have never allowed location permission, allow Quake to access it to view nearby earthquakes.",
+        name: "locationNotEnabled",
+      );
+  String get promptForLocationPermissionButton => Intl.message(
+        "Allow location permission.",
+        name: "promptForLocationPermissionButton",
+      );
+  String get locationPromptAlertTitle => Intl.message(
+        "Location permission",
+        name: "locationPromptAlertTitle",
+      );
+  String get locationPromptAlertContent => Intl.message(
+        "Quake needs location to show earthquakes nearby, we keep the data in the local storage",
+        name: "locationPromptAlertContent",
+      );
+
+  // == SECTION general alerts ==
+  String get alertCancelButton => Intl.message(
+        "cancel",
+        name: "alertCancelButton",
+      );
+  String get alertOkButton => Intl.message(
+        "ok",
+        name: "alertOkButton",
+      );
 }
 
 class _QuakeLocalizationsDelegate
