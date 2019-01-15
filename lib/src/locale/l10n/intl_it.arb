@@ -89,5 +89,35 @@
   "@allEarthquakesError": {
     "type": "text",
     "placeholders": {}
+  },
+  "locationNotEnabled": "Non hai mai dato il consenso al permesso di localizzazione, devi attivarlo per poter usare la scheda \"Nei dintorni\".",
+  "@locationNotEnabled": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "promptForLocationPermissionButton": "Consenti localizzazione.",
+  "@promptForLocationPermissionButton": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "locationPromptAlertTitle": "Permesso localizzazione",
+  "@locationPromptAlertTitle": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "locationPromptAlertContent": "Quake ha bisogno della localizzazione per la scheda \"Nei dintorni\", i dati sono salvati nel database locale.",
+  "@locationPromptAlertContent": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "alertCancelButton": "annulla",
+  "@alertCancelButton": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "alertOkButton": "ok",
+  "@alertOkButton": {
+    "type": "text",
+    "placeholders": {}
   }
 }

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-01-12T11:12:35.340203",
+  "@@last_modified": "2019-01-15T17:52:31.206504",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -87,6 +87,36 @@
   },
   "allEarthquakesError": "Failed to get the list of earthquakes, try again later because something bad happened.",
   "@allEarthquakesError": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "locationNotEnabled": "You have never allowed location permission, allow Quake to access it to view nearby earthquakes.",
+  "@locationNotEnabled": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "promptForLocationPermissionButton": "Allow location permission.",
+  "@promptForLocationPermissionButton": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "locationPromptAlertTitle": "Location permission",
+  "@locationPromptAlertTitle": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "locationPromptAlertContent": "Quake needs location to show earthquakes nearby, we keep the data in the local storage",
+  "@locationPromptAlertContent": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "alertCancelButton": "cancel",
+  "@alertCancelButton": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "alertOkButton": "ok",
+  "@alertOkButton": {
     "type": "text",
     "placeholders": {}
   }
