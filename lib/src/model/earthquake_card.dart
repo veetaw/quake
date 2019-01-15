@@ -33,7 +33,7 @@ class EarthquakeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity, // as wide as the screen
-      height: _kCardHeight,
+      // height: _kCardHeight,
       child: Card(
         color: Theme.of(context).cardColor,
         elevation: _kCardElevation,
