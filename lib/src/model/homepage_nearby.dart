@@ -17,6 +17,7 @@ class HomePageNearby extends StatelessWidget {
     return Container(
       child: FutureBuilder(
         future: _hasLocationSaved(),
+        initialData: false,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData && snapshot.data) {
             // user has a location saved so just show the earthquakes
