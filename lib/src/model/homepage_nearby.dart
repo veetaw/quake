@@ -103,3 +103,11 @@ void _saveLocation(Map<String, double> location) async {
   sharedPreferences.setDouble("latitude", location["latitude"]);
   sharedPreferences.setDouble("longitude", location["longitude"]);
 }
+
+Future<Map> _getLocation() async {
+  Map<String, double> location;
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  location["latitude"] = sharedPreferences.getDouble("latitude") ?? -1;
+  location["longitude"] = sharedPreferences.getDouble("longitude") ?? -1;
+  return location;
+}
