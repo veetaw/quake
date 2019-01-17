@@ -61,15 +61,32 @@ class NoLocationSavedWidget extends StatelessWidget {
               ),
             ),
             onPressed: () => QuakeAlertDialog.createDialog(
-                context,
-                QuakeAlertDialog(
-                  content:
-                      QuakeLocalizations.of(context).locationPromptAlertContent,
-                  title:
-                      QuakeLocalizations.of(context).locationPromptAlertTitle,
-                  onOkPressed: () => null,
+                  context,
+                  QuakeAlertDialog(
+                    content: QuakeLocalizations.of(context)
+                        .locationPromptAlertContent,
+                    title:
+                        QuakeLocalizations.of(context).locationPromptAlertTitle,
+                    onOkPressed: () async {
+                      Map currentLocation = <String, double>{};
+                      Location location = Location();
+
+                      try {
+                        currentLocation = await location.getLocation();
+                      } catch (_) {
+                        currentLocation = null;
+                      }
+
+                      if (currentLocation == null) {
+                        _saveLocation(currentLocation);
+                      }
+
+                      // close dialog
+                      Navigator.pop(context);
+                    },
+                  ),
+                  dismissible: true,
                 ),
-                dismissible: true),
           ),
         ],
       ),
@@ -80,4 +97,10 @@ class NoLocationSavedWidget extends StatelessWidget {
 Future<bool> _hasLocationSaved() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   return sharedPreferences.getBool('hasLocationSaved') ?? false;
+}
+
+void _saveLocation(Map<String, double> location) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.setDouble("latitude", location["latitude"]);
+  sharedPreferences.setDouble("longitude", location["longitude"]);
 }
