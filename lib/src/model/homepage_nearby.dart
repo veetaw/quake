@@ -76,7 +76,7 @@ class NoLocationSavedWidget extends StatelessWidget {
                         currentLocation = null;
                       }
 
-                      if (currentLocation == null) {
+                      if (currentLocation != null) {
                         _saveLocation(currentLocation);
                       }
 
