@@ -5,8 +5,6 @@ import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/alert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Location location;
-
 class HomePageNearby extends StatelessWidget {
   static HomePageNearby _instance = HomePageNearby._();
   HomePageNearby._();
