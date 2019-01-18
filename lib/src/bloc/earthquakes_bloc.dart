@@ -4,6 +4,10 @@ import 'package:quake/src/data/ingv_api.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:rxdart/rxdart.dart';
 
+abstract class EarthquakesBlocBase {
+  Observable<List<Earthquake>> get earthquakes;
+}
+
 class EarthquakesRepository {
   IngvAPI api = IngvAPI();
 
@@ -24,7 +28,7 @@ class EarthquakesRepository {
 }
 
 /// Singleton class that represents the bloc to fetch earthquakes
-class EarthquakesBloc {
+class EarthquakesBloc implements EarthquakesBlocBase {
   static EarthquakesBloc _instance = EarthquakesBloc._();
   EarthquakesBloc._();
   factory EarthquakesBloc() => _instance;
@@ -63,41 +67,29 @@ class EarthquakesBloc {
   }
 }
 
-class EarthquakesSearchBloc {
+class EarthquakesSearchBloc implements EarthquakesBlocBase {
+  static EarthquakesSearchBloc _instance = EarthquakesSearchBloc._();
+  EarthquakesSearchBloc._();
+  factory EarthquakesSearchBloc() => _instance;
+
   final EarthquakesRepository _earthquakesRepository = EarthquakesRepository();
-  final PublishSubject _stream = PublishSubject<List<Earthquake>>();
-  // observer should listen for status changes too
-  final PublishSubject _searchStatusStream = PublishSubject<SearchingStatus>();
+  final PublishSubject _stream =
+      PublishSubject<List<Earthquake>>();
 
   Observable<List<Earthquake>> get earthquakes => _stream.stream;
-  Observable<SearchingStatus> get status => _searchStatusStream.stream;
 
   Future search({SearchOptions options}) async {
     // no search "terms" (options) given
     if (options == null || options.isEmpty) {
-      _searchStatusStream.sink.add(SearchingStatus.emptySearch);
+      _stream.sink.addError(Exception);
     }
-    // notify observer that search is in progress
-    _searchStatusStream.sink.add(SearchingStatus.searching);
-    try {
-      List<Earthquake> data =
-          await _earthquakesRepository.fetchDataSearch(options);
-      if (data.isEmpty) {
-        // notify observer that search gave 0 results
-        _searchStatusStream.sink.add(SearchingStatus.emptyResponse);
-      } else {
-        // notify observer that search went ok
-        _searchStatusStream.sink.add(SearchingStatus.complete);
-      }
-      _stream.sink.add(data);
-    } catch (_) {
-      _searchStatusStream.sink.add(SearchingStatus.error);
-    }
+    List<Earthquake> data =
+        await _earthquakesRepository.fetchDataSearch(options);
+    _stream.sink.add(data);
   }
 
   void dispose() {
     _earthquakesRepository.api.dispose();
-    _searchStatusStream.close();
     _stream.close();
   }
 }

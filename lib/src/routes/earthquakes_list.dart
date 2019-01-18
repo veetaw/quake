@@ -11,7 +11,7 @@ class EarthquakesList extends StatelessWidget {
     @required this.earthquakesBloc,
   });
 
-  final EarthquakesBloc earthquakesBloc;
+  final EarthquakesBlocBase earthquakesBloc;
 
   @override
   Widget build(BuildContext context) {
