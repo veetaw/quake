@@ -47,8 +47,8 @@ class HomePageNearbyState extends State<HomePageNearby> {
                 SearchOptions options = SearchOptions(
                   minLatitude: location["latitude"] - 10,
                   maxLatitude: location["latitude"] + 10,
-                  minLongitude: location["latitude"] - 10,
-                  maxLongitude: location["latitude"] + 10,
+                  minLongitude: location["longitude"] - 10,
+                  maxLongitude: location["longitude"] + 10,
                 );
 
                 earthquakesBloc.search(options: options);
