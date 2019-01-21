@@ -84,7 +84,7 @@ class EarthquakesSearchBloc implements EarthquakesBlocBase {
     if (options == null || options.isEmpty) {
       _stream.sink.addError(Exception);
     }
-    
+
     if (_cache.isEmpty)
       _cache = await _earthquakesRepository.fetchDataSearch(options);
     else
