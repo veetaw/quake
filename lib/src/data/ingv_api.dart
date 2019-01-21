@@ -12,7 +12,7 @@ class IngvAPI {
   static const int _kDaysToSubtract = 5;
 
   static const String _kMinVersion = "100";
-  static const String _kOrderBy = "time-asc";
+  static const String _kOrderBy = "time";
   static const String _kFormat = "text";
   static const String _kLimit = "10000";
 
