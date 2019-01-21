@@ -1,6 +1,7 @@
 //TODO: WORK IN PROGRESS
 
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
@@ -35,11 +36,14 @@ class HomePageNearby extends StatelessWidget {
                 Map location = snapshot.data;
                 if (location == null) return Loading();
                 // IDEA: custom bounding box
+                // circular bounding box of radius = 30km
+                Map newCoordMin = kmOffsetToLatitudeOffset(-30, -30, location);
+                Map newCoordMax = kmOffsetToLatitudeOffset(30, 30, location);
                 SearchOptions options = SearchOptions(
-                  minLatitude: location["latitude"] - 10,
-                  maxLatitude: location["latitude"] + 10,
-                  minLongitude: location["longitude"] - 10,
-                  maxLongitude: location["longitude"] + 10,
+                  minLatitude: newCoordMin["latitude"],
+                  maxLatitude: newCoordMax["latitude"],
+                  minLongitude: newCoordMin["longitude"],
+                  maxLongitude: newCoordMax["latitude"],
                 );
 
                 earthquakesBloc.search(options: options);
@@ -145,4 +149,16 @@ Future<Map> _getLocation() async {
 void disposePermissionStream() {
   permissionStream.close();
   permissionStream = null;
+}
+
+Map kmOffsetToLatitudeOffset(num deltaLat, num deltaLon, Map oldCoordinates) {
+  const double earthRadius = 6378;
+
+  double latitude = oldCoordinates["latitude"] + (deltaLat / earthRadius) * (180 / pi);
+  double longitude = oldCoordinates["longitude"] + (deltaLon / earthRadius) * (180 / pi) / cos(latitude * pi/180);
+
+  return <String, double>{
+    "latitude" : latitude,
+    "longitude": longitude,
+  };
 }
