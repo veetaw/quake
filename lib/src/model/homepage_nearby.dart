@@ -154,11 +154,13 @@ void disposePermissionStream() {
 Map kmOffsetToLatitudeOffset(num deltaLat, num deltaLon, Map oldCoordinates) {
   const double earthRadius = 6378;
 
-  double latitude = oldCoordinates["latitude"] + (deltaLat / earthRadius) * (180 / pi);
-  double longitude = oldCoordinates["longitude"] + (deltaLon / earthRadius) * (180 / pi) / cos(latitude * pi/180);
+  double latitude =
+      oldCoordinates["latitude"] + (deltaLat / earthRadius) * (180 / pi);
+  double longitude = oldCoordinates["longitude"] +
+      (deltaLon / earthRadius) * (180 / pi) / cos(latitude * pi / 180);
 
   return <String, double>{
-    "latitude" : latitude,
+    "latitude": latitude,
     "longitude": longitude,
   };
 }
