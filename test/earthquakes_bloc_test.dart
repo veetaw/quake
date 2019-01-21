@@ -28,8 +28,8 @@ void main() {
   // TODO:
   // skip this because it fails for some strange reason
   // exception: `NoSuchMethodError: The method 'openUrl' was called on null.`
-  test('check if earthquakesbloc fetches data correctly', () async {
-    await bloc.fetchData();
+  test('check if earthquakesbloc fetches data correctly', () {
+    bloc.fetchData();
 
     // register a listener then fetch data
     bloc.earthquakes.listen((var data) {
@@ -37,10 +37,10 @@ void main() {
       expect(data, isList);
       expect(data[0].eventLocationName, isNotNull);
     });
-  }, skip: true);
+  });
 
-  test('try to test earthquakes search bloc', () async {
-    await searchBloc.search(
+  test('try to test earthquakes search bloc', () {
+    searchBloc.search(
       options: SearchOptions(
         startTime: DateTime.now().subtract(Duration(days: 1)),
         endTime: DateTime.now(),
@@ -52,10 +52,5 @@ void main() {
       expect(data, isList);
       expect(data[0].eventLocationName, isNotNull);
     });
-  });
-
-  tearDown(() {
-    bloc.dispose();
-    searchBloc.dispose();
   });
 }
