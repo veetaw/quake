@@ -8,36 +8,27 @@ import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/alert_dialog.dart';
 import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/routes/earthquakes_list.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-StreamController<bool> permissionStream = StreamController();
+PublishSubject<bool> permissionStream = PublishSubject<bool>();
+final EarthquakesSearchBloc earthquakesBloc = EarthquakesSearchBloc();
 
-class HomePageNearby extends StatefulWidget {
+class HomePageNearby extends StatelessWidget {
   static HomePageNearby _instance = HomePageNearby._();
   HomePageNearby._();
   factory HomePageNearby() => _instance;
 
   @override
-  HomePageNearbyState createState() => HomePageNearbyState();
-}
-
-class HomePageNearbyState extends State<HomePageNearby> {
-  @override
   Widget build(BuildContext context) {
-    if (permissionStream != null) {
-      permissionStream.stream.listen((value) => setState(() => disposePermissionStream()));
-    }
-
+    _hasLocationSaved();
     return Container(
-      child: FutureBuilder(
-        future: _hasLocationSaved(),
-        initialData: false,
+      child: StreamBuilder(
+        stream: permissionStream.stream,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.data == null) return Loading();
           // user has saved data
           if (snapshot.hasData && snapshot.data) {
-            final EarthquakesSearchBloc earthquakesBloc =
-                EarthquakesSearchBloc();
-
             return FutureBuilder(
               future: _getLocation(),
               builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
@@ -129,9 +120,10 @@ class NoLocationSavedWidget extends StatelessWidget {
   }
 }
 
-Future<bool> _hasLocationSaved() async {
+Future<Null> _hasLocationSaved() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  return sharedPreferences.getBool('hasLocationSaved') ?? false;
+  permissionStream.sink
+      .add(sharedPreferences.getBool('hasLocationSaved') ?? false);
 }
 
 void _saveLocation(Map<String, double> location) async {
@@ -149,7 +141,6 @@ Future<Map> _getLocation() async {
   location["longitude"] = sharedPreferences.getDouble("longitude") ?? -1;
   return location;
 }
-
 
 void disposePermissionStream() {
   permissionStream.close();
