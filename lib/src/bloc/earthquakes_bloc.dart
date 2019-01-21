@@ -73,8 +73,9 @@ class EarthquakesSearchBloc implements EarthquakesBlocBase {
   factory EarthquakesSearchBloc() => _instance;
 
   final EarthquakesRepository _earthquakesRepository = EarthquakesRepository();
-  final PublishSubject _stream =
-      PublishSubject<List<Earthquake>>();
+  final PublishSubject _stream = PublishSubject<List<Earthquake>>();
+
+  List<Earthquake> _cache = List();
 
   Observable<List<Earthquake>> get earthquakes => _stream.stream;
 
@@ -83,9 +84,18 @@ class EarthquakesSearchBloc implements EarthquakesBlocBase {
     if (options == null || options.isEmpty) {
       _stream.sink.addError(Exception);
     }
-    List<Earthquake> data =
-        await _earthquakesRepository.fetchDataSearch(options);
-    _stream.sink.add(data);
+    
+    if (_cache.isEmpty)
+      _cache = await _earthquakesRepository.fetchDataSearch(options);
+    else
+      // HACK: if this micro delay is removed stream observer won't get anything
+      await Future.delayed(Duration(microseconds: 1));
+
+    _stream.sink.add(_cache);
+  }
+
+  void clearCache() {
+    _cache = List();
   }
 
   void dispose() {
