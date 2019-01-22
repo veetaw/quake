@@ -95,6 +95,11 @@
     "type": "text",
     "placeholders": {}
   },
+  "noEarthquakesNearby": "Non è avvenuto nessun terremoto nella tua zona negli ultimi 7 giorni.",
+  "@noEarthquakesNearby": {
+    "type": "text",
+    "placeholders": {}
+  },
   "locationNotEnabled": "Non hai mai dato il consenso al permesso di localizzazione, devi attivarlo per poter usare la scheda \"Nei dintorni\".",
   "@locationNotEnabled": {
     "type": "text",

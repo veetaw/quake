@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-01-22T10:20:15.128981",
+  "@@last_modified": "2019-01-22T11:20:53.025192",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -92,6 +92,11 @@
   },
   "noInternetConnection": "You're not connected to internet, you must enable an internet connectionto use Quake.",
   "@noInternetConnection": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "noEarthquakesNearby": "No earthquakes happened in the last 7 days in your zone.",
+  "@noEarthquakesNearby": {
     "type": "text",
     "placeholders": {}
   },

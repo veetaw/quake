@@ -118,6 +118,10 @@ class QuakeLocalizations {
         "You're not connected to internet, you must enable an internet connectionto use Quake.",
         name: "noInternetConnection",
       );
+  String get noEarthquakesNearby => Intl.message(
+        "No earthquakes happened in the last 7 days in your zone.",
+        name: "noEarthquakesNearby",
+      );
 
   // == SECTION nearby screen ==
   String get locationNotEnabled => Intl.message(

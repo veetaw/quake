@@ -95,6 +95,11 @@
     "type": "text",
     "placeholders": {}
   },
+  "noEarthquakesNearby": "No earthquakes happened in the last 7 days in your zone.",
+  "@noEarthquakesNearby": {
+    "type": "text",
+    "placeholders": {}
+  },
   "locationNotEnabled": "You have never allowed location permission, allow Quake to access it to view nearby earthquakes.",
   "@locationNotEnabled": {
     "type": "text",
