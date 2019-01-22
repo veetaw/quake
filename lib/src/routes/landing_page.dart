@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:quake/src/app.dart';
 import 'package:quake/src/locale/localizations.dart';
@@ -39,61 +40,67 @@ class LandingPageState extends State<LandingPage> {
     ];
 
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          PageView.builder(
-            itemCount: _pages.length,
-            controller: _controller,
-            onPageChanged: (int page) => setState(() => _page = page),
-            itemBuilder: (BuildContext context, int page) =>
-                _pages[page % _pages.length],
-          ),
-          Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Center(
-                child: DotsRow(
-                  controller: _controller,
-                  itemCount: _pages.length,
-                  dotMaxZoom: 1.5,
-                  dotSize: 5.0,
-                  dotSpacing: 15.0,
-                  color: _IntroTheme._kDotColor,
-                  leading: _page == 0
-                      ? _buildMaterialButton(
-                          title: QuakeLocalizations.of(context).skip,
-                          pages: _pages,
-                          onPressed: () => _controller.animateToPage(
-                                // skip button logic
-                                _pages.length - 1,
-                                curve: _kCurve,
-                                duration: _kDuration,
-                              ),
-                        )
-                      : MaterialButton(
-                          onPressed: null,
-                        ), // blank button as placeholder
-                  trailing: _buildMaterialButton(
-                    title: _page != _pages.length - 1
-                        ? QuakeLocalizations.of(context).next
-                        : QuakeLocalizations.of(context).finish,
-                    pages: _pages,
-                    onPressed: () => _page != _pages.length - 1
-                        ? _controller.nextPage(
-                            // next / start button logic
-                            curve: _kCurve,
-                            duration: _kDuration,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark.copyWith(
+          systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
+          systemNavigationBarIconBrightness: Brightness.dark,
+        ),
+        child: Stack(
+          children: <Widget>[
+            PageView.builder(
+              itemCount: _pages.length,
+              controller: _controller,
+              onPageChanged: (int page) => setState(() => _page = page),
+              itemBuilder: (BuildContext context, int page) =>
+                  _pages[page % _pages.length],
+            ),
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: DotsRow(
+                    controller: _controller,
+                    itemCount: _pages.length,
+                    dotMaxZoom: 1.5,
+                    dotSize: 5.0,
+                    dotSpacing: 15.0,
+                    color: _IntroTheme._kDotColor,
+                    leading: _page == 0
+                        ? _buildMaterialButton(
+                            title: QuakeLocalizations.of(context).skip,
+                            pages: _pages,
+                            onPressed: () => _controller.animateToPage(
+                                  // skip button logic
+                                  _pages.length - 1,
+                                  curve: _kCurve,
+                                  duration: _kDuration,
+                                ),
                           )
-                        : _closeLandingPage(context),
+                        : MaterialButton(
+                            onPressed: null,
+                          ), // blank button as placeholder
+                    trailing: _buildMaterialButton(
+                      title: _page != _pages.length - 1
+                          ? QuakeLocalizations.of(context).next
+                          : QuakeLocalizations.of(context).finish,
+                      pages: _pages,
+                      onPressed: () => _page != _pages.length - 1
+                          ? _controller.nextPage(
+                              // next / start button logic
+                              curve: _kCurve,
+                              duration: _kDuration,
+                            )
+                          : _closeLandingPage(context),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

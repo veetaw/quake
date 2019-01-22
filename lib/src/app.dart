@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quake/src/bloc/home_screen_switch_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/homepage_all.dart';
@@ -25,50 +26,59 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Connectivity().checkConnectivity(),
-      builder:
-          (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
-        if (snapshot.data == null) return Loading();
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
+        systemNavigationBarIconBrightness:
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
+      ),
+      child: FutureBuilder(
+        future: Connectivity().checkConnectivity(),
+        builder:
+            (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
+          if (snapshot.data == null) return Loading();
 
-        // user is not connected to the internet
-        // listen for connectivity changes and return an error message
-        if (snapshot.data == ConnectivityResult.none) {
-          _listenForConnectionChange();
+          // user is not connected to the internet
+          // listen for connectivity changes and return an error message
+          if (snapshot.data == ConnectivityResult.none) {
+            _listenForConnectionChange();
 
-          return Scaffold(
-            appBar: _buildAppBar(context, iconsEnabled: false),
-            body: error.ErrorWidget(
-                message: QuakeLocalizations.of(context).noInternetConnection),
-          );
-        } else // user is connected
-          return StreamBuilder(
-            stream: indexBloc.index,
-            initialData: 0, // start with index 0 (all earthquakes)
-            builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-              return Scaffold(
-                appBar: _buildAppBar(context),
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                bottomNavigationBar: BottomNavigationBar(
-                  items: <BottomNavigationBarItem>[
-                    _buildBottomNavigationBarItem(
-                        icon: Icons.chrome_reader_mode,
-                        text: QuakeLocalizations.of(context).all),
-                    _buildBottomNavigationBarItem(
-                        icon: Icons.location_on,
-                        text: QuakeLocalizations.of(context).nearby),
-                    _buildBottomNavigationBarItem(
-                        icon: Icons.map,
-                        text: QuakeLocalizations.of(context).map),
-                  ],
-                  currentIndex: snapshot.data ?? 0,
-                  onTap: (int index) => indexBloc.setIndex(index),
-                ),
-                body: _getWidget(snapshot.data),
-              );
-            },
-          );
-      },
+            return Scaffold(
+              appBar: _buildAppBar(context, iconsEnabled: false),
+              body: error.ErrorWidget(
+                  message: QuakeLocalizations.of(context).noInternetConnection),
+            );
+          } else // user is connected
+            return StreamBuilder(
+              stream: indexBloc.index,
+              initialData: 0, // start with index 0 (all earthquakes)
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                return Scaffold(
+                  appBar: _buildAppBar(context),
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  bottomNavigationBar: BottomNavigationBar(
+                    items: <BottomNavigationBarItem>[
+                      _buildBottomNavigationBarItem(
+                          icon: Icons.chrome_reader_mode,
+                          text: QuakeLocalizations.of(context).all),
+                      _buildBottomNavigationBarItem(
+                          icon: Icons.location_on,
+                          text: QuakeLocalizations.of(context).nearby),
+                      _buildBottomNavigationBarItem(
+                          icon: Icons.map,
+                          text: QuakeLocalizations.of(context).map),
+                    ],
+                    currentIndex: snapshot.data ?? 0,
+                    onTap: (int index) => indexBloc.setIndex(index),
+                  ),
+                  body: _getWidget(snapshot.data),
+                );
+              },
+            );
+        },
+      ),
     );
   }
 
