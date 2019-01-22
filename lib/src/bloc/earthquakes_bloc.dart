@@ -1,3 +1,5 @@
+// TODO: merge classes
+
 import 'dart:async';
 
 import 'package:quake/src/data/ingv_api.dart';
@@ -42,7 +44,11 @@ class EarthquakesBloc implements EarthquakesBlocBase {
 
   Future fetchData() async {
     if (_cache.isEmpty)
-      _cache = await _earthquakesRepository.fetchData();
+      try {
+        _cache = await _earthquakesRepository.fetchData();
+      } catch (ex) {
+        _stream.sink.addError(ex);
+      }
     else
       // HACK: if this micro delay is removed stream observer won't get anything
       await Future.delayed(Duration(microseconds: 1));
@@ -87,7 +93,11 @@ class EarthquakesSearchBloc implements EarthquakesBlocBase {
     }
 
     if (_cache.isEmpty)
-      _cache = await _earthquakesRepository.fetchDataSearch(options);
+      try {
+        _cache = await _earthquakesRepository.fetchDataSearch(options);
+      } catch (ex) {
+        _stream.sink.addError(ex);
+      }
     else
       // HACK: if this micro delay is removed stream observer won't get anything
       await Future.delayed(Duration(microseconds: 1));
