@@ -59,6 +59,7 @@ class HomeState extends State<Home> {
                   appBar: _buildAppBar(context),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   bottomNavigationBar: BottomNavigationBar(
+                    fixedColor: Theme.of(context).bottomAppBarColor,
                     items: <BottomNavigationBarItem>[
                       _buildBottomNavigationBarItem(
                           icon: Icons.chrome_reader_mode,
