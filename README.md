@@ -1,7 +1,7 @@
 # Quake
 
-> Work In Progress : see [projects](https://github.com/veetaw/quake/projects)
 [![Build Status](https://travis-ci.com/veetaw/quake.svg?branch=master)](https://travis-ci.com/veetaw/quake)
+> Work In Progress : see [projects](https://github.com/veetaw/quake/projects)
 
 ## what's quake?
 
