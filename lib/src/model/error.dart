@@ -18,7 +18,7 @@ class ErrorWidget extends StatelessWidget {
           Icon(
             Icons.warning,
             color: Theme.of(context).iconTheme.color,
-            size: size ?? Theme.of(context).iconTheme.color,
+            size: size ?? Theme.of(context).iconTheme.size,
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
