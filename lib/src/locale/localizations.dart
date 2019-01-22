@@ -114,6 +114,10 @@ class QuakeLocalizations {
         "Failed to get the list of earthquakes, try again later because something bad happened.",
         name: "allEarthquakesError",
       );
+  String get noInternetConnection => Intl.message(
+        "You're not connected to internet, you must enable an internet connectionto use Quake.",
+        name: "noInternetConnection",
+      );
 
   // == SECTION nearby screen ==
   String get locationNotEnabled => Intl.message(

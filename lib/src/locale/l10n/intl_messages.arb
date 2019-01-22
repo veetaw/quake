@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-01-15T17:52:31.206504",
+  "@@last_modified": "2019-01-22T10:20:15.128981",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -87,6 +87,11 @@
   },
   "allEarthquakesError": "Failed to get the list of earthquakes, try again later because something bad happened.",
   "@allEarthquakesError": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "noInternetConnection": "You're not connected to internet, you must enable an internet connectionto use Quake.",
+  "@noInternetConnection": {
     "type": "text",
     "placeholders": {}
   },
