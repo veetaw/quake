@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/veetaw/quake.svg?branch=master)](https://travis-ci.com/veetaw/quake)
 > Work In Progress : see [projects](https://github.com/veetaw/quake/projects)
+> Telegram Channel : [link](t.me/quake_app)
 
 ## what's quake?
 
