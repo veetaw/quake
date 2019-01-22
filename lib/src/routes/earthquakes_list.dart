@@ -18,21 +18,35 @@ class EarthquakesList extends StatelessWidget {
     return StreamBuilder(
       stream: earthquakesBloc.earthquakes,
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-        if (snapshot.hasError)
-          error.ErrorWidget(
-            message: QuakeLocalizations.of(context).allEarthquakesError,
-            size: 50,
-          );
-        else if (snapshot.hasData)
-          return ListView.builder(
-            itemCount: snapshot.data?.length ?? 0,
-            itemBuilder: (BuildContext context, int index) => EarthquakeCard(
-                  earthquake: snapshot.data[index],
-                  onTap: () {}, // TODO:
-                ),
-          );
-        else
-          return Loading();
+        if (snapshot.data == null) return Loading();
+
+        if (snapshot.hasError) {
+          if (snapshot.error == "no results")
+            return error.ErrorWidget(
+              message: QuakeLocalizations.of(context).noEarthquakesNearby,
+              icon: Icons.sentiment_very_satisfied,
+            );
+          else
+            return error.ErrorWidget(
+              message: QuakeLocalizations.of(context).allEarthquakesError,
+              size: 50,
+            );
+        } else if (snapshot.hasData) {
+          if (snapshot.data.length == 0)
+            return error.ErrorWidget(
+              message: QuakeLocalizations.of(context).noEarthquakesNearby,
+              icon: Icons.sentiment_very_satisfied,
+            );
+          else
+            return ListView.builder(
+              itemCount: snapshot.data?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) => EarthquakeCard(
+                    earthquake: snapshot.data[index],
+                    onTap: () {}, // TODO:
+                  ),
+            );
+        }
+        return Loading();
       },
     );
   }
