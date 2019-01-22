@@ -72,7 +72,7 @@ class HomeState extends State<Home> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context, {bool iconsEnabled=true}) {
+  AppBar _buildAppBar(BuildContext context, {bool iconsEnabled = true}) {
     return AppBar(
       backgroundColor: Theme.of(context).bottomAppBarColor,
       brightness: Theme.of(context)
