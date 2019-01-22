@@ -1,6 +1,7 @@
 import 'package:quake/src/app.dart';
 import 'package:quake/src/bloc/theme_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
+import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/routes/landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +44,10 @@ main() async {
             theme: snapshot.data,
             home: FutureBuilder(
               future: isFirstTime(),
-              builder: (context, snapshot) =>
-                  snapshot.data ?? true ? LandingPage() : Home(),
+              builder: (context, snapshot) {
+                if(snapshot.data == null) return Loading();
+                return snapshot.data ? LandingPage() : Home();
+              },
             ),
           ),
     ),
