@@ -6,7 +6,8 @@ class ErrorWidget extends StatelessWidget {
   final double size;
   final IconData icon;
 
-  ErrorWidget({@required this.message, this.size, this.icon}) : assert(message != null);
+  ErrorWidget({@required this.message, this.size, this.icon})
+      : assert(message != null);
 
   @override
   Widget build(BuildContext context) {
