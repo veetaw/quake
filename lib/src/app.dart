@@ -28,7 +28,7 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
-        systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
+        systemNavigationBarColor: Theme.of(context).canvasColor,
         systemNavigationBarIconBrightness:
             Theme.of(context).brightness == Brightness.light
                 ? Brightness.dark
@@ -59,7 +59,6 @@ class HomeState extends State<Home> {
                   appBar: _buildAppBar(context),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   bottomNavigationBar: BottomNavigationBar(
-                    fixedColor: Theme.of(context).bottomAppBarColor,
                     items: <BottomNavigationBarItem>[
                       _buildBottomNavigationBarItem(
                           icon: Icons.chrome_reader_mode,

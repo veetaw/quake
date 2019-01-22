@@ -42,7 +42,7 @@ class LandingPageState extends State<LandingPage> {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark.copyWith(
-          systemNavigationBarColor: Theme.of(context).bottomAppBarColor,
+          systemNavigationBarColor: Theme.of(context).canvasColor,
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
         child: Stack(
