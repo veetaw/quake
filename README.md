@@ -37,7 +37,7 @@ Landing page first screen  |  Landing page second screen
     - [x] API Wrapper
     - [x] DB Helper
     - [x] Check if it's first time opening app on startup
-    - [ ] Check connection
+    - [x] Check connection
     - [x] Localization
     - [x] All Earthquakes BLOC
     - [x] Nearby Earthquakes BLOC
