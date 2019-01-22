@@ -58,6 +58,7 @@ class EarthquakesBloc implements EarthquakesBlocBase {
 
   void clearCache() {
     _cache = List();
+    _stream.sink.add(_cache);
   }
 
   // must be called by the subscriber in order to correctly free resources
@@ -96,6 +97,7 @@ class EarthquakesSearchBloc implements EarthquakesBlocBase {
 
   void clearCache() {
     _cache = List();
+    _stream.sink.add(_cache);
   }
 
   void dispose() {
