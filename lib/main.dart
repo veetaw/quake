@@ -8,15 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<bool> isFirstTime() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  /// query SharedPreferences for a bool named firstTime, if it's not present in the "DB" return true
-  bool firstTime = prefs.getBool("firstTime") ?? true;
-
-  /// if it's the first time now it won't be the next time, so set it to false  D:
-  if (firstTime) prefs.setBool("firstTime", false);
-
-  return firstTime;
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  // query SharedPreferences for a bool named firstTime, if it's not present in the "DB" return true
+  return sharedPreferences.getBool("firstTime") ?? true;
 }
 
 main() async {

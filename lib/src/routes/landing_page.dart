@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:quake/src/app.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -105,8 +106,11 @@ class LandingPageState extends State<LandingPage> {
     );
   }
 
-  void _closeLandingPage(BuildContext context) =>
-      Navigator.of(context).pushReplacementNamed(Home.routeName);
+  void _closeLandingPage(BuildContext context) async {
+    // set firstTime var to false so the next time the main will not launch landing page
+    (await SharedPreferences.getInstance()).setBool("firstTime", false);
+    Navigator.of(context).pushReplacementNamed(Home.routeName);
+  }
 
   /// util to build the two bottom buttons
   MaterialButton _buildMaterialButton({
