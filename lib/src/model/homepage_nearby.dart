@@ -29,7 +29,7 @@ class HomePageNearby extends StatelessWidget {
           // user has saved data
           if (snapshot.hasData && snapshot.data) {
             return FutureBuilder(
-              future: _getLocation(),
+              future: getLocation(),
               builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
                 Map location = snapshot.data;
                 if (location == null) return Loading();
@@ -136,7 +136,7 @@ void _saveLocation(Map<String, double> location) async {
   sharedPreferences.setBool("hasLocationSaved", true);
 }
 
-Future<Map> _getLocation() async {
+Future<Map> getLocation() async {
   Map<String, double> location = Map();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   location["latitude"] = sharedPreferences.getDouble("latitude") ?? -1;
