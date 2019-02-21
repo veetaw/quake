@@ -2,9 +2,18 @@
 
 os:
   - linux
-language: python
-python:
-  - "3.6"
+language: android
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-26.0.2
+    - android-26
+  licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
 branches:
   only:
   - master
@@ -19,10 +28,11 @@ addons:
 before_script:
   - git clone https://github.com/flutter/flutter.git ../flutter
   - ../flutter/bin/flutter doctor
+  - chmod +x scripts/deploy_telegram.sh
 script:
   - ../flutter/bin/flutter test
-after_script:
-  - python3 scripts/format_files.py
+# after_script:
+#  - python3 scripts/format_files.py
 cache:
   directories:
     - $HOME/.pub-cache
