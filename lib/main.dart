@@ -39,7 +39,7 @@ main() async {
             home: FutureBuilder(
               future: isFirstTime(),
               builder: (context, snapshot) {
-                if(snapshot.data == null) return Loading();
+                if (snapshot.data == null) return Loading();
                 return snapshot.data ? LandingPage() : Home();
               },
             ),

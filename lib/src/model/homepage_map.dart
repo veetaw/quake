@@ -115,7 +115,8 @@ class LocationMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (TapDownDetails details) => print(details.globalPosition), // TODO: show overlay at this position
+      onTapDown: (TapDownDetails details) =>
+          print(details.globalPosition), // TODO: show overlay at this position
       child: Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -138,8 +139,9 @@ class LocationMarker extends StatelessWidget {
                   child: Text(
                     text,
                     style: TextStyle(
-                        fontSize: 15,
-                        color: Theme.of(context).primaryTextTheme.title.color,),
+                      fontSize: 15,
+                      color: Theme.of(context).primaryTextTheme.title.color,
+                    ),
                   ),
                 ),
         ],
