@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# todo build for different architectures
+
 LAST_COMMIT_MESSAGE="$(git log -1 --pretty=%s | cat| head -c 50)" # limit to 50 chars
 
 # to skip deploy commit should start with "skip"
@@ -21,5 +23,5 @@ $LAST_COMMIT_DATE
 [link (github)](https://github.com/veetaw/quake/commit/$LAST_COMMIT_HASH)"
 APK_PATH="build/app/outputs/apk/release/app-release.apk"
 
-flutter build apk
+../flutter/bin/flutter build apk --release
 curl -F chat_id="$CHAT_ID" -F caption="$CAPTION" -F parse_mode="markdown" -F document=@"$APK_PATH" https://api.telegram.org/bot$BOT_TOKEN/sendDocument

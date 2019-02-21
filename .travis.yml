@@ -26,3 +26,10 @@ after_script:
 cache:
   directories:
     - $HOME/.pub-cache
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: scripts/deploy_telegram.sh
+    on:
+      branch: master
