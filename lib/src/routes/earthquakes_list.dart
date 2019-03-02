@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake_card.dart';
+import 'package:quake/src/model/earthquake_details.dart';
 import 'package:quake/src/model/loading.dart';
 
 import 'package:quake/src/model/error.dart' as error;
@@ -42,7 +43,31 @@ class EarthquakesList extends StatelessWidget {
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (BuildContext context, int index) => EarthquakeCard(
                     earthquake: snapshot.data[index],
-                    onTap: () {}, // TODO:
+                    onTap: () => Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => EarthquakeDetails(
+                                  earthquake: snapshot.data[index],
+                                ),
+                            transitionsBuilder: (
+                              BuildContext context,
+                              Animation animation,
+                              Animation secondaryAnimation,
+                              Widget child,
+                            ) =>
+                                SlideTransition(
+                                  position: Tween<Offset>(
+                                          begin: Offset(0, 1), end: Offset.zero)
+                                      .animate(animation),
+                                  child: SlideTransition(
+                                    position: Tween<Offset>(
+                                            begin: Offset.zero,
+                                            end: Offset(1, 0))
+                                        .animate(secondaryAnimation),
+                                    child: child,
+                                  ),
+                                ),
+                          ),
+                        ),
                   ),
             );
         }
