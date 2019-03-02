@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/model/vertical_divider.dart'
@@ -20,7 +22,20 @@ class EarthquakeDetails extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 2,
-              child: null, // FlutterMap
+              child: FlutterMap(
+                options: MapOptions(
+                  center: LatLng(earthquake.latitude, earthquake.longitude),
+                  zoom: 8.0,
+                  interactive: false,
+                  ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate:
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                ],
+              ), // FlutterMap
             ),
             Expanded(
               child: Row(
