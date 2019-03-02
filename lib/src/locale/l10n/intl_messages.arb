@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-01-22T11:20:53.025192",
+  "@@last_modified": "2019-02-22T12:24:43.146267",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -8,6 +8,11 @@
   },
   "title": "Quake",
   "@title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "earthquake": "Earthquake",
+  "@earthquake": {
     "type": "text",
     "placeholders": {}
   },

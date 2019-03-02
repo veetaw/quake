@@ -34,6 +34,11 @@ class QuakeLocalizations {
         name: "title",
       );
 
+  String get earthquake => Intl.message(
+        "Earthquake",
+        name: "earthquake",
+      );
+
   // == SECTION intro ==
   String get skip => Intl.message(
         "skip",
@@ -104,6 +109,7 @@ class QuakeLocalizations {
         "magnitude",
         name: "magnitude",
       );
+
   String get depth => Intl.message(
         "depth",
         name: "depth",
@@ -114,10 +120,12 @@ class QuakeLocalizations {
         "Failed to get the list of earthquakes, try again later because something bad happened.",
         name: "allEarthquakesError",
       );
+
   String get noInternetConnection => Intl.message(
         "You're not connected to internet, you must enable an internet connectionto use Quake.",
         name: "noInternetConnection",
       );
+
   String get noEarthquakesNearby => Intl.message(
         "No earthquakes happened in the last 7 days in your zone.",
         name: "noEarthquakesNearby",
@@ -128,14 +136,17 @@ class QuakeLocalizations {
         "You have never allowed location permission, allow Quake to access it to view nearby earthquakes.",
         name: "locationNotEnabled",
       );
+
   String get promptForLocationPermissionButton => Intl.message(
         "Allow location permission.",
         name: "promptForLocationPermissionButton",
       );
+
   String get locationPromptAlertTitle => Intl.message(
         "Location permission",
         name: "locationPromptAlertTitle",
       );
+
   String get locationPromptAlertContent => Intl.message(
         "Quake needs location to show earthquakes nearby, we keep the data in the local storage",
         name: "locationPromptAlertContent",
@@ -146,6 +157,7 @@ class QuakeLocalizations {
         "cancel",
         name: "alertCancelButton",
       );
+
   String get alertOkButton => Intl.message(
         "ok",
         name: "alertOkButton",
