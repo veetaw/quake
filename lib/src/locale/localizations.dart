@@ -106,12 +106,12 @@ class QuakeLocalizations {
 
   // == SECTION earthquakeCard ==
   String get magnitude => Intl.message(
-        "magnitude",
+        "Magnitude",
         name: "magnitude",
       );
 
   String get depth => Intl.message(
-        "depth",
+        "Depth (km)",
         name: "depth",
       );
 
