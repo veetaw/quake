@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:latlong/latlong.dart';
 import 'package:quake/main.dart';
 import 'package:quake/src/data/osm_nominatim.dart';
+import 'package:quake/src/data/population.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/model/vertical_divider.dart'
@@ -181,12 +182,45 @@ class EarthquakeDetails extends StatelessWidget {
                                 top: paddingBetween,
                               ),
                             ),
-                            _buildRightTile(
-                              context,
-                              paddingBetween,
-                              Icons.people,
-                              QuakeLocalizations.of(context).peopleInvolved,
-                              "TODO",
+                            FutureBuilder(
+                              future: getPopulationByCoordinates(
+                                latitude: earthquake.latitude,
+                                longitude: earthquake.longitude,
+                              ),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData && !snapshot.hasError)
+                                  return _buildRightTile(
+                                    context,
+                                    paddingBetween,
+                                    Icons.people,
+                                    QuakeLocalizations.of(context)
+                                        .peopleInvolved,
+                                    "loading..", // TODO:
+                                  );
+                                if (snapshot.hasError ||
+                                    snapshot.data["results"][0]["value"]
+                                            ["resultCode"] !=
+                                        0)
+                                  return _buildRightTile(
+                                    context,
+                                    paddingBetween,
+                                    Icons.people,
+                                    QuakeLocalizations.of(context)
+                                        .peopleInvolved,
+                                    "not available", // TODO:
+                                  );
+
+                                return _buildRightTile(
+                                  context,
+                                  paddingBetween,
+                                  Icons.people,
+                                  QuakeLocalizations.of(context).peopleInvolved,
+                                  snapshot.data["results"][0]["value"]
+                                              ["estimates"]
+                                          ["gpw-v4-population-count-rev10_2020"]
+                                      ["SUM"],
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -310,7 +344,8 @@ class EarthquakeDetails extends StatelessWidget {
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                        QuakeLocalizations.of(context).loadingEarthquakeInfos,),
+                      QuakeLocalizations.of(context).loadingEarthquakeInfos,
+                    ),
                   ),
                 );
                 await initializeDateFormatting(
@@ -326,7 +361,8 @@ class EarthquakeDetails extends StatelessWidget {
                   return Scaffold.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                          QuakeLocalizations.of(context).shareNotAvailable,),
+                        QuakeLocalizations.of(context).shareNotAvailable,
+                      ),
                     ),
                   );
                 String locationName = locationInfos["address"]["village"] ??
@@ -335,7 +371,7 @@ class EarthquakeDetails extends StatelessWidget {
                     locationInfos["address"]["hamlet"] ??
                     locationInfos["display_name"];
                 String country = locationInfos["address"]["country"];
-                
+
                 return Share.share(
                   QuakeLocalizations.of(context).shareIntentText(
                     locationName,
