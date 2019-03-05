@@ -170,7 +170,7 @@ class QuakeLocalizations {
 
   // == SECTION earthquake details ==
   String get peopleInvolved => Intl.message(
-        "People Involved",
+        "People involved",
         name: "peopleInvolved",
       );
 
@@ -183,6 +183,16 @@ class QuakeLocalizations {
   String get shareNotAvailable => Intl.message(
         "Action not available for this earthquake...",
         name: "shareNotAvailable",
+      );
+
+  String get loadingWithDots => Intl.message(
+        "Loading...",
+        name: "loadingWithDots",
+      );
+
+  String get notAvailable => Intl.message(
+        "Not available.",
+        name: "notAvailable",
       );
 
   String shareIntentText(

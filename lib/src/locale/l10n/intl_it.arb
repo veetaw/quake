@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-03-05T15:40:13.336942",
+  "@@last_modified": "2019-03-05T16:38:48.414329",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -140,7 +140,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "peopleInvolved": "People Involved",
+  "peopleInvolved": "Persone coinvolte",
   "@peopleInvolved": {
     "type": "text",
     "placeholders": {}
@@ -152,6 +152,16 @@
   },
   "shareNotAvailable": "Azione non disponibile per questo terremoto...",
   "@shareNotAvailable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "loadingWithDots": "Caricamento...",
+  "@loadingWithDots": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "notAvailable": "Non disponibile.",
+  "@notAvailable": {
     "type": "text",
     "placeholders": {}
   },
