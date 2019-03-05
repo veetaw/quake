@@ -41,7 +41,11 @@ class EarthquakesList extends StatelessWidget {
           else
             return ListView.builder(
               itemCount: snapshot.data?.length ?? 0,
-              itemBuilder: (BuildContext context, int index) => EarthquakeCard(
+              itemBuilder: (
+                BuildContext context,
+                int index,
+              ) =>
+                  EarthquakeCard(
                     earthquake: snapshot.data[index],
                     onTap: () => Navigator.of(context).push(
                           PageRouteBuilder(

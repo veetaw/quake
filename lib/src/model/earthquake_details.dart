@@ -163,6 +163,7 @@ class EarthquakeDetails extends StatelessWidget {
                                     context,
                                     paddingBetween,
                                     Icons.location_on,
+                                    // good game osm for consistency ...
                                     snapshot.data["address"]["village"] ??
                                         snapshot.data["address"]["town"] ??
                                         snapshot.data["address"]["city"] ??
