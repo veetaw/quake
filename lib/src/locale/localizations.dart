@@ -110,8 +110,13 @@ class QuakeLocalizations {
         name: "magnitude",
       );
 
-  String get depth => Intl.message(
+  String get depthKm => Intl.message(
         "Depth (km)",
+        name: "depthKm",
+      );
+
+  String get depth => Intl.message(
+        "Depth",
         name: "depth",
       );
 
@@ -161,6 +166,12 @@ class QuakeLocalizations {
   String get alertOkButton => Intl.message(
         "ok",
         name: "alertOkButton",
+      );
+
+  // == SECTION earthquake details ==
+  String get peopleInvolved => Intl.message(
+        "People Involved",
+        name: "peopleInvolved",
       );
 }
 
