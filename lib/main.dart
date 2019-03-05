@@ -3,6 +3,7 @@ import 'package:quake/src/bloc/theme_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/routes/landing_page.dart';
+import 'package:quake/src/themes/theme_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,11 +16,14 @@ Future<bool> isFirstTime() async {
 
 main() async {
   ThemeBloc themeBloc = ThemeBloc();
+  ThemeProvider themeProvider = ThemeProvider();
+
+  //themeBloc.theme = themeProvider.getThemeByName("dark");
 
   return runApp(
     StreamBuilder(
-      stream: themeBloc.theme,
-      initialData: ThemeData.light(),
+      stream: themeBloc.themeStream,
+      initialData: await themeProvider.getPrefTheme(),
       builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) =>
           MaterialApp(
             localizationsDelegates: [
@@ -46,4 +50,5 @@ main() async {
           ),
     ),
   );
+
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:quake/src/themes/theme_provider.dart';
 
 class ThemeBloc {
   final StreamController<ThemeData> _stream = StreamController<ThemeData>();
@@ -10,11 +11,16 @@ class ThemeBloc {
   ThemeBloc._();
   factory ThemeBloc() => _instance;
 
-  Stream<ThemeData> get theme => _stream.stream;
+  Stream<ThemeData> get themeStream => _stream.stream;
 
   /// use this as setTheme(Theme)
-  Function get setTheme => _stream.sink.add;
+  set theme(ThemeData theme) {
 
+    _stream.sink.add(theme);
+
+    ThemeProvider().savePrefTheme(theme);
+
+  }
   /// must be called in order to correctly close the stream
   void dispose() {
     _subscription.cancel();
