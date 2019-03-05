@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:latlong/latlong.dart';
+import 'package:quake/src/data/osm_nominatim.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/model/vertical_divider.dart' as vd;
@@ -23,7 +26,7 @@ class EarthquakeDetails extends StatelessWidget {
           children: <Widget>[
             SizedBox(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2,
+              height: MediaQuery.of(context).size.height / 2 - 56,
               child: FlutterMap(
                 options: MapOptions(
                   center: LatLng(earthquake.latitude, earthquake.longitude),
@@ -89,7 +92,9 @@ class EarthquakeDetails extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 16.0),
+                      vertical: 16.0,
+                      horizontal: 16.0,
+                    ),
                     child: vd.VerticalDivider(
                       // divider
                       width: 2,
@@ -105,45 +110,78 @@ class EarthquakeDetails extends StatelessWidget {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            ////////////////////////////////////////////////////////////
-                            ///// TODO:          TEST                             //////
-                            ////////////////////////////////////////////////////////////
-                            SizedBox(
-                              width: double.infinity,
-                              height:
-                                  (MediaQuery.of(context).size.height / 2) / 4 -
-                                      paddingBetween,
-                              child: Container(
-                                color: Colors.red,
+                            FutureBuilder(
+                              future: initializeDateFormatting(
+                                QuakeLocalizations.localeCode,
+                                null,
                               ),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState !=
+                                    ConnectionState.done)
+                                  return Container(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                return _buildRightTile(
+                                  context,
+                                  paddingBetween,
+                                  Icons.access_time,
+                                  DateFormat.yMMMMd()
+                                      .format(earthquake.time)
+                                      .toString(),
+                                  DateFormat.Hm()
+                                      .format(earthquake.time)
+                                      .toString(),
+                                );
+                              },
                             ),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: paddingBetween,
                               ),
                             ),
-                            SizedBox(
-                              width: double.infinity,
-                              height:
-                                  (MediaQuery.of(context).size.height / 2) / 4 -
+                            FutureBuilder(
+                                future: OpenStreetMapNominatim().reverseGeo(
+                                  latitude: earthquake.latitude,
+                                  longitude: earthquake.longitude,
+                                  language: QuakeLocalizations.localeCode,
+                                ),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData && !snapshot.hasError)
+                                    return Container(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  if (snapshot.hasError ||
+                                      snapshot.data["error"] != null)
+                                    return _buildRightTile(
+                                      context,
                                       paddingBetween,
-                              child: Container(
-                                color: Colors.red,
-                              ),
-                            ),
+                                      Icons.location_on,
+                                      earthquake.eventLocationName,
+                                      "",
+                                    );
+                                  return _buildRightTile(
+                                    context,
+                                    paddingBetween,
+                                    Icons.location_on,
+                                    snapshot.data["address"]["village"] ??
+                                        snapshot.data["address"]["town"] ??
+                                        snapshot.data["address"]["city"] ??
+                                        snapshot.data["address"]["hamlet"] ??
+                                        snapshot.data["display_name"],
+                                    snapshot.data["address"]["country"],
+                                  );
+                                }),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: paddingBetween,
                               ),
                             ),
-                            SizedBox(
-                              width: double.infinity,
-                              height:
-                                  (MediaQuery.of(context).size.height / 2) / 4 -
-                                      paddingBetween,
-                              child: Container(
-                                color: Colors.red,
-                              ),
+                            _buildRightTile(
+                              context,
+                              paddingBetween,
+                              Icons.people,
+                              QuakeLocalizations.of(context).peopleInvolved,
+                              "TODO",
                             ),
                           ],
                         ),
@@ -158,6 +196,62 @@ class EarthquakeDetails extends StatelessWidget {
       ),
     );
   }
+
+  SizedBox _buildRightTile(
+    BuildContext context,
+    double paddingBetween,
+    IconData icon,
+    String title,
+    String subtitle,
+  ) =>
+      SizedBox(
+        width: double.infinity,
+        height: (MediaQuery.of(context).size.height / 2) / 4 - paddingBetween,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Icon(
+              icon,
+              size: 16,
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 16),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.0),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
 
   SizedBox _buildLeftTile(
     BuildContext context,
@@ -201,6 +295,13 @@ class EarthquakeDetails extends StatelessWidget {
       textTheme: Theme.of(context).textTheme,
       title: Text(QuakeLocalizations.of(context).earthquake),
       elevation: 0,
+      automaticallyImplyLeading: true,
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.share),
+          onPressed: () => null, // todo: share
+        ),
+      ],
     );
   }
 }
