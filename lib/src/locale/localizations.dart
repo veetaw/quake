@@ -173,6 +173,29 @@ class QuakeLocalizations {
         "People Involved",
         name: "peopleInvolved",
       );
+
+  // == SECTION general ==
+  String get loadingEarthquakeInfos => Intl.message(
+        "Loading earthquake infos...",
+        name: "loadingEarthquakeInfos",
+      );
+
+  String get shareNotAvailable => Intl.message(
+        "Action not available for this earthquake...",
+        name: "shareNotAvailable",
+      );
+
+  String shareIntentText(
+    String location,
+    String magnitude,
+    String country,
+    String time,
+  ) =>
+      Intl.message(
+        "$time: Registered an earthquake of $magnitude on Richter Scale in $location ($country).\n\nShared with Quake.",
+        args: [location, magnitude, country, time],
+        name: "shareIntentText",
+      );
 }
 
 class _QuakeLocalizationsDelegate

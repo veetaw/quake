@@ -3,11 +3,15 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong/latlong.dart';
+import 'package:quake/main.dart';
 import 'package:quake/src/data/osm_nominatim.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
-import 'package:quake/src/model/vertical_divider.dart' as vd;
-import 'package:quake/src/themes/quake_icons.dart'; // to ignore ambiguos import
+import 'package:quake/src/model/vertical_divider.dart'
+    as vd; // to ignore ambiguos import
+import 'package:quake/src/themes/quake_icons.dart';
+import 'package:share/share.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class EarthquakeDetails extends StatelessWidget {
   final Earthquake earthquake;
@@ -298,9 +302,54 @@ class EarthquakeDetails extends StatelessWidget {
       elevation: 0,
       automaticallyImplyLeading: true,
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.share),
-          onPressed: () => null, // todo: share
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () async {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        QuakeLocalizations.of(context).loadingEarthquakeInfos,),
+                  ),
+                );
+                await initializeDateFormatting(
+                  QuakeLocalizations.localeCode,
+                  null,
+                );
+                Map locationInfos = await OpenStreetMapNominatim().reverseGeo(
+                  latitude: earthquake.latitude,
+                  longitude: earthquake.longitude,
+                  language: QuakeLocalizations.localeCode,
+                );
+                if (locationInfos["error"] != null)
+                  return Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          QuakeLocalizations.of(context).shareNotAvailable,),
+                    ),
+                  );
+                String locationName = locationInfos["address"]["village"] ??
+                    locationInfos["address"]["town"] ??
+                    locationInfos["address"]["city"] ??
+                    locationInfos["address"]["hamlet"] ??
+                    locationInfos["display_name"];
+                String country = locationInfos["address"]["country"];
+                
+                return Share.share(
+                  QuakeLocalizations.of(context).shareIntentText(
+                    locationName,
+                    earthquake.magnitude.toString(),
+                    country,
+                    timeago.format(
+                      earthquake.time,
+                      locale: QuakeLocalizations.localeCode,
+                    ),
+                  ),
+                );
+              },
+            );
+          },
         ),
       ],
     );

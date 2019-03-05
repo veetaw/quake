@@ -18,6 +18,8 @@ typedef MessageIfAbsent(String message_str, List args);
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'messages';
 
+  static m0(location, magnitude, country, time) => "${time}: Registered an earthquake of ${magnitude} on Richter Scale in ${location} (${country}).\n\nShared with Quake.";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "alertCancelButton" : MessageLookupByLibrary.simpleMessage("cancel"),
@@ -31,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "depthKm" : MessageLookupByLibrary.simpleMessage("Depth (km)"),
     "earthquake" : MessageLookupByLibrary.simpleMessage("Earthquake"),
     "finish" : MessageLookupByLibrary.simpleMessage("finish"),
+    "loadingEarthquakeInfos" : MessageLookupByLibrary.simpleMessage("Loading earthquake infos..."),
     "locationNotEnabled" : MessageLookupByLibrary.simpleMessage("You have never allowed location permission, allow Quake to access it to view nearby earthquakes."),
     "locationPromptAlertContent" : MessageLookupByLibrary.simpleMessage("Quake needs location to show earthquakes nearby, we keep the data in the local storage"),
     "locationPromptAlertTitle" : MessageLookupByLibrary.simpleMessage("Location permission"),
@@ -44,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "promptForLocationPermissionButton" : MessageLookupByLibrary.simpleMessage("Allow location permission."),
     "searchTooltip" : MessageLookupByLibrary.simpleMessage("search"),
     "settingsTooltip" : MessageLookupByLibrary.simpleMessage("settings"),
+    "shareIntentText" : m0,
+    "shareNotAvailable" : MessageLookupByLibrary.simpleMessage("Action not available for this earthquake..."),
     "skip" : MessageLookupByLibrary.simpleMessage("skip"),
     "title" : MessageLookupByLibrary.simpleMessage("Quake"),
     "welcomeDescription" : MessageLookupByLibrary.simpleMessage("Keep track of the earthquakes near you to stay safe."),

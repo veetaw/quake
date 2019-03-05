@@ -18,6 +18,8 @@ typedef MessageIfAbsent(String message_str, List args);
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'it';
 
+  static m0(location, magnitude, country, time) => "${time}: Registrato un terremoto di ${magnitude} sulla scala Richter a ${location} (${country}).\n\nCondiviso con Quake.";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "alertCancelButton" : MessageLookupByLibrary.simpleMessage("annulla"),
@@ -31,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "depthKm" : MessageLookupByLibrary.simpleMessage("Profondità (km)"),
     "earthquake" : MessageLookupByLibrary.simpleMessage("Earthquake"),
     "finish" : MessageLookupByLibrary.simpleMessage("fine"),
+    "loadingEarthquakeInfos" : MessageLookupByLibrary.simpleMessage("Carico le informazioni sul terremoto..."),
     "locationNotEnabled" : MessageLookupByLibrary.simpleMessage("Non hai mai dato il consenso al permesso di localizzazione, devi attivarlo per poter usare la scheda \"Nei dintorni\"."),
     "locationPromptAlertContent" : MessageLookupByLibrary.simpleMessage("Quake ha bisogno della localizzazione per la scheda \"Nei dintorni\", i dati sono salvati nel database locale."),
     "locationPromptAlertTitle" : MessageLookupByLibrary.simpleMessage("Permesso localizzazione"),
@@ -44,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "promptForLocationPermissionButton" : MessageLookupByLibrary.simpleMessage("Consenti localizzazione."),
     "searchTooltip" : MessageLookupByLibrary.simpleMessage("cerca"),
     "settingsTooltip" : MessageLookupByLibrary.simpleMessage("Impostazioni"),
+    "shareIntentText" : m0,
+    "shareNotAvailable" : MessageLookupByLibrary.simpleMessage("Azione non disponibile per questo terremoto..."),
     "skip" : MessageLookupByLibrary.simpleMessage("salta"),
     "title" : MessageLookupByLibrary.simpleMessage("Quake"),
     "welcomeDescription" : MessageLookupByLibrary.simpleMessage("Rimani aggiornato sui terremoti nei dintorni per rimanere sicuro."),

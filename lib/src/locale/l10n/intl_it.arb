@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-03-05T13:16:49.542469",
+  "@@last_modified": "2019-03-05T15:40:13.336942",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -144,5 +144,25 @@
   "@peopleInvolved": {
     "type": "text",
     "placeholders": {}
+  },
+  "loadingEarthquakeInfos": "Carico le informazioni sul terremoto...",
+  "@loadingEarthquakeInfos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareNotAvailable": "Azione non disponibile per questo terremoto...",
+  "@shareNotAvailable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareIntentText": "{time}: Registrato un terremoto di {magnitude} sulla scala Richter a {location} ({country}).\n\nCondiviso con Quake.",
+  "@shareIntentText": {
+    "type": "text",
+    "placeholders": {
+      "location": {},
+      "magnitude": {},
+      "country": {},
+      "time": {}
+    }
   }
 }

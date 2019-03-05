@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-03-05T13:16:49.542469",
+  "@@last_modified": "2019-03-05T15:40:13.336942",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -144,5 +144,25 @@
   "@peopleInvolved": {
     "type": "text",
     "placeholders": {}
+  },
+  "loadingEarthquakeInfos": "Loading earthquake infos...",
+  "@loadingEarthquakeInfos": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareNotAvailable": "Action not available for this earthquake...",
+  "@shareNotAvailable": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareIntentText": "{time}: Registered an earthquake of {magnitude} on Richter Scale in {location} ({country}).\n\nShared with Quake.",
+  "@shareIntentText": {
+    "type": "text",
+    "placeholders": {
+      "location": {},
+      "magnitude": {},
+      "country": {},
+      "time": {}
+    }
   }
 }
