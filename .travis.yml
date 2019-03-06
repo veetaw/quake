@@ -1,5 +1,9 @@
 os:
   - linux
+env:
+  global:
+    - ANDROID_HOME=${TRAVIS_BUILD_DIR}/android-sdk
+    - ANDROID_SDK_ROOT=${TRAVIS_BUILD_DIR}/android-sdk
 language: android
 android:
   components:
@@ -24,6 +28,7 @@ addons:
       - fonts-droid
 
 before_install:
+  - cp -R /usr/local/android-sdk-28.0.0 ./android-sdk
   - yes | sdkmanager "platforms;android-28"
 before_script:
   - git clone https://github.com/flutter/flutter.git ../flutter
