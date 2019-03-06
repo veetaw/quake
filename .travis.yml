@@ -1,5 +1,3 @@
-# from https://medium.com/flutter-io/test-flutter-apps-on-travis-3fd5142ecd8c
-
 os:
   - linux
 language: android
@@ -7,16 +5,16 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-26.0.2
-    - android-26
+    - build-tools-28.0.0
+    - android-28
   licenses:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
-branches:
-  only:
-  - master
+# branches:
+#   only:
+#   - master
 addons:
   apt:
     sources:
@@ -25,14 +23,16 @@ addons:
       - libstdc++6
       - fonts-droid
 
+before_install:
+  - yes | sdkmanager "platforms;android-28"
 before_script:
   - git clone https://github.com/flutter/flutter.git ../flutter
   - ../flutter/bin/flutter doctor
   - chmod +x scripts/deploy_telegram.sh
 script:
   - ../flutter/bin/flutter test
-# after_script:
-#  - python3 scripts/format_files.py
+after_script:
+ - python3 scripts/format_files.py
 cache:
   directories:
     - $HOME/.pub-cache
