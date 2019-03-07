@@ -36,7 +36,7 @@ before_script:
   - chmod +x scripts/deploy_telegram.sh
 script:
   - ../flutter/bin/flutter test
-  - ../flutter/bin/flutter build apk
+  - ../flutter/bin/flutter build apk --debug
 # after_script:
 #  - python3 scripts/format_files.py
 cache:

@@ -21,6 +21,6 @@ CAPTION="$LAST_COMMIT_MESSAGE
 $LAST_COMMIT_DATE
 
 [link (github)](https://github.com/veetaw/quake/commit/$LAST_COMMIT_HASH)"
-APK_PATH="build/app/outputs/apk/release/app-release.apk"
+APK_PATH="build/app/outputs/apk/debug/app-debug.apk"
 
 curl -F chat_id="$CHAT_ID" -F caption="$CAPTION" -F parse_mode="markdown" -F document=@"$APK_PATH" https://api.telegram.org/bot$BOT_TOKEN/sendDocument
