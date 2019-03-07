@@ -1,9 +1,6 @@
 os:
   - linux
-env:
-  global:
-    - ANDROID_HOME=${TRAVIS_BUILD_DIR}/android-sdk
-    - ANDROID_SDK_ROOT=${TRAVIS_BUILD_DIR}/android-sdk
+
 language: android
 android:
   components:
@@ -30,11 +27,16 @@ addons:
 before_install:
   - yes | sdkmanager "platforms;android-28"
 before_script:
+  - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
+  - unzip -qq gradle-3.5-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-3.5
+  - export PATH=$GRADLE_HOME/bin:$PATH
   - git clone https://github.com/flutter/flutter.git ../flutter
   - ../flutter/bin/flutter doctor
   - chmod +x scripts/deploy_telegram.sh
 script:
   - ../flutter/bin/flutter test
+  - ../flutter/bin/flutter build apk
 after_script:
  - python3 scripts/format_files.py
 cache:
@@ -47,3 +49,4 @@ deploy:
     script: scripts/deploy_telegram.sh
     on:
       branch: master
+# todo push on github releases
