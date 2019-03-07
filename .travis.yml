@@ -37,8 +37,8 @@ before_script:
 script:
   - ../flutter/bin/flutter test
   - ../flutter/bin/flutter build apk
-after_script:
- - python3 scripts/format_files.py
+# after_script:
+#  - python3 scripts/format_files.py
 cache:
   directories:
     - $HOME/.pub-cache
