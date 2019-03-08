@@ -60,13 +60,14 @@ class EarthquakesList extends StatelessWidget {
                             ) =>
                                 SlideTransition(
                                   position: Tween<Offset>(
-                                          begin: Offset(0, 1), end: Offset.zero)
-                                      .animate(animation),
+                                    begin: Offset(0, 1),
+                                    end: Offset.zero,
+                                  ).animate(animation),
                                   child: SlideTransition(
                                     position: Tween<Offset>(
-                                            begin: Offset.zero,
-                                            end: Offset(1, 0))
-                                        .animate(secondaryAnimation),
+                                      begin: Offset.zero,
+                                      end: Offset(1, 0),
+                                    ).animate(secondaryAnimation),
                                     child: child,
                                   ),
                                 ),

@@ -10,6 +10,7 @@ import 'package:quake/src/model/homepage_nearby.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/model/error.dart' as error;
+import 'package:quake/src/routes/settings.dart';
 
 class Home extends StatefulWidget {
   static const routeName = "/home";
@@ -61,14 +62,17 @@ class HomeState extends State<Home> {
                   bottomNavigationBar: BottomNavigationBar(
                     items: <BottomNavigationBarItem>[
                       _buildBottomNavigationBarItem(
-                          icon: Icons.chrome_reader_mode,
-                          text: QuakeLocalizations.of(context).all),
+                        icon: Icons.chrome_reader_mode,
+                        text: QuakeLocalizations.of(context).all,
+                      ),
                       _buildBottomNavigationBarItem(
-                          icon: Icons.location_on,
-                          text: QuakeLocalizations.of(context).nearby),
+                        icon: Icons.location_on,
+                        text: QuakeLocalizations.of(context).nearby,
+                      ),
                       _buildBottomNavigationBarItem(
-                          icon: Icons.map,
-                          text: QuakeLocalizations.of(context).map),
+                        icon: Icons.map,
+                        text: QuakeLocalizations.of(context).map,
+                      ),
                     ],
                     currentIndex: snapshot.data ?? 0,
                     onTap: (int index) => indexBloc.setIndex(index),
@@ -102,7 +106,32 @@ class HomeState extends State<Home> {
         ),
         IconButton(
           icon: Icon(Icons.settings),
-          onPressed: iconsEnabled ? () {/*TODO*/} : null,
+          onPressed: iconsEnabled
+              ? () => Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ___) => Settings(),
+                      transitionsBuilder: (
+                        BuildContext context,
+                        Animation animation,
+                        Animation secondaryAnimation,
+                        Widget child,
+                      ) =>
+                          SlideTransition(
+                            position: Tween<Offset>(
+                              begin: Offset(0, 1),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: SlideTransition(
+                              position: Tween<Offset>(
+                                begin: Offset.zero,
+                                end: Offset(1, 0),
+                              ).animate(secondaryAnimation),
+                              child: child,
+                            ),
+                          ),
+                    ),
+                  )
+              : null,
           tooltip: QuakeLocalizations.of(context).settingsTooltip,
         ),
       ],

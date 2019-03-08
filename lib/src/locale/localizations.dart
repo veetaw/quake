@@ -206,6 +206,24 @@ class QuakeLocalizations {
         args: [location, magnitude, country, time],
         name: "shareIntentText",
       );
+
+  // == SECTION settings ==
+  String get settings => Intl.message(
+        "Settings",
+        name: "settings",
+      );
+  String get appearance => Intl.message(
+        "Appearance",
+        name: "appearance",
+      );
+  String get chooseTheme => Intl.message(
+        "Choose theme",
+        name: "chooseTheme",
+      );
+  String get chooseThemeLong => Intl.message(
+        "Change the whole app's appearance",
+        name: "chooseThemeLong",
+      );
 }
 
 class _QuakeLocalizationsDelegate

@@ -5,6 +5,7 @@ import 'package:quake/src/bloc/theme_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/routes/landing_page.dart';
+import 'package:quake/src/routes/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -74,6 +75,7 @@ main() async {
             ],
             routes: {
               Home.routeName: (_) => Home(),
+              Settings.routeName: (_) => Settings(),
             },
             theme: snapshot.data,
             home: FutureBuilder(
