@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider {
   /// use this like `_themes["light"]()`
@@ -18,4 +21,24 @@ class ThemeProvider {
     if (theme == null) throw Exception('theme not found');
     return theme();
   }
+
+  Future<ThemeData> getPrefTheme() async {
+
+    var prefs = await SharedPreferences.getInstance();
+
+    return getThemeByName(prefs.getString("theme") ?? "light");
+
+  }
+
+  Future<void> savePrefTheme(ThemeData theme) async {
+
+    var prefs = await SharedPreferences.getInstance();
+
+    prefs.setString("theme", getThemeName(theme));
+
+  }
+
+  String getThemeName(ThemeData theme) => getAllThemes().singleWhere((k) => getThemeByName(k) == theme);                 
+
+
 }
