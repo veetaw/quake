@@ -5,11 +5,8 @@ import 'package:quake/src/bloc/theme_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/routes/landing_page.dart';
-<<<<<<< HEAD
 import 'package:quake/src/routes/settings.dart';
-=======
 import 'package:quake/src/themes/theme_provider.dart';
->>>>>>> 5bbdb425a8536537bb6256279cb4fcc394b71345
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
