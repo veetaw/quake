@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 import 'package:quake/src/locale/l10n/messages_all.dart';
+import 'package:quake/src/utils/unit_of_measurement_conversion.dart';
 
 /// https://flutter.io/docs/development/accessibility-and-localization/internationalization
 class QuakeLocalizations {
@@ -224,6 +225,88 @@ class QuakeLocalizations {
         "Change the whole app's appearance",
         name: "chooseThemeLong",
       );
+  String get general => Intl.message(
+        "General",
+        name: "general",
+      );
+  String get notifications => Intl.message(
+        "Notifications",
+        name: "notifications",
+      );
+  String get specialThanks => Intl.message(
+        "Special thanks",
+        name: "specialThanks",
+      );
+  String get other => Intl.message(
+        "Other",
+        name: "other",
+      );
+
+  String get meters => Intl.message(
+        "meters",
+        name: "meters",
+      );
+  String get kilometers => Intl.message(
+        "kilometers",
+        name: "kilometers",
+      );
+  String get miles => Intl.message(
+        "miles",
+        name: "miles",
+      );
+
+  String unitOfMeasurement(UnitOfMeasurement unit) {
+    switch (unit) {
+      case UnitOfMeasurement.kilometers:
+        return kilometers;
+      case UnitOfMeasurement.meters:
+        return meters;
+      case UnitOfMeasurement.miles:
+        return miles;
+      default:
+        return kilometers;
+    }
+  }
+
+  String get depthSettingsTile => Intl.message(
+    "Unit of measurement for depth",
+    name: "depthSettingsTile",
+  );
+
+  String get notificationsSettingsTile => Intl.message(
+    "that's definitely a TODO.",
+    name: "notificationsSettingsTile",
+  );
+
+  String get specialThanksTile => Intl.message(
+    "that's a TODO too (doo).",
+    name: "specialThanksTile",
+  );
+
+  String get minMagnitudeSettingsTile => Intl.message(
+    "Minimum magnitude for map marker",
+    name: "minMagnitudeSettingsTile",
+  );
+
+  String get earthquakesCountSettingsTile => Intl.message(
+    "How many earthquakes to load at time",
+    name: "earthquakesCountSettingsTile",
+  );
+
+  String get distanceMapSettingsTile => Intl.message(
+    "Distance for near earthquakes",
+    name: "distanceMapSettingsTile",
+  );
+
+  String get githubTileTitle => Intl.message(
+    "Github link",
+    name: "githubTileTitle",
+  );
+
+  String get githubTileDescription => Intl.message(
+    "looooong description",
+    name: "githubTileDescription",
+  );
 }
 
 class _QuakeLocalizationsDelegate
