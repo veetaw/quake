@@ -18,7 +18,7 @@ typedef MessageIfAbsent(String message_str, List args);
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'en';
 
-  static m0(location, magnitude, country, time) => "${time}: Registered an earthquake of ${magnitude} on Richter Scale in ${location} (${country}).\n\nShared with Quake.";
+  static m0(location, magnitude, country, time) => "$time: Registered an earthquake of $magnitude on Richter Scale in $location ($country).\n\nShared with Quake.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {

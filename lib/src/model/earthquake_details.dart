@@ -3,7 +3,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong/latlong.dart';
-import 'package:quake/main.dart';
 import 'package:quake/src/data/osm_nominatim.dart';
 import 'package:quake/src/data/population.dart';
 import 'package:quake/src/locale/localizations.dart';
