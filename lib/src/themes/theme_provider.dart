@@ -23,22 +23,17 @@ class ThemeProvider {
   }
 
   Future<ThemeData> getPrefTheme() async {
-
     var prefs = await SharedPreferences.getInstance();
 
     return getThemeByName(prefs.getString("theme") ?? "light");
-
   }
 
   Future<void> savePrefTheme(ThemeData theme) async {
-
     var prefs = await SharedPreferences.getInstance();
 
     prefs.setString("theme", getThemeName(theme));
-
   }
 
-  String getThemeName(ThemeData theme) => getAllThemes().singleWhere((k) => getThemeByName(k) == theme);                 
-
-
+  String getThemeName(ThemeData theme) =>
+      getAllThemes().singleWhere((k) => getThemeByName(k) == theme);
 }

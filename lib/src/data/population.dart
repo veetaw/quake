@@ -33,6 +33,6 @@ Future<Map> getPopulationByCoordinates({
       }.toString(),
     },
   ));
-  
+
   return json.decode(response.body);
 }

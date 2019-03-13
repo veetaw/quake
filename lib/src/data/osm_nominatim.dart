@@ -28,11 +28,8 @@ class OpenStreetMapNominatim {
   }
 
   Future<Map> _getData(String endPoint, Map<String, String> options) async {
-    Response rawResponse = await client.get(Uri.https(
-      _baseUrl,
-      endPoint,
-      options
-    ));
+    Response rawResponse =
+        await client.get(Uri.https(_baseUrl, endPoint, options));
     String body = rawResponse.body;
     return json.decode(body);
   }

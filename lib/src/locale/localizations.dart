@@ -271,44 +271,44 @@ class QuakeLocalizations {
   }
 
   String get depthSettingsTile => Intl.message(
-    "Unit of measurement for depth",
-    name: "depthSettingsTile",
-  );
+        "Unit of measurement for depth",
+        name: "depthSettingsTile",
+      );
 
   String get notificationsSettingsTile => Intl.message(
-    "that's definitely a TODO.",
-    name: "notificationsSettingsTile",
-  );
+        "that's definitely a TODO.",
+        name: "notificationsSettingsTile",
+      );
 
   String get specialThanksTile => Intl.message(
-    "that's a TODO too (doo).",
-    name: "specialThanksTile",
-  );
+        "that's a TODO too (doo).",
+        name: "specialThanksTile",
+      );
 
   String get minMagnitudeSettingsTile => Intl.message(
-    "Minimum magnitude for map marker",
-    name: "minMagnitudeSettingsTile",
-  );
+        "Minimum magnitude for map marker",
+        name: "minMagnitudeSettingsTile",
+      );
 
   String get earthquakesCountSettingsTile => Intl.message(
-    "How many earthquakes to load at time",
-    name: "earthquakesCountSettingsTile",
-  );
+        "How many earthquakes to load at time",
+        name: "earthquakesCountSettingsTile",
+      );
 
   String get distanceMapSettingsTile => Intl.message(
-    "Distance for near earthquakes",
-    name: "distanceMapSettingsTile",
-  );
+        "Distance for near earthquakes",
+        name: "distanceMapSettingsTile",
+      );
 
   String get githubTileTitle => Intl.message(
-    "Github link",
-    name: "githubTileTitle",
-  );
+        "Github link",
+        name: "githubTileTitle",
+      );
 
   String get githubTileDescription => Intl.message(
-    "looooong description",
-    name: "githubTileDescription",
-  );
+        "looooong description",
+        name: "githubTileDescription",
+      );
 }
 
 class _QuakeLocalizationsDelegate

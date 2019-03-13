@@ -15,12 +15,11 @@ class ThemeBloc {
 
   /// use this as setTheme(Theme)
   set theme(ThemeData theme) {
-
     _stream.sink.add(theme);
 
     ThemeProvider().savePrefTheme(theme);
-
   }
+
   /// must be called in order to correctly close the stream
   void dispose() {
     _subscription.cancel();

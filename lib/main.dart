@@ -85,7 +85,10 @@ main() async {
             home: FutureBuilder(
               future: isFirstTime(),
               builder: (context, snapshot) {
-                timeago.setLocaleMessages(QuakeLocalizations.localeCode, _getLocaleStringsClass(QuakeLocalizations.localeCode),);
+                timeago.setLocaleMessages(
+                  QuakeLocalizations.localeCode,
+                  _getLocaleStringsClass(QuakeLocalizations.localeCode),
+                );
                 if (snapshot.data == null) return Loading();
                 return snapshot.data ? LandingPage() : Home();
               },
@@ -93,5 +96,4 @@ main() async {
           ),
     ),
   );
-
 }
