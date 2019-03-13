@@ -161,10 +161,9 @@ class Settings extends StatelessWidget {
                         title: Text(
                           themeProvider.getAllThemes()[index],
                         ),
-                        onTap: () => ThemeBloc().setTheme(
-                              themeProvider.getThemeByName(
-                                themeProvider.getAllThemes()[index],
-                              ),
+                        onTap: () =>
+                            ThemeBloc().theme = themeProvider.getThemeByName(
+                              themeProvider.getAllThemes()[index],
                             ),
                       );
                     },
