@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:quake/src/utils/quake_shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider {
@@ -22,17 +23,18 @@ class ThemeProvider {
     return theme();
   }
 
-  Future<ThemeData> getPrefTheme() async {
-    var prefs = await SharedPreferences.getInstance();
+  ThemeData getPrefTheme() => getThemeByName(
+        QuakeSharedPreferences().getValue<String>(
+          key: QuakeSharedPreferencesKey.theme,
+          defaultValue: "light",
+        ),
+      );
 
-    return getThemeByName(prefs.getString("theme") ?? "light");
-  }
-
-  Future<void> savePrefTheme(ThemeData theme) async {
-    var prefs = await SharedPreferences.getInstance();
-
-    prefs.setString("theme", getThemeName(theme));
-  }
+  void savePrefTheme(ThemeData theme) =>
+      QuakeSharedPreferences().setValue<String>(
+        key: QuakeSharedPreferencesKey.theme,
+        value: getThemeName(theme),
+      );
 
   String getThemeName(ThemeData theme) =>
       getAllThemes().singleWhere((k) => getThemeByName(k) == theme);

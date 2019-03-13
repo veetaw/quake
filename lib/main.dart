@@ -7,6 +7,8 @@ import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/routes/landing_page.dart';
 import 'package:quake/src/routes/settings.dart';
 import 'package:quake/src/themes/theme_provider.dart';
+import 'package:quake/src/utils/quake_shared_preferences.dart';
+import 'package:quake/src/utils/timeago.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,51 +20,16 @@ Future<bool> isFirstTime() async {
   return sharedPreferences.getBool("firstTime") ?? true;
 }
 
-timeago.LookupMessages _getLocaleStringsClass(String locale) {
-  switch (locale) {
-    case 'da':
-      return timeago.DaMessages();
-    case 'de':
-      return timeago.DeMessages();
-    case 'es':
-      return timeago.EsMessages();
-    case 'fa':
-      return timeago.FaMessages();
-    case 'fr':
-      return timeago.FrMessages();
-    case 'id':
-      return timeago.IdMessages();
-    case 'it':
-      return timeago.ItMessages();
-    case 'ja':
-      return timeago.JaMessages();
-    case 'nl':
-      return timeago.NlMessages();
-    case 'pl':
-      return timeago.PlMessages();
-    case 'pt_br':
-      return timeago.PtBrMessages();
-    case 'ru':
-      return timeago.RuMessages();
-    case 'tr':
-      return timeago.TrMessages();
-    case 'zh_cn':
-      return timeago.ZhCnMessages();
-    case 'zh':
-      return timeago.ZhMessages();
-    default:
-      return timeago.EnMessages();
-  }
-}
-
 main() async {
+  QuakeSharedPreferences().init();
+
   ThemeBloc themeBloc = ThemeBloc();
   ThemeProvider themeProvider = ThemeProvider();
 
   return runApp(
     StreamBuilder(
       stream: themeBloc.themeStream,
-      initialData: await themeProvider.getPrefTheme(),
+      initialData: themeProvider.getPrefTheme(),
       builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) =>
           MaterialApp(
             localizationsDelegates: [
@@ -85,7 +52,7 @@ main() async {
               builder: (context, snapshot) {
                 timeago.setLocaleMessages(
                   QuakeLocalizations.localeCode,
-                  _getLocaleStringsClass(QuakeLocalizations.localeCode),
+                  getLocaleStringsClass(QuakeLocalizations.localeCode),
                 );
                 if (snapshot.data == null) return Loading();
                 return snapshot.data ? LandingPage() : Home();

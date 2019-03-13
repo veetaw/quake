@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum QuakeSharedPreferencesKey { firstTime } //TODO:REFACTOR IN PROGRESS
+enum QuakeSharedPreferencesKey { firstTime, theme } //TODO:REFACTOR IN PROGRESS
 
 // singleton utility class to interact with sharedPreferences
 class QuakeSharedPreferences {
