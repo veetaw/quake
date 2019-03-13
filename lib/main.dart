@@ -59,8 +59,6 @@ main() async {
   ThemeBloc themeBloc = ThemeBloc();
   ThemeProvider themeProvider = ThemeProvider();
 
-  //themeBloc.theme = themeProvider.getThemeByName("dark");
-
   return runApp(
     StreamBuilder(
       stream: themeBloc.themeStream,
