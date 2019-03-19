@@ -1,8 +1,3 @@
-// tests:
-// test both of the builders with
-// no onLoading and onError
-// no builder no stream/future
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -20,7 +15,7 @@ main() {
         "QuakeStreamBuilder should build correcyly with initialData passed",
         (tester) async {
           await tester.pumpWidget(
-            TestWidget(
+            TestStreamWidget(
               streamController: streamController,
               initialData: 'ok',
             ),
@@ -40,7 +35,7 @@ main() {
         "QuakeStreamBuilder should handle correctly loading",
         (tester) async {
           await tester.pumpWidget(
-            TestWidget(
+            TestStreamWidget(
               streamController: streamController,
             ),
           );
@@ -55,7 +50,7 @@ main() {
         "QuakeStreamBuilder should handle correctly error",
         (tester) async {
           await tester.pumpWidget(
-            TestWidget(
+            TestStreamWidget(
               streamController: streamController,
             ),
           );
@@ -70,7 +65,8 @@ main() {
           expect(find.text('error'), findsOneWidget);
           expect(find.text('loading'), findsNothing);
           expect(find.text('ok'), findsNothing);
-        }, skip: true,
+        },
+        skip: true,
       );
     },
   );
@@ -82,7 +78,7 @@ main() {
         "default loading",
         (tester) async {
           await tester.pumpWidget(
-            TestWidget(
+            TestStreamWidget(
               streamController: streamController,
               handleCallbacks: false,
             ),
@@ -96,7 +92,7 @@ main() {
         "default error",
         (tester) async {
           await tester.pumpWidget(
-            TestWidget(
+            TestStreamWidget(
               streamController: streamController,
               handleCallbacks: false,
             ),
@@ -108,17 +104,28 @@ main() {
     },
   );
 
+  group(
+    "test QuakeFutureBuilder",
+    () {
+      testWidgets("", (tester) async {
+        await tester.pumpWidget(
+          TestFutureWidget()
+        );
+      });
+    },
+  );
+
   tearDownAll(() {
     streamController.close();
   });
 }
 
-class TestWidget extends StatelessWidget {
+class TestStreamWidget extends StatelessWidget {
   final StreamController<String> streamController;
   final String initialData;
   final bool handleCallbacks;
 
-  const TestWidget({
+  const TestStreamWidget({
     Key key,
     this.streamController,
     this.initialData,
@@ -131,6 +138,36 @@ class TestWidget extends StatelessWidget {
       home: Scaffold(
         body: QuakeStreamBuilder<String>(
           stream: streamController.stream,
+          initialData: initialData,
+          onError: handleCallbacks ? (QuakeError error) => Text('error') : null,
+          onLoading: handleCallbacks ? () => Text('loading') : null,
+          builder: (context, data) {
+            return Text(data);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class TestFutureWidget extends StatelessWidget {
+  final Future<String> future;
+  final String initialData;
+  final bool handleCallbacks;
+
+  const TestFutureWidget({
+    Key key,
+    this.future,
+    this.initialData,
+    this.handleCallbacks: true,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: QuakeFutureBuilder<String>(
+          future: future,
           initialData: initialData,
           onError: handleCallbacks ? (QuakeError error) => Text('error') : null,
           onLoading: handleCallbacks ? () => Text('loading') : null,
