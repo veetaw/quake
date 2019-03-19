@@ -91,14 +91,17 @@ class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
       builder: (context, snapshot) {
         // an error occurred so call onError
         if (snapshot.hasError)
-          return onError(
-                QuakeError(snapshot.error.toString()) ??
-                    const QuakeError.unknown(),
-              ) ??
-              Container();
+          return onError != null
+              ? onError(
+                  QuakeError(snapshot.error.toString()) ??
+                      const QuakeError.unknown(),
+                )
+              : Container();
         // stream doesn't have data yet
         if (!snapshot.hasData)
-          return onLoading() ?? const CircularProgressIndicator();
+          return onLoading != null
+              ? onLoading()
+              : const CircularProgressIndicator();
 
         // got data with no errors, so the widget is ready to call the builder
         return builder(context, snapshot.data);
@@ -163,15 +166,18 @@ class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
       builder: (context, snapshot) {
         // the snapshot has an error, so call the onError function
         if (snapshot.hasError)
-          return onError(
-                QuakeError(snapshot.error.toString()) ??
-                    const QuakeError.unknown(),
-              ) ??
-              Container();
+          return onError != null
+              ? onError(
+                  QuakeError(snapshot.error.toString()) ??
+                      const QuakeError.unknown(),
+                )
+              : Container();
         // the snapshot has a connection active and no data, so it's still loading
         if (snapshot.connectionState == ConnectionState.active &&
             !snapshot.hasData)
-          return onLoading() ?? const CircularProgressIndicator();
+          return onLoading != null
+              ? onLoading()
+              : const CircularProgressIndicator();
 
         // got data with no errors, so the widget is ready to call the builder
         return builder(context, snapshot.data);

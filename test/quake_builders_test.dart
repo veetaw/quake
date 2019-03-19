@@ -70,20 +70,59 @@ main() {
           expect(find.text('error'), findsOneWidget);
           expect(find.text('loading'), findsNothing);
           expect(find.text('ok'), findsNothing);
+        }, skip: true,
+      );
+    },
+  );
+
+  group(
+    "QuakeStreamBuilder should work correctly even with just stream and builder",
+    () {
+      testWidgets(
+        "default loading",
+        (tester) async {
+          await tester.pumpWidget(
+            TestWidget(
+              streamController: streamController,
+              handleCallbacks: false,
+            ),
+          );
+
+          expect(find.byType(CircularProgressIndicator), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        "default error",
+        (tester) async {
+          await tester.pumpWidget(
+            TestWidget(
+              streamController: streamController,
+              handleCallbacks: false,
+            ),
+          );
+
+          expect(find.byType(Container), findsOneWidget);
         },
       );
     },
   );
+
+  tearDownAll(() {
+    streamController.close();
+  });
 }
 
 class TestWidget extends StatelessWidget {
   final StreamController<String> streamController;
   final String initialData;
+  final bool handleCallbacks;
 
   const TestWidget({
     Key key,
     this.streamController,
     this.initialData,
+    this.handleCallbacks: true,
   }) : super(key: key);
 
   @override
@@ -93,8 +132,8 @@ class TestWidget extends StatelessWidget {
         body: QuakeStreamBuilder<String>(
           stream: streamController.stream,
           initialData: initialData,
-          onError: (QuakeError error) => Text('error'),
-          onLoading: () => Text('loading'),
+          onError: handleCallbacks ? (QuakeError error) => Text('error') : null,
+          onLoading: handleCallbacks ? () => Text('loading') : null,
           builder: (context, data) {
             return Text(data);
           },
