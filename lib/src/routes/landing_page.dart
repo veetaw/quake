@@ -1,25 +1,36 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:meta/meta.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:quake/src/model/quake_builders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:quake/src/app.dart';
 import 'package:quake/src/locale/localizations.dart';
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingPage extends StatefulWidget {
   @override
-  LandingPageState createState() => LandingPageState();
+  _LandingPageState createState() => _LandingPageState();
 }
 
-class LandingPageState extends State<LandingPage> {
-  final PageController _controller = PageController();
-
+class _LandingPageState extends State<LandingPage> {
+  /// Animation curve for page switching.
   static const Curve _kCurve = Curves.ease;
+
+  /// Duration of the animation while switching pages.
   static const Duration _kDuration = Duration(milliseconds: 300);
 
-  int _page = 0;
+  /// Used to control page switching etc, for more infos see [PageController].
+  final PageController _controller = PageController();
+
+  /// Streamcontroller for the current page index.
+  ///
+  /// For the future, maybe use a BLoC.
+  final StreamController pageStreamController = StreamController<int>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,66 +57,77 @@ class LandingPageState extends State<LandingPage> {
           systemNavigationBarColor: Theme.of(context).canvasColor,
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
-        child: Stack(
-          children: <Widget>[
-            PageView.builder(
-              itemCount: _pages.length,
-              controller: _controller,
-              onPageChanged: (int page) => setState(() => _page = page),
-              itemBuilder: (BuildContext context, int page) =>
-                  _pages[page % _pages.length],
-            ),
-            Positioned(
-              bottom: 0.0,
-              left: 0.0,
-              right: 0.0,
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                child: Center(
-                  child: DotsRow(
-                    controller: _controller,
+        child: QuakeStreamBuilder<int>(
+            stream: pageStreamController.stream,
+            initialData: 0,
+            builder: (context, _page) {
+              return Stack(
+                children: <Widget>[
+                  PageView.builder(
                     itemCount: _pages.length,
-                    dotMaxZoom: 1.5,
-                    dotSize: 5.0,
-                    dotSpacing: 15.0,
-                    color: _IntroTheme._kDotColor,
-                    leading: _page == 0
-                        ? _buildMaterialButton(
-                            title: QuakeLocalizations.of(context).skip,
+                    controller: _controller,
+                    onPageChanged: pageStreamController.sink.add,
+                    itemBuilder: (BuildContext context, int page) =>
+                        _pages[page % _pages.length],
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Center(
+                        child: DotsRow(
+                          controller: _controller,
+                          itemCount: _pages.length,
+                          dotMaxZoom: 1.5,
+                          dotSize: 5.0,
+                          dotSpacing: 15.0,
+                          color: _IntroTheme._kDotColor,
+                          leading: _page == 0
+                              ? _buildMaterialButton(
+                                  title: QuakeLocalizations.of(context).skip,
+                                  pages: _pages,
+                                  onPressed: () => _controller.animateToPage(
+                                        // skip button logic
+                                        _pages.length - 1,
+                                        curve: _kCurve,
+                                        duration: _kDuration,
+                                      ),
+                                )
+                              : MaterialButton(
+                                  onPressed: null,
+                                ), // blank button as placeholder
+                          trailing: _buildMaterialButton(
+                            title: _page != _pages.length - 1
+                                ? QuakeLocalizations.of(context).next
+                                : QuakeLocalizations.of(context).finish,
                             pages: _pages,
-                            onPressed: () => _controller.animateToPage(
-                                  // skip button logic
-                                  _pages.length - 1,
-                                  curve: _kCurve,
-                                  duration: _kDuration,
-                                ),
-                          )
-                        : MaterialButton(
-                            onPressed: null,
-                          ), // blank button as placeholder
-                    trailing: _buildMaterialButton(
-                      title: _page != _pages.length - 1
-                          ? QuakeLocalizations.of(context).next
-                          : QuakeLocalizations.of(context).finish,
-                      pages: _pages,
-                      onPressed: () => _page != _pages.length - 1
-                          ? _controller.nextPage(
-                              // next / start button logic
-                              curve: _kCurve,
-                              duration: _kDuration,
-                            )
-                          : _closeLandingPage(context),
+                            onPressed: () => _page != _pages.length - 1
+                                ? _controller.nextPage(
+                                    // next / start button logic
+                                    curve: _kCurve,
+                                    duration: _kDuration,
+                                  )
+                                : _closeLandingPage(context),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          ],
-        ),
+                ],
+              );
+            }),
       ),
     );
-  }
 
+    @override
+    void dispose() {
+      pageStreamController.close();
+      super.dispose();
+    }
+  }
+  // TODO: REFACTOR
   void _closeLandingPage(BuildContext context) async {
     // set firstTime var to false so the next time the main will not launch landing page
     (await SharedPreferences.getInstance()).setBool("firstTime", false);
