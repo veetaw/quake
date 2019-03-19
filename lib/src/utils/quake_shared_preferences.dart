@@ -37,7 +37,7 @@ class QuakeSharedPreferences {
   ///
   /// The function is going to create the field if it does not exist yet
   void setValue<T>({
-    @required QuakeSharedPreferencesKey key,
+    @required String key,
     @required T value,
   }) {
     String _key = key.toString();
@@ -65,14 +65,14 @@ class QuakeSharedPreferences {
   /// If there is no key in the sharedPreferences that matches [key]
   /// and no [defaultValue] is passed it's going to return null.
   T getValue<T>({
-    @required QuakeSharedPreferencesKey key,
+    @required String key,
     T defaultValue,
   }) =>
       (_sharedPreferences.get(key.toString()) ?? defaultValue) as T;
 
   /// Deletes entry with key [key]
   void removeValue({
-    @required QuakeSharedPreferencesKey key,
+    @required String key,
   }) =>
       _sharedPreferences.remove(key.toString());
 }
