@@ -3,22 +3,39 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum QuakeSharedPreferencesKey { firstTime, theme } //TODO:REFACTOR IN PROGRESS
+/// This is the class containing all the sharedPreferences keys.
+/// TODO(REFACTOR): ALL KEYS SHOULD BE ADDED
+class QuakeSharedPreferencesKey {
+  /// This key is used to check if the user has already opened the app before.
+  /// 
+  /// It should be a [bool] and it should be set to true only after the user
+  /// has finished the intro at [LandingPage].
+  static get firstTime => "firstTime";
 
-// singleton utility class to interact with sharedPreferences
+  /// This key is used to save the app's theme from settings.
+  /// 
+  /// It should be a [String] and must only assume the values
+  /// of the keys of [_themes] inside [ThemeProvider].
+  static get theme => "theme";
+}
+
+/// This class is a helper for [SharedPreferences].
 class QuakeSharedPreferences {
   static QuakeSharedPreferences _instance = QuakeSharedPreferences._();
   QuakeSharedPreferences._();
   factory QuakeSharedPreferences() => _instance;
 
+  /// instance of [SharedPreferences]
   SharedPreferences _sharedPreferences;
 
-  // this MUST be called before any call to any of the function of this class
+  /// this MUST be called before any call to any of the function of this class
+  /// in order to instanciate [_sharedPreferences].
   Future<void> init() async =>
       _sharedPreferences = await SharedPreferences.getInstance();
 
-  // sets value of a given [key] to [value]
-  // the function is going to create the field if it does not exist yet
+  /// Sets value of a given [key] to [value].
+  ///
+  /// The function is going to create the field if it does not exist yet
   void setValue<T>({
     @required QuakeSharedPreferencesKey key,
     @required T value,
@@ -43,22 +60,24 @@ class QuakeSharedPreferences {
     }
   }
 
-  // returns the value that has been setted with [setValue()]
-  // if there is no key in the sharedPreferences that matches [key]
-  // and no [defaultValue] is passed it's going to return null
+  /// Get value of type [T] from sharedPreferences.
+  ///
+  /// If there is no key in the sharedPreferences that matches [key]
+  /// and no [defaultValue] is passed it's going to return null.
   T getValue<T>({
     @required QuakeSharedPreferencesKey key,
     T defaultValue,
   }) =>
       (_sharedPreferences.get(key.toString()) ?? defaultValue) as T;
 
-  // deletes entry with key [key]
+  /// Deletes entry with key [key]
   void removeValue({
     @required QuakeSharedPreferencesKey key,
   }) =>
       _sharedPreferences.remove(key.toString());
 }
 
+/// Exception thrown by [QuakeSharedPreferences]
 class SharedPreferencesException implements Exception {
   final String message;
 
