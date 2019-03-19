@@ -145,7 +145,7 @@ class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
 
   /// Creates a new [QuakeFutureBuilder]
   ///
-  /// builder and future should not be null
+  /// builder should not be null
   const QuakeFutureBuilder({
     @required this.future,
     @required this.builder,
@@ -154,7 +154,6 @@ class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
     this.onError,
     Key key,
   })  : assert(builder != null),
-        assert(future != null),
         super(key: key);
 
   @override
