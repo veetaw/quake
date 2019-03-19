@@ -8,26 +8,22 @@ import 'package:quake/src/utils/quake_error.dart';
 
 main() {
   StreamController<String> streamController = StreamController.broadcast();
-  group(
-    "check if QuakeStreamBuilder works correctly with all parameters ok",
-    () {
-      testWidgets(
-        "QuakeStreamBuilder should build correcyly with initialData passed",
-        (tester) async {
-          await tester.pumpWidget(
-            TestStreamWidget(
-              streamController: streamController,
-              initialData: 'ok',
-            ),
-          );
-
-          expect(find.text('ok'), findsOneWidget);
-          expect(find.text('loading'), findsNothing);
-          expect(find.text('error'), findsNothing);
-        },
+  testWidgets(
+    "QuakeStreamBuilder should build correcyly with initialData passed",
+    (tester) async {
+      await tester.pumpWidget(
+        TestStreamWidget(
+          streamController: streamController,
+          initialData: 'ok',
+        ),
       );
+
+      expect(find.text('ok'), findsOneWidget);
+      expect(find.text('loading'), findsNothing);
+      expect(find.text('error'), findsNothing);
     },
   );
+
   group(
     "check if QuakeStreamBuilder works correctly with real world like data flow",
     () {
@@ -41,7 +37,6 @@ main() {
           );
 
           expect(find.text('loading'), findsOneWidget);
-          expect(find.text('ok'), findsNothing);
           expect(find.text('error'), findsNothing);
         },
       );
@@ -56,7 +51,6 @@ main() {
           );
 
           expect(find.text('loading'), findsOneWidget);
-          expect(find.text('ok'), findsNothing);
           expect(find.text('error'), findsNothing);
 
           streamController.sink.addError(Exception());
@@ -64,9 +58,26 @@ main() {
 
           expect(find.text('error'), findsOneWidget);
           expect(find.text('loading'), findsNothing);
-          expect(find.text('ok'), findsNothing);
         },
-        skip: true,
+      );
+
+      testWidgets(
+        "QuakeStreamBuilder should handle correctly data",
+        (tester) async {
+          await tester.pumpWidget(
+            TestStreamWidget(
+              streamController: streamController,
+            ),
+          );
+
+          expect(find.text('loading'), findsOneWidget);
+          expect(find.text('error'), findsNothing);
+
+          streamController.sink.add('test');
+          await tester.pumpAndSettle();
+
+          expect(find.text('test'), findsOneWidget);
+        },
       );
     },
   );
@@ -97,6 +108,8 @@ main() {
               handleCallbacks: false,
             ),
           );
+          streamController.sink.addError(Exception());
+          await tester.pump();
 
           expect(find.byType(Container), findsOneWidget);
         },
@@ -107,11 +120,61 @@ main() {
   group(
     "test QuakeFutureBuilder",
     () {
-      testWidgets("", (tester) async {
-        await tester.pumpWidget(
-          TestFutureWidget()
-        );
-      });
+      testWidgets(
+        "with initialData",
+        (tester) async {
+          await tester.pumpWidget(TestFutureWidget(
+            future: null,
+            initialData: "ok",
+          ));
+          expect(find.text('ok'), findsOneWidget);
+          expect(find.text('loading'), findsNothing);
+          expect(find.text('error'), findsNothing);
+        },
+      );
+
+      testWidgets(
+        "with no initialData",
+        (tester) async {
+          await tester.pumpWidget(TestFutureWidget(
+            future: null,
+          ));
+          expect(find.text('loading'), findsOneWidget);
+          expect(find.text('error'), findsNothing);
+        },
+      );
+
+      testWidgets(
+        "with data",
+        (tester) async {
+          Future<String> getData() async {
+            await Future.delayed(Duration(microseconds: 1));
+            return "test";
+          }
+
+          await tester.pumpWidget(TestFutureWidget(
+            future: getData(),
+          ));
+          await tester.pumpAndSettle();
+
+          expect(find.text('test'), findsOneWidget);
+          expect(find.text('error'), findsNothing);
+          expect(find.text('loading'), findsNothing);
+        },
+      );
+
+      testWidgets(
+        "default loading",
+        (tester) async {
+          await tester.pumpWidget(TestFutureWidget(
+            future: null,
+            handleCallbacks: false,
+          ));
+
+          expect(find.byType(CircularProgressIndicator), findsOneWidget);
+          expect(find.text('loading'), findsNothing);
+        },
+      );
     },
   );
 
@@ -120,6 +183,7 @@ main() {
   });
 }
 
+/// Test widget for [QuakeStreamBuilder]
 class TestStreamWidget extends StatelessWidget {
   final StreamController<String> streamController;
   final String initialData;
@@ -150,6 +214,7 @@ class TestStreamWidget extends StatelessWidget {
   }
 }
 
+/// Test widget for [QuakeFutureBuilder]
 class TestFutureWidget extends StatelessWidget {
   final Future<String> future;
   final String initialData;

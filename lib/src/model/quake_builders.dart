@@ -172,8 +172,7 @@ class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
                 )
               : Container();
         // the snapshot has a connection active and no data, so it's still loading
-        if (snapshot.connectionState == ConnectionState.active &&
-            !snapshot.hasData)
+        if (!snapshot.hasData)
           return onLoading != null
               ? onLoading()
               : const CircularProgressIndicator();
