@@ -15,22 +15,22 @@ typedef ErrorCallback = Widget Function(QuakeError error);
 /// This function is called to build the child.
 ///
 /// You'll have a [context] and the [data] (of type [T]).
-typedef Builder<T> = Widget Function(BuildContext context, T data);
+typedef QuakeBuilderType<T> = Widget Function(BuildContext context, T data);
 
 /// Utility class to abstract the two builders.
 ///
 /// Might be useful for testing.
-abstract class QuakeBuilder<T> {
+abstract class QuakeBuilderBase<T> {
   /// See [LoadingCallback]
   final LoadingCallback onLoading;
 
   /// See [ErrorCallback]
   final ErrorCallback onError;
 
-  /// See [Builder]
-  final Builder<T> builder;
+  /// See [QuakeBuilderType]
+  final QuakeBuilderType<T> builder;
 
-  QuakeBuilder(this.onLoading, this.onError, this.builder);
+  QuakeBuilderBase(this.onLoading, this.onError, this.builder);
   Widget build(BuildContext context);
 }
 
@@ -50,7 +50,7 @@ abstract class QuakeBuilder<T> {
 ///   builder: (context, data) => Text(data.toString()),
 /// )
 /// ```
-class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
+class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilderBase<T> {
   /// The stream where the data will flow.
   final Stream<T> stream;
 
@@ -65,8 +65,8 @@ class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
   /// see [ErrorCallback]
   final ErrorCallback onError;
 
-  /// Called to build the child, see [Builder]
-  final Builder<T> builder;
+  /// Called to build the child, see [QuakeBuilderType]
+  final QuakeBuilderType<T> builder;
 
   /// Creates a new [QuakeStreamBuilder]
   ///
@@ -126,7 +126,7 @@ class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
 ///   builder: (context, data) => Text(data.toString()),
 /// )
 /// ```
-class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
+class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilderBase<T> {
   /// The [Future] of type [T] that will return the data asyncronously
   final Future<T> future;
 
@@ -140,8 +140,8 @@ class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilder<T> {
   /// see [ErrorCallback]
   final ErrorCallback onError;
 
-  /// Called to build the child, see [Builder]
-  final Builder<T> builder;
+  /// Called to build the child, see [QuakeBuilderType]
+  final QuakeBuilderType<T> builder;
 
   /// Creates a new [QuakeFutureBuilder]
   ///

@@ -14,6 +14,8 @@ import 'package:share/share.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class EarthquakeDetails extends StatelessWidget {
+  static const routeName = '/details';
+
   final Earthquake earthquake;
 
   const EarthquakeDetails({Key key, this.earthquake}) : super(key: key);
