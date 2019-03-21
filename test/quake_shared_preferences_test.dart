@@ -11,18 +11,61 @@ void main() {
       await quakeSharedPreferences.init();
     });
 
-    test('put value into empty sharedPreferences and get the value back', () {
+    test('put a value into empty sharedPreferences and get the value back for every type available', () {
+      // int
       quakeSharedPreferences.setValue<int>(
-        key: QuakeSharedPreferencesKey.firstTime,
+        key: "testInt",
         value: 10,
       );
 
       expect(
         quakeSharedPreferences.getValue<int>(
-          key: QuakeSharedPreferencesKey.firstTime,
+          key: "testInt",
           defaultValue: -1,
         ),
         equals(10),
+      );
+
+      // bool
+      quakeSharedPreferences.setValue<bool>(
+        key: QuakeSharedPreferencesKey.firstTime,
+        value: true,
+      );
+
+      expect(
+        quakeSharedPreferences.getValue<bool>(
+          key: QuakeSharedPreferencesKey.firstTime,
+          defaultValue: false,
+        ),
+        equals(true),
+      );
+
+      // double
+      quakeSharedPreferences.setValue<double>(
+        key: "testDouble",
+        value: 1.5,
+      );
+
+      expect(
+        quakeSharedPreferences.getValue<double>(
+          key: "testDouble",
+          defaultValue: 0,
+        ),
+        equals(1.5),
+      );
+
+      // string
+      quakeSharedPreferences.setValue<String>(
+        key: QuakeSharedPreferencesKey.theme,
+        value: "test",
+      );
+
+      expect(
+        quakeSharedPreferences.getValue<String>(
+          key: QuakeSharedPreferencesKey.theme,
+          defaultValue: "nope",
+        ),
+        equals("test"),
       );
     });
 
