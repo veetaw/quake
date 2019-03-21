@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-class ErrorWidget extends StatelessWidget {
+class QuakeErrorWidget extends StatelessWidget {
   final String message;
   final double size;
   final IconData icon;
 
-  ErrorWidget({@required this.message, this.size, this.icon})
+  QuakeErrorWidget({@required this.message, this.size, this.icon})
       : assert(message != null);
 
   @override

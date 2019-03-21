@@ -5,7 +5,7 @@ import 'package:quake/src/model/earthquake_card.dart';
 import 'package:quake/src/model/earthquake_details.dart';
 import 'package:quake/src/model/loading.dart';
 
-import 'package:quake/src/model/error.dart' as error;
+import 'package:quake/src/model/error.dart';
 
 class EarthquakesList extends StatelessWidget {
   const EarthquakesList({
@@ -23,18 +23,18 @@ class EarthquakesList extends StatelessWidget {
 
         if (snapshot.hasError) {
           if (snapshot.error == "no results")
-            return error.ErrorWidget(
+            return QuakeErrorWidget(
               message: QuakeLocalizations.of(context).noEarthquakesNearby,
               icon: Icons.sentiment_very_satisfied,
             );
           else
-            return error.ErrorWidget(
+            return QuakeErrorWidget(
               message: QuakeLocalizations.of(context).allEarthquakesError,
               size: 50,
             );
         } else if (snapshot.hasData) {
           if (snapshot.data.length == 0)
-            return error.ErrorWidget(
+            return QuakeErrorWidget(
               message: QuakeLocalizations.of(context).noEarthquakesNearby,
               icon: Icons.sentiment_very_satisfied,
             );

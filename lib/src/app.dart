@@ -2,14 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:connectivity/connectivity.dart';
+
 import 'package:quake/src/bloc/home_screen_switch_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/homepage_all.dart';
 import 'package:quake/src/model/homepage_map.dart';
 import 'package:quake/src/model/homepage_nearby.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:quake/src/model/loading.dart';
-import 'package:quake/src/model/error.dart' as error;
+import 'package:quake/src/model/error.dart';
 import 'package:quake/src/routes/settings.dart';
 
 class Home extends StatefulWidget {
@@ -48,7 +50,7 @@ class HomeState extends State<Home> {
 
             return Scaffold(
               appBar: _buildAppBar(context, iconsEnabled: false),
-              body: error.ErrorWidget(
+              body: QuakeErrorWidget(
                   message: QuakeLocalizations.of(context).noInternetConnection),
             );
           } else // user is connected
@@ -101,7 +103,7 @@ class HomeState extends State<Home> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.search),
-          onPressed: iconsEnabled ? () {/*TODO*/} : null,
+          onPressed: iconsEnabled ? () {/*TODO(veetaw): search*/} : null,
           tooltip: QuakeLocalizations.of(context).searchTooltip,
         ),
         IconButton(
