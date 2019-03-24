@@ -10,9 +10,10 @@ import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/homepage_all.dart';
 import 'package:quake/src/model/homepage_map.dart';
 import 'package:quake/src/model/homepage_nearby.dart';
-import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/model/error.dart';
+import 'package:quake/src/model/quake_builders.dart';
 import 'package:quake/src/routes/settings.dart';
+import 'package:quake/src/utils/connectivity.dart';
 
 class Home extends StatefulWidget {
   static const routeName = "/home";
@@ -23,6 +24,8 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   static const double _kAppBarElevation = 2.0;
   final HomeScreenSwitchBloc indexBloc = HomeScreenSwitchBloc();
+  // REFACTOR: this should be a list of HomeScreenBase with index,
+  // so the stream can be of this type.
   final List screens = [HomePageAll(), null, null];
 
   StreamSubscription _connectionSubscription;
@@ -37,17 +40,12 @@ class HomeState extends State<Home> {
                 ? Brightness.dark
                 : Brightness.light,
       ),
-      child: FutureBuilder(
-        future: Connectivity().checkConnectivity(),
-        builder:
-            (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
-          if (snapshot.data == null) return Loading();
-
-          // user is not connected to the internet
-          // listen for connectivity changes and return an error message
-          if (snapshot.data == ConnectivityResult.none) {
-            _listenForConnectionChange();
-
+      child: QuakeStreamBuilder<ConnectivityResult>(
+        stream: Connectivity().onConnectivityChanged,
+        initialData: QuakeConnectivityHelper().connectivity,
+        builder: (context, connectionType) {
+          // user is not connected to the internet return an error message
+          if (connectionType == ConnectivityResult.none) {
             return Scaffold(
               appBar: _buildAppBar(context, iconsEnabled: false),
               body: QuakeErrorWidget(
@@ -166,14 +164,5 @@ class HomeState extends State<Home> {
     indexBloc.dispose();
     _connectionSubscription.cancel();
     super.dispose();
-  }
-
-  Future<Null> _listenForConnectionChange() async {
-    _connectionSubscription = Connectivity().onConnectivityChanged.listen(
-      (ConnectivityResult result) {
-        // rebuild widget if user enables connection
-        if (result != ConnectivityResult.none) setState(() {});
-      },
-    );
   }
 }
