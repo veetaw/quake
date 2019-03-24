@@ -21,8 +21,12 @@ class QuakeSharedPreferencesKey {
 
 /// This class is a helper for [SharedPreferences].
 class QuakeSharedPreferences {
+  /// Returns the instance of [QuakeSharedPreferences]
   static QuakeSharedPreferences _instance = QuakeSharedPreferences._();
+  
   QuakeSharedPreferences._();
+  
+  /// Contains and initializes a singleton of [QuakeSharedPreferences]
   factory QuakeSharedPreferences() => _instance;
 
   /// instance of [SharedPreferences]
