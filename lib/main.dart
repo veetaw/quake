@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:quake/src/bloc/bloc_provider.dart';
 import 'package:timeago/timeago.dart';
 import 'package:connectivity/connectivity.dart';
 
@@ -19,12 +20,17 @@ import 'package:quake/src/utils/connectivity.dart';
 /// Main function, returns a [QuakeStreamBuilder] with the whole app as a child,
 /// it's rebuilt when a theme is changed.
 main() async {
+  /// instance of the BLoC used to handle theme change, called when a theme is
+  /// changed to rebuild the whole app with the new theme.
+  ThemeBloc themeBloc = ThemeBloc();
+
   /// Instance of [QuakeConnectivityHelper], used to save the initial connection,
   /// so it can be accessed by the whole app
   QuakeConnectivityHelper quakeConnectivityHelper = QuakeConnectivityHelper();
 
   // save connectivity to be accessed syncronously
-  quakeConnectivityHelper.connectivity = await Connectivity().checkConnectivity();
+  quakeConnectivityHelper.connectivity =
+      await Connectivity().checkConnectivity();
 
   /// Instance of [QuakeSharedPreferences], used to instantiate the prefs, so they
   /// can be used by the whole app.
@@ -55,29 +61,33 @@ main() async {
   };
 
   return runApp(
-    QuakeStreamBuilder<ThemeData>(
-      stream: ThemeBloc().themeStream,
-      initialData:
-          ThemeProvider().getPrefTheme(), // load theme from sharedPreferences
-      builder: (context, theme) => MaterialApp(
-            localizationsDelegates: [
-              QuakeLocalizations.delegate, // custom locale
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            onGenerateTitle: (context) => QuakeLocalizations.of(context).title,
-            supportedLocales: supportedLocales,
-            routes: routes,
-            theme: theme,
-            home: LayoutBuilder(builder: (context, _) {
-              setLocaleMessages(
-                QuakeLocalizations.localeCode,
-                getLocaleStringsClass(QuakeLocalizations.localeCode),
-              );
+    BlocProvider(
+      bloc: themeBloc,
+      child: QuakeStreamBuilder<ThemeData>(
+        stream: themeBloc.themeStream,
+        initialData:
+            ThemeProvider().getPrefTheme(), // load theme from sharedPreferences
+        builder: (context, theme) => MaterialApp(
+              localizationsDelegates: [
+                QuakeLocalizations.delegate, // custom locale
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              onGenerateTitle: (context) =>
+                  QuakeLocalizations.of(context).title,
+              supportedLocales: supportedLocales,
+              routes: routes,
+              theme: theme,
+              home: LayoutBuilder(builder: (context, _) {
+                setLocaleMessages(
+                  QuakeLocalizations.localeCode,
+                  getLocaleStringsClass(QuakeLocalizations.localeCode),
+                );
 
-              return isFirstTime ? LandingPage() : Home();
-            }),
-          ),
+                return isFirstTime ? LandingPage() : Home();
+              }),
+            ),
+      ),
     ),
   );
 }

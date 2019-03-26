@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:connectivity/connectivity.dart';
 
 import 'package:quake/src/bloc/home_page_screen_bloc.dart';
+import 'package:quake/src/bloc/bloc_provider.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/homepage_all.dart';
 import 'package:quake/src/model/homepage_map.dart';
@@ -43,35 +44,38 @@ class Home extends StatelessWidget {
           if (connectionType == ConnectivityResult.none)
             return _handleNoConnection(context);
           else // user is connected
-            return QuakeStreamBuilder<HomePageScreenBase>(
-              stream: homePageScreenBloc.pageStream,
-              initialData: screens[0],
-              builder: (context, page) {
-                return Scaffold(
-                  appBar: _buildAppBar(context),
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  bottomNavigationBar: BottomNavigationBar(
-                    items: <BottomNavigationBarItem>[
-                      _buildBottomNavigationBarItem(
-                        icon: Icons.chrome_reader_mode,
-                        text: QuakeLocalizations.of(context).all,
-                      ),
-                      _buildBottomNavigationBarItem(
-                        icon: Icons.location_on,
-                        text: QuakeLocalizations.of(context).nearby,
-                      ),
-                      _buildBottomNavigationBarItem(
-                        icon: Icons.map,
-                        text: QuakeLocalizations.of(context).map,
-                      ),
-                    ],
-                    currentIndex: page.index,
-                    onTap: (int index) =>
-                        homePageScreenBloc.page = screens[index],
-                  ),
-                  body: page as Widget,
-                );
-              },
+            return BlocProvider(
+              bloc: homePageScreenBloc,
+              child: QuakeStreamBuilder<HomePageScreenBase>(
+                stream: homePageScreenBloc.pageStream,
+                initialData: screens[0],
+                builder: (context, page) {
+                  return Scaffold(
+                    appBar: _buildAppBar(context),
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    bottomNavigationBar: BottomNavigationBar(
+                      items: <BottomNavigationBarItem>[
+                        _buildBottomNavigationBarItem(
+                          icon: Icons.chrome_reader_mode,
+                          text: QuakeLocalizations.of(context).all,
+                        ),
+                        _buildBottomNavigationBarItem(
+                          icon: Icons.location_on,
+                          text: QuakeLocalizations.of(context).nearby,
+                        ),
+                        _buildBottomNavigationBarItem(
+                          icon: Icons.map,
+                          text: QuakeLocalizations.of(context).map,
+                        ),
+                      ],
+                      currentIndex: page.index,
+                      onTap: (int index) =>
+                          homePageScreenBloc.page = screens[index],
+                    ),
+                    body: page as Widget,
+                  );
+                },
+              ),
             );
         },
       ),
@@ -102,9 +106,9 @@ class Home extends StatelessWidget {
               : Brightness.light,
     );
   }
-  
+
   /// Returns the standard [AppBar] styl for the app's main screens.
-  /// 
+  ///
   /// When [iconsEnabled] is true the icons are clickable (used by [_handleNoConnection]).
   AppBar _buildAppBar(BuildContext context, {bool iconsEnabled = true}) {
     return AppBar(
@@ -159,7 +163,7 @@ class Home extends StatelessWidget {
   }
 
   /// Builds an item for the bottom navigation bar
-  /// 
+  ///
   /// useful to not type Icon and Text everytime,
   /// this function can be removed safely by just wrapping [icon]
   /// and [text] with Icon() and Text() respectively.
