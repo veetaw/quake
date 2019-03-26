@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
+import 'package:quake/src/bloc/home_page_screen_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/alert_dialog.dart';
 import 'package:quake/src/model/loading.dart';
@@ -13,7 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 PublishSubject<bool> permissionStream = PublishSubject<bool>();
 final EarthquakesSearchBloc earthquakesBloc = EarthquakesSearchBloc();
 
-class HomePageNearby extends StatelessWidget {
+class HomePageNearby extends StatelessWidget with HomePageScreenBase {
+  int get index => 1;
+
   static HomePageNearby _instance = HomePageNearby._();
   HomePageNearby._();
   factory HomePageNearby() => _instance;

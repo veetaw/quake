@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
+import 'package:quake/src/bloc/home_page_screen_bloc.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/model/homepage_nearby.dart' show getLocation;
 import 'package:quake/src/model/loading.dart';
@@ -10,10 +11,8 @@ import 'package:quake/src/themes/quake_icons.dart';
 
 final EarthquakesBloc earthquakesBloc = EarthquakesBloc();
 
-class HomePageMap extends StatefulWidget {
-  static HomePageMap _instance = HomePageMap._();
-  HomePageMap._();
-  factory HomePageMap() => _instance;
+class HomePageMap extends StatefulWidget with HomePageScreenBase {
+  int get index => 2;
   @override
   HomePageMapState createState() => HomePageMapState();
 }

@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:connectivity/connectivity.dart';
 
-import 'package:quake/src/bloc/home_screen_switch_bloc.dart';
+import 'package:quake/src/bloc/home_page_screen_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/homepage_all.dart';
 import 'package:quake/src/model/homepage_map.dart';
@@ -15,47 +13,40 @@ import 'package:quake/src/model/quake_builders.dart';
 import 'package:quake/src/routes/settings.dart';
 import 'package:quake/src/utils/connectivity.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
+  /// Route name, used by [MaterialApp] to identify app's routes
   static const routeName = "/home";
-  @override
-  HomeState createState() => HomeState();
-}
 
-class HomeState extends State<Home> {
+  /// Contains the [AppBar]'s elevation
   static const double _kAppBarElevation = 2.0;
-  final HomeScreenSwitchBloc indexBloc = HomeScreenSwitchBloc();
-  // REFACTOR: this should be a list of HomeScreenBase with index,
-  // so the stream can be of this type.
-  final List screens = [HomePageAll(), null, null];
 
-  StreamSubscription _connectionSubscription;
+  /// BLoC of [HomePageScreenBase] used to make switching between screens
+  /// on home easier.
+  final HomePageScreenBloc homePageScreenBloc = HomePageScreenBloc();
+
+  /// Contains the 3 different pages of the homepage
+  final List<HomePageScreenBase> screens = [
+    HomePageAll(),
+    HomePageNearby(),
+    HomePageMap(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark.copyWith(
-        systemNavigationBarColor: Theme.of(context).canvasColor,
-        systemNavigationBarIconBrightness:
-            Theme.of(context).brightness == Brightness.light
-                ? Brightness.dark
-                : Brightness.light,
-      ),
+      value: _buildSystemUiOverlayTheme(context),
       child: QuakeStreamBuilder<ConnectivityResult>(
         stream: Connectivity().onConnectivityChanged,
         initialData: QuakeConnectivityHelper().connectivity,
         builder: (context, connectionType) {
           // user is not connected to the internet return an error message
-          if (connectionType == ConnectivityResult.none) {
-            return Scaffold(
-              appBar: _buildAppBar(context, iconsEnabled: false),
-              body: QuakeErrorWidget(
-                  message: QuakeLocalizations.of(context).noInternetConnection),
-            );
-          } else // user is connected
-            return StreamBuilder(
-              stream: indexBloc.index,
-              initialData: 0, // start with index 0 (all earthquakes)
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+          if (connectionType == ConnectivityResult.none)
+            return _handleNoConnection(context);
+          else // user is connected
+            return QuakeStreamBuilder<HomePageScreenBase>(
+              stream: homePageScreenBloc.pageStream,
+              initialData: screens[0],
+              builder: (context, page) {
                 return Scaffold(
                   appBar: _buildAppBar(context),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -74,10 +65,11 @@ class HomeState extends State<Home> {
                         text: QuakeLocalizations.of(context).map,
                       ),
                     ],
-                    currentIndex: snapshot.data ?? 0,
-                    onTap: (int index) => indexBloc.setIndex(index),
+                    currentIndex: page.index,
+                    onTap: (int index) =>
+                        homePageScreenBloc.page = screens[index],
                   ),
-                  body: _getWidget(snapshot.data),
+                  body: page as Widget,
                 );
               },
             );
@@ -86,6 +78,34 @@ class HomeState extends State<Home> {
     );
   }
 
+  /// Returns the widget that's being used when there's no connection,
+  ///
+  /// It has no content except for a very brief message at the center
+  /// of the screen and the normal appbar with icons disabled.
+  Scaffold _handleNoConnection(BuildContext context) {
+    return Scaffold(
+      appBar: _buildAppBar(context, iconsEnabled: false),
+      body: QuakeErrorWidget(
+        message: QuakeLocalizations.of(context).noInternetConnection,
+      ),
+    );
+  }
+
+  /// Sets the color for the status bar and the navigation bar to match
+  /// the opposite of the theme.
+  SystemUiOverlayStyle _buildSystemUiOverlayTheme(BuildContext context) {
+    return SystemUiOverlayStyle.dark.copyWith(
+      systemNavigationBarColor: Theme.of(context).canvasColor,
+      systemNavigationBarIconBrightness:
+          Theme.of(context).brightness == Brightness.light
+              ? Brightness.dark
+              : Brightness.light,
+    );
+  }
+  
+  /// Returns the standard [AppBar] styl for the app's main screens.
+  /// 
+  /// When [iconsEnabled] is true the icons are clickable (used by [_handleNoConnection]).
   AppBar _buildAppBar(BuildContext context, {bool iconsEnabled = true}) {
     return AppBar(
       backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -95,7 +115,7 @@ class HomeState extends State<Home> {
           TargetPlatform.iOS, // center title if running on ios
       primary: true,
       iconTheme: Theme.of(context).iconTheme,
-      textTheme: Theme.of(context).textTheme,
+      textTheme: Theme.of(context).appBarTheme.textTheme,
       title: Text(QuakeLocalizations.of(context).title),
       elevation: _kAppBarElevation,
       actions: <Widget>[
@@ -138,18 +158,11 @@ class HomeState extends State<Home> {
     );
   }
 
-  Widget _getWidget(int index) {
-    // screens[index] is null on index 1 and 2 because it's useless to instantiate a class if the user hasn't asked for it
-    if (screens[index] == null) {
-      if (index == 1) {
-        screens[index] = HomePageNearby();
-      } else if (index == 2) {
-        screens[index] = HomePageMap();
-      }
-    }
-    return screens[index];
-  }
-
+  /// Builds an item for the bottom navigation bar
+  /// 
+  /// useful to not type Icon and Text everytime,
+  /// this function can be removed safely by just wrapping [icon]
+  /// and [text] with Icon() and Text() respectively.
   BottomNavigationBarItem _buildBottomNavigationBarItem({
     @required IconData icon,
     @required String text,
@@ -158,11 +171,4 @@ class HomeState extends State<Home> {
         icon: Icon(icon),
         title: Text(text),
       );
-
-  @override
-  void dispose() {
-    indexBloc.dispose();
-    _connectionSubscription.cancel();
-    super.dispose();
-  }
 }
