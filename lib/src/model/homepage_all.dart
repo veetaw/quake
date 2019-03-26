@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/bloc/home_page_screen_bloc.dart';
 import 'package:quake/src/routes/earthquakes_list.dart';
@@ -17,7 +18,10 @@ class HomePageAll extends StatelessWidget with HomePageScreenBase {
     earthquakesBloc.fetchData();
 
     return Container(
-      child: EarthquakesList(earthquakesBloc: earthquakesBloc),
+      child: EarthquakesList(
+        earthquakesBloc: earthquakesBloc,
+        onRefresh: () async => earthquakesBloc.invalidateCacheAndFetch(),
+      ),
     );
   }
 }

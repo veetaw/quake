@@ -56,10 +56,10 @@ class EarthquakesBloc implements EarthquakesBlocBase {
     _stream.sink.add(_cache);
   }
 
-  void invalidateCacheAndFetch() {
-    clearCache();
+  void invalidateCacheAndFetch() async {
+    _cache = List();
 
-    fetchData();
+    await fetchData();
   }
 
   void clearCache() {

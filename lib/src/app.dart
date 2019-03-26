@@ -119,7 +119,7 @@ class Home extends StatelessWidget {
           TargetPlatform.iOS, // center title if running on ios
       primary: true,
       iconTheme: Theme.of(context).iconTheme,
-      textTheme: Theme.of(context).appBarTheme.textTheme,
+      textTheme: Theme.of(context).textTheme,
       title: Text(QuakeLocalizations.of(context).title),
       elevation: _kAppBarElevation,
       actions: <Widget>[
