@@ -50,6 +50,8 @@ class EarthquakesList extends StatelessWidget {
             return LiquidPullToRefresh(
               onRefresh: onRefresh,
               showChildOpacityTransition: false,
+              backgroundColor: Theme.of(context).accentColor,
+              color: Theme.of(context).canvasColor,
               child: ListView.builder(
                 itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (
