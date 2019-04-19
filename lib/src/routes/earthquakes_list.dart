@@ -1,32 +1,34 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:meta/meta.dart';
 
-import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
+import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/model/earthquake_card.dart';
 import 'package:quake/src/model/earthquake_details.dart';
 import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/model/error.dart';
 
 class EarthquakesList extends StatelessWidget {
-  final EarthquakesBlocBase earthquakesBloc;
+  final Stream<List<Earthquake>> stream;
   final Function onRefresh;
 
   const EarthquakesList({
-    @required this.earthquakesBloc,
+    @required this.stream,
     @required this.onRefresh,
     Key key,
-  })  : assert(earthquakesBloc != null),
+  })  : assert(stream != null),
         assert(onRefresh != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: earthquakesBloc.earthquakes,
-      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+      stream: stream,
+      builder: (context, snapshot) {
         if (snapshot.data == null) return Loading();
 
         if (snapshot.hasError) {

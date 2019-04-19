@@ -1,135 +1,161 @@
-// TODO: merge classes
-
 import 'dart:async';
 
-import 'package:quake/src/data/ingv_api.dart';
-import 'package:quake/src/model/earthquake.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:meta/meta.dart';
 
-abstract class EarthquakesBlocBase {
-  Observable<List<Earthquake>> get earthquakes;
-}
+import 'package:quake/src/bloc/bloc_provider.dart';
+import 'package:quake/src/data/ingv_api.dart';
+import 'package:quake/src/db/earthquake_provider.dart';
+import 'package:quake/src/model/earthquake.dart';
+import 'package:quake/src/utils/quake_shared_preferences.dart';
 
-class EarthquakesRepository {
-  IngvAPI api = IngvAPI();
+/// Contains every possible API where to fetch earthquakes
+enum EarthquakesListSource { ingv }
 
-  Future<List<Earthquake>> fetchData() async => api.getData();
-  Future<List<Earthquake>> fetchDataSearch(SearchOptions options) async =>
-      api.getData(
-        startTime: options.startTime,
-        endTime: options.endTime,
-        minMagnitude: options.minMagnitude,
-        maxDepth: options.maxDepth,
-        maxMagnitude: options.maxMagnitude,
-        minDepth: options.minDepth,
-        minLatitude: options.minLatitude,
-        maxLatitude: options.maxLatitude,
-        maxLongitude: options.maxLongitude,
-        minLongitude: options.minLongitude,
-      );
-}
+/// This BLoC takes care of fetching earthquakes and searching for them
+/// based on the options given.
+class EarthquakesBloc extends BlocBase {
+  /// This stream should be used only in the main screen (all earthquakes)
+  PublishSubject<List<Earthquake>> _streamController = PublishSubject();
 
-/// Singleton class that represents the bloc to fetch earthquakes
-class EarthquakesBloc implements EarthquakesBlocBase {
-  static EarthquakesBloc _instance = EarthquakesBloc._();
-  EarthquakesBloc._();
-  factory EarthquakesBloc() => _instance;
+  /// This stream unlike [_streamController] should be used, basically, by
+  /// every other scren that needs to access a list of earthquakes like:
+  /// nearby and a search screen.
+  PublishSubject<List<Earthquake>> _searchController = PublishSubject();
 
-  final EarthquakesRepository _earthquakesRepository = EarthquakesRepository();
-  final PublishSubject _stream = PublishSubject<List<Earthquake>>();
+  /// Instance of [QuakeSharedPreferences] used to access some keys.
+  QuakeSharedPreferences _quakeSharedPreferences = QuakeSharedPreferences();
+  
+  /// Instance of [EarthquakePersistentCacheProvider] used to access the database.
+  EarthquakePersistentCacheProvider _earthquakePersistentCacheProvider =
+      EarthquakePersistentCacheProvider();
 
-  List<Earthquake> _cache = List();
+  /// exposes [_streamController]'s stream
+  Stream get earthquakes => _streamController.stream;
+  
+  /// exposes [_searchController]'s stream;
+  Stream get searchedEarthquakes => _searchController.stream;
 
-  Observable<List<Earthquake>> get earthquakes => _stream.stream;
+  /// This *must* be called before using every method of this class, otherwise it
+  /// will result in a crash.
+  Future initializeCacheDatabase() async =>
+    await _earthquakePersistentCacheProvider.open('quake_test.db');
 
-  Future fetchData() async {
-    if (_cache.isEmpty)
-      try {
-        _cache = await _earthquakesRepository.fetchData();
-      } catch (ex) {
-        _stream.sink.addError(ex);
-      }
-    else
-      // HACK: if this micro delay is removed stream observer won't get anything
-      await Future.delayed(Duration(microseconds: 1));
+  /// Fetches data from the API using the default options
+  ///
+  /// The parameter [source] defines the API where to fetch the data, it actually
+  /// defaults to the only source available: [EarthquakesListSource.ingv].
+  /// The app doesn't fetch new earthquakes if the last fetch was made less than 
+  /// [QuakeSharedPreferencesKey.fetchUpdatesDelta] milliseconds ago, but you can
+  /// force-fetch new data using the parameter [force]. Avoid force-fetching too
+  /// many times because it's slow, set [force] to true only if this function is
+  /// called by a pull to refresh (or something like that).
+  Future fetchData({
+    EarthquakesListSource source: EarthquakesListSource.ingv,
+    bool force: false,
+  }) async {
+    List<Earthquake> _data = List();
 
-    _stream.sink.add(_cache);
+    // Stores the last fetch's timestamp to ensure that the app won't query the server too often
+    int lastFetchTimestamp = _quakeSharedPreferences.getValue<int>(
+      key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
+    );
+
+    int deltaTime = _quakeSharedPreferences.getValue<int>(
+      key: QuakeSharedPreferencesKey.fetchUpdatesDelta,
+      defaultValue: 10 * 60000, // 10 minutes
+    );
+
+    int actualTimeMs = DateTime.now().millisecondsSinceEpoch;
+
+    switch (source) {
+      case EarthquakesListSource.ingv:
+        if (!force && lastFetchTimestamp == null ||
+            actualTimeMs - lastFetchTimestamp >= deltaTime) {
+          IngvAPI _api = IngvAPI();
+
+          _data = await _api.getData();
+
+          // clear cache before saving new data to avoid DB getting bigger and bigger
+          await _earthquakePersistentCacheProvider.dropCache();
+          _earthquakePersistentCacheProvider.addEarthquakes(earthquakes: _data);
+
+          _quakeSharedPreferences.setValue<int>(
+            key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
+            value: actualTimeMs,
+          );
+        } else {
+          _data = await _earthquakePersistentCacheProvider.getAllEarthquakes();
+        }
+        break;
+      default:
+        _streamController.sink.addError(UnknownSourceException);
+        break;
+    }
+    
+    // finally push data through the stream
+    _streamController.sink.add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
   }
 
-  void invalidateCacheAndFetch() async {
-    _cache = List();
 
-    await fetchData();
-  }
+  /// Fetch earthquakes by passing options
+  /// 
+  /// See [SearchOptions] to understand what [options] can be set.
+  /// See [fetchData] for [source]
+  Future search({
+    @required SearchOptions options,
+    EarthquakesListSource source: EarthquakesListSource.ingv,
+  }) async {
+    List<Earthquake> _data = List();
+    if(options.isEmpty) return _searchController.sink.addError(EmptySearchOptionsException);
 
-  void clearCache() {
-    _cache = List();
-    _stream.sink.add(_cache);
-  }
+    switch (source) {
+      case EarthquakesListSource.ingv:
+        IngvAPI _api = IngvAPI();
 
-  // must be called by the subscriber in order to correctly free resources
-  void dispose() {
-    _earthquakesRepository.api.dispose();
-    _stream.close();
-  }
-}
+        _data = await _api.getData(
+          startTime: options.startTime,
+          endTime: options.endTime,
+          minMagnitude: options.minMagnitude,
+          maxDepth: options.maxDepth,
+          maxMagnitude: options.maxMagnitude,
+          minDepth: options.minDepth,
+          minLatitude: options.minLatitude,
+          maxLatitude: options.maxLatitude,
+          maxLongitude: options.maxLongitude,
+          minLongitude: options.minLongitude,
+        );
 
-class EarthquakesSearchBloc implements EarthquakesBlocBase {
-  static EarthquakesSearchBloc _instance = EarthquakesSearchBloc._();
-  EarthquakesSearchBloc._();
-  factory EarthquakesSearchBloc() => _instance;
-
-  final EarthquakesRepository _earthquakesRepository = EarthquakesRepository();
-  final PublishSubject _stream = PublishSubject<List<Earthquake>>();
-
-  List<Earthquake> _cache = List();
-
-  Observable<List<Earthquake>> get earthquakes => _stream.stream;
-
-  Future search({SearchOptions options}) async {
-    // no search "terms" (options) given
-    if (options == null || options.isEmpty) {
-      _stream.sink.addError(Exception);
+        break;
+      default:
+        _streamController.sink.addError(UnknownSourceException);
+        break;
     }
 
-    if (_cache.isEmpty)
-      try {
-        _cache = await _earthquakesRepository.fetchDataSearch(options);
-      } catch (ex) {
-        _stream.sink.addError(ex);
-      }
-    else
-      // HACK: if this micro delay is removed stream observer won't get anything
-      await Future.delayed(Duration(microseconds: 1));
-
-    _stream.sink.add(_cache);
+    _searchController.sink.add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
   }
 
-  void clearCache() {
-    _cache = List();
-    _stream.sink.add(_cache);
-  }
-
+  /// Close the streams
+  @override
   void dispose() {
-    _earthquakesRepository.api.dispose();
-    _stream.close();
+    _streamController.close();
+    _searchController.close();
   }
 }
 
-/// Enum with possible search statuses
-///
-/// emptySearch : should be yielded when no search terms where given
-/// searching : search started (calling api/parsing response)
-/// complete : earthquakes have been obtained from the api and are ready to be used by the ui
-/// emptyResponse : no earthquakes returned by the api
-/// error : something bad happened
-enum SearchingStatus {
-  emptySearch,
-  searching,
-  complete,
-  emptyResponse,
-  error,
+/// Thrown when passing an unknown or unsupported source
+class UnknownSourceException implements Exception {
+  final EarthquakesListSource badSource;
+  String message;
+
+  UnknownSourceException(
+    this.badSource,
+  ) : message = "$badSource is not a valid source for earthquakes";
 }
+
+/// Thrown when the search function of [EarthquakesBloc.search] has received
+/// empty search options, so it cannot perform search.
+class EmptySearchOptionsException implements Exception {}
 
 /// available search fields
 ///

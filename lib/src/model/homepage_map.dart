@@ -31,7 +31,7 @@ class HomePageMapState extends State<HomePageMap>
                 snapshot.data["longitude"] == -1);
             Map coord = snapshot.data;
             earthquakesBloc.fetchData();
-            return StreamBuilder(
+            return StreamBuilder<List<Earthquake>>(
               stream: earthquakesBloc.earthquakes,
               builder: (BuildContext context,
                   AsyncSnapshot<List<Earthquake>> snapshot) {

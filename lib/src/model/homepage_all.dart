@@ -6,22 +6,27 @@ import 'package:quake/src/routes/earthquakes_list.dart';
 
 final EarthquakesBloc earthquakesBloc = EarthquakesBloc();
 
-class HomePageAll extends StatelessWidget with HomePageScreenBase {
-  int get index => 0;
-
+class HomePageAll extends StatefulWidget with HomePageScreenBase {
   static HomePageAll _instance = HomePageAll._();
   HomePageAll._();
   factory HomePageAll() => _instance;
 
+  int get index => 0;
+
+  @override
+  _HomePageAllState createState() => _HomePageAllState();
+}
+
+class _HomePageAllState extends State<HomePageAll> {
   @override
   Widget build(BuildContext context) {
     earthquakesBloc.fetchData();
 
     return Container(
       child: EarthquakesList(
-        earthquakesBloc: earthquakesBloc,
-        onRefresh: () async => earthquakesBloc.invalidateCacheAndFetch(),
-      ),
+          stream: earthquakesBloc.earthquakes,
+          onRefresh: () async => earthquakesBloc.fetchData(force: true),
+        ),
     );
   }
 }

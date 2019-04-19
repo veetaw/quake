@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:quake/src/bloc/bloc_provider.dart';
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/bloc/home_page_screen_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
@@ -12,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 PublishSubject<bool> permissionStream = PublishSubject<bool>();
-final EarthquakesSearchBloc earthquakesBloc = EarthquakesSearchBloc();
+final EarthquakesBloc earthquakesBloc = EarthquakesBloc();
 
 class HomePageNearby extends StatelessWidget with HomePageScreenBase {
   int get index => 1;
@@ -23,7 +24,7 @@ class HomePageNearby extends StatelessWidget with HomePageScreenBase {
 
   @override
   Widget build(BuildContext context) {
-    _hasLocationSaved();
+    _hasLocationSaved(); // GOD THAT'S REALLY UGLY, JUST PASS THE LOCATION AS INITIAL DATA TO THE BLOC
     return Container(
       child: StreamBuilder(
         stream: permissionStream.stream,
@@ -48,7 +49,10 @@ class HomePageNearby extends StatelessWidget with HomePageScreenBase {
                 );
 
                 earthquakesBloc.search(options: options);
-                return EarthquakesList(earthquakesBloc: earthquakesBloc);
+                return EarthquakesList(
+                    stream: earthquakesBloc.searchedEarthquakes,
+                    onRefresh: () => earthquakesBloc.search(options: options),
+                );
               },
             );
           } else if (snapshot.hasData && !snapshot.data) {

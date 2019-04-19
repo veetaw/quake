@@ -14,7 +14,7 @@ class IngvAPI {
   static const String _kMinVersion = "100";
   static const String _kOrderBy = "time";
   static const String _kFormat = "text";
-  static const String _kLimit = "10000";
+  static const String _kLimit = "100";
 
   Client client;
 

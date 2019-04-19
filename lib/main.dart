@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quake/src/bloc/bloc_provider.dart';
+import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:timeago/timeago.dart';
 import 'package:connectivity/connectivity.dart';
 
@@ -38,6 +39,9 @@ main() async {
 
   // init sharedPreferences
   await sharedPreferences.init();
+
+  // initialize database
+  await EarthquakesBloc().initializeCacheDatabase();
 
   /// Checks if the user has already finished the [LandingPage] before.
   bool isFirstTime = sharedPreferences.getValue<bool>(

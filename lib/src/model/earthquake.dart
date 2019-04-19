@@ -74,7 +74,7 @@ class Earthquake {
   Earthquake.fromMap(Map map)
       : assert(map != null),
         this.eventID = map["eventID"] ?? 0,
-        this.time = map["time"] ?? null,
+        this.time = DateTime.fromMillisecondsSinceEpoch(map["time"] ?? null),
         this.latitude = map["latitude"] ?? 0.0,
         this.longitude = map["longitude"] ?? 0.0,
         this.depth = map["depth"] ?? 0.0,
@@ -88,10 +88,10 @@ class Earthquake {
         this.eventLocationName = map["eventLocationName"] ?? "";
 
   /// A shrinked version if [toMap()]
-  Map toDBMap() {
+  Map<String, dynamic> toDBMap() {
     return {
       "eventID": eventID,
-      "time": time,
+      "time": time.millisecondsSinceEpoch,
       "latitude": latitude,
       "longitude": longitude,
       "depth": depth,

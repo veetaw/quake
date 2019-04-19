@@ -26,14 +26,14 @@ class EarthquakePersistentCacheProvider {
   factory EarthquakePersistentCacheProvider() => _instance;
   EarthquakePersistentCacheProvider._();
 
-  Database db;
+  Database _db;
   String dbPath;
 
   /// this function should be called one time
   /// time must be stored in ms since epoch
   Future open(String dbPath) async {
     this.dbPath = dbPath;
-    db = await openDatabase(
+    _db = await openDatabase(
       dbPath,
       version: 1,
       onCreate: (Database db, int version) async {
@@ -56,7 +56,7 @@ class EarthquakePersistentCacheProvider {
   /// This will be useful when opening earthquake detail page
   Future<Earthquake> getEarthquakeById({@required int eventID}) async {
     if (eventID == null) throw Exception('null_id');
-    List results = await db.query(
+    List results = await _db.query(
       table_name,
       columns: columns,
       where: "${columns[0]} = ?",
@@ -67,7 +67,7 @@ class EarthquakePersistentCacheProvider {
 
   /// returns all earthquakes saved in the db
   Future<List<Earthquake>> getAllEarthquakes() async {
-    List results = await db.query(table_name, columns: columns);
+    List results = await _db.query(table_name, columns: columns);
 
     return results.length > 0
         ? results
@@ -77,25 +77,27 @@ class EarthquakePersistentCacheProvider {
   }
 
   /// Add earthquake to the cache
-  Future<Null> addEarthquake({@required Earthquake earthquake}) async {
+  Future<void> addEarthquake({@required Earthquake earthquake}) async {
     if (earthquake == null) throw Exception('null_earthquake');
-    await db.insert(table_name, earthquake.toDBMap());
+
+    if (await getEarthquakeById(eventID: earthquake.eventID) == null)
+      await _db.insert(table_name, earthquake.toDBMap());
   }
 
   /// Add a list of earthquakes to the cache
   /// (Just a wrapper over [addEarthquakes()])
-  Future<Null> addEarthquakes({@required List<Earthquake> earthquakes}) async {
+  void addEarthquakes({@required List<Earthquake> earthquakes}) {
     if (earthquakes == null || earthquakes.isEmpty)
       throw Exception('null_earthquake');
-    earthquakes.map((earthquake) async =>
-        (await db.insert(table_name, earthquake.toDBMap())));
+
+    earthquakes.forEach((e) async => await addEarthquake(earthquake: e));
   }
 
   /// Delete earthquake by eventID
-  Future<Null> deleteEarthquake({@required int eventID}) async {
+  Future<void> deleteEarthquake({@required int eventID}) async {
     if (eventID == null) throw Exception('null_id');
     try {
-      await db
+      await _db
           .delete(table_name, where: "${columns[0]} = ?", whereArgs: [eventID]);
     } catch (_) {
       throw Exception('delete_earthquake_error');
@@ -103,9 +105,9 @@ class EarthquakePersistentCacheProvider {
   }
 
   /// Delete every earthquake in db
-  Future<Null> dropCache() async {
+  Future<void> dropCache() async {
     try {
-      (await getAllEarthquakes()).map((earthquake) async =>
+      (await getAllEarthquakes() ?? []).map((earthquake) async =>
           await deleteEarthquake(eventID: earthquake.eventID));
     } catch (_) {
       throw Exception('drop_cache_error');
@@ -113,7 +115,7 @@ class EarthquakePersistentCacheProvider {
   }
 
   /// Delete the whole database.
-  Future<Null> dropDatabase() async {
+  Future<void> dropDatabase() async {
     try {
       await deleteDatabase(dbPath ?? "");
     } catch (_) {
@@ -122,7 +124,7 @@ class EarthquakePersistentCacheProvider {
   }
 
   /// correctly close connection to the database to avoid memory leaks
-  Future<Null> dispose() async {
-    if (db != null) await db.close();
+  Future<void> dispose() async {
+    if (_db != null) await _db.close();
   }
 }

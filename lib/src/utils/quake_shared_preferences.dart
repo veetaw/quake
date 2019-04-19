@@ -17,6 +17,19 @@ class QuakeSharedPreferencesKey {
   /// It should be a [String] and must only assume the values
   /// of the keys of [_themes] inside [ThemeProvider].
   static get theme => "theme";
+
+  /// This keys is used to prevent fetching data from server multiple times
+  /// in a short timestamp.
+  /// 
+  /// It should be a [int] and it should represent the unix timestamp of the
+  /// last time the app has fetched earthquakes from the server.
+  static get lastEarthquakesFetch => "lastEarthquakesFetch";
+
+  /// This key stores the time delta between new queries to the api
+  /// 
+  /// It should be a [int] and it should represent a time delta expressed
+  /// in milliseconds, for example two minutes are 2*60000 = 120000 ms.
+  static get fetchUpdatesDelta => "fetchUpdatesDelta";
 }
 
 /// This class is a helper for [SharedPreferences].
