@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -51,15 +52,9 @@ class EarthquakeDetails extends StatelessWidget {
                         point:
                             LatLng(earthquake.latitude, earthquake.longitude),
                         builder: (BuildContext context) {
-                          // TODO: use an animation instead of the marker
-                          // FlareActor(
-                          //   "assets/flare/pulsing circle.flr",
-                          //   animation: "Untitled",
-                          // );
-                          return Icon(
-                            QuakeIcons.location,
-                            color: Theme.of(context).errorColor,
-                            size: 45,
+                          return FlareActor(
+                            "assets/flare/pulse.flr",
+                            animation: "final animation",
                           );
                         },
                       ),

@@ -86,6 +86,7 @@ flutter:
   assets:
     - assets/flare/monitor.flr
     - assets/flare/earth.flr
+    - assets/flare/pulse.flr
 
   fonts:
     - family: Montserrat
