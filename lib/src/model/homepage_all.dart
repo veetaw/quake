@@ -4,8 +4,6 @@ import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/bloc/home_page_screen_bloc.dart';
 import 'package:quake/src/routes/earthquakes_list.dart';
 
-final EarthquakesBloc earthquakesBloc = EarthquakesBloc();
-
 class HomePageAll extends StatefulWidget with HomePageScreenBase {
   static HomePageAll _instance = HomePageAll._();
   HomePageAll._();
@@ -18,6 +16,8 @@ class HomePageAll extends StatefulWidget with HomePageScreenBase {
 }
 
 class _HomePageAllState extends State<HomePageAll> {
+  final EarthquakesBloc earthquakesBloc = EarthquakesBloc();
+
   @override
   Widget build(BuildContext context) {
     earthquakesBloc.fetchData();
