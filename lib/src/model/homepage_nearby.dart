@@ -106,7 +106,11 @@ class NoLocationSavedWidget extends StatelessWidget {
                       Location location = Location();
 
                       try {
-                        currentLocation = await location.getLocation();
+                        LocationData locationData = await location.getLocation();
+                        currentLocation = {
+                          "latitude": locationData.latitude,
+                          "longitude": locationData.longitude,
+                        };
                       } catch (_) {
                         currentLocation = null;
                       }
