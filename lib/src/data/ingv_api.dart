@@ -74,7 +74,7 @@ class IngvAPI {
     if (response == null) throw Exception('no response');
 
     /// server returned 204 no content because there are no earthquakes to return
-    if (response.statusCode == 204) throw Exception('no results');
+    if (response.statusCode == 204) throw Exception('no content');
 
     /// response status is not ok
     if (response.statusCode != 200) throw Exception('bad response');
