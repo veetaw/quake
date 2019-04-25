@@ -44,38 +44,35 @@ class Home extends StatelessWidget {
           if (connectionType == ConnectivityResult.none)
             return _handleNoConnection(context);
           else // user is connected
-            return BlocProvider(
-              bloc: homePageScreenBloc,
-              child: QuakeStreamBuilder<HomePageScreenBase>(
-                stream: homePageScreenBloc.pageStream,
-                initialData: screens[0],
-                builder: (context, page) {
-                  return Scaffold(
-                    appBar: _buildAppBar(context),
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    bottomNavigationBar: BottomNavigationBar(
-                      items: <BottomNavigationBarItem>[
-                        _buildBottomNavigationBarItem(
-                          icon: Icons.chrome_reader_mode,
-                          text: QuakeLocalizations.of(context).all,
-                        ),
-                        _buildBottomNavigationBarItem(
-                          icon: Icons.location_on,
-                          text: QuakeLocalizations.of(context).nearby,
-                        ),
-                        _buildBottomNavigationBarItem(
-                          icon: Icons.map,
-                          text: QuakeLocalizations.of(context).map,
-                        ),
-                      ],
-                      currentIndex: page.index,
-                      onTap: (int index) =>
-                          homePageScreenBloc.page = screens[index],
-                    ),
-                    body: page as Widget,
-                  );
-                },
-              ),
+            return QuakeStreamBuilder<HomePageScreenBase>(
+              stream: homePageScreenBloc.pageStream,
+              initialData: screens[0],
+              builder: (context, page) {
+                return Scaffold(
+                  appBar: _buildAppBar(context),
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  bottomNavigationBar: BottomNavigationBar(
+                    items: <BottomNavigationBarItem>[
+                      _buildBottomNavigationBarItem(
+                        icon: Icons.chrome_reader_mode,
+                        text: QuakeLocalizations.of(context).all,
+                      ),
+                      _buildBottomNavigationBarItem(
+                        icon: Icons.location_on,
+                        text: QuakeLocalizations.of(context).nearby,
+                      ),
+                      _buildBottomNavigationBarItem(
+                        icon: Icons.map,
+                        text: QuakeLocalizations.of(context).map,
+                      ),
+                    ],
+                    currentIndex: page.index,
+                    onTap: (int index) =>
+                        homePageScreenBloc.page = screens[index],
+                  ),
+                  body: page as Widget,
+                );
+              },
             );
         },
       ),
