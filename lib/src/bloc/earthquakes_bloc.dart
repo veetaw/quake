@@ -124,7 +124,7 @@ class EarthquakesBloc extends BlocBase {
           maxLatitude: options.maxLatitude,
           maxLongitude: options.maxLongitude,
           minLongitude: options.minLongitude,
-        );
+        ).catchError((_) => _data = []); // TODO_ BAD HANDLING
 
         break;
       default:
