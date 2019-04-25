@@ -32,15 +32,9 @@ class EarthquakesList extends StatelessWidget {
         if (snapshot.data == null) return Loading();
 
         if (snapshot.hasError) {
-          if (snapshot.error == "no results")
             return QuakeErrorWidget(
               message: QuakeLocalizations.of(context).noEarthquakesNearby,
               icon: Icons.sentiment_very_satisfied,
-            );
-          else
-            return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).allEarthquakesError,
-              size: 50,
             );
         } else if (snapshot.hasData) {
           if (snapshot.data.length == 0)
