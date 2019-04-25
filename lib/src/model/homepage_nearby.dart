@@ -7,14 +7,12 @@ import 'package:location/location.dart';
 
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/bloc/home_page_screen_bloc.dart';
-import 'package:quake/src/bloc/location_permission_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/alert_dialog.dart';
 import 'package:quake/src/routes/earthquakes_list.dart';
 import 'package:quake/src/utils/quake_shared_preferences.dart';
 
 QuakeSharedPreferences quakeSharedPreferences = QuakeSharedPreferences();
-LocationPermissionBloc locationPermissionBloc = LocationPermissionBloc();
 
 class HomePageNearby extends StatefulWidget with HomePageScreenBase {
   int get index => 1;
