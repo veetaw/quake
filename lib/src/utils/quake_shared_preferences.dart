@@ -30,6 +30,22 @@ class QuakeSharedPreferencesKey {
   /// It should be a [int] and it should represent a time delta expressed
   /// in milliseconds, for example two minutes are 2*60000 = 120000 ms.
   static get fetchUpdatesDelta => "fetchUpdatesDelta";
+
+  /// This key is set to true if the user gave location permission
+  /// 
+  /// It should be a [bool].
+  static get hasLocationSaved => "hasLocationSaved";
+
+  /// This key contains the latitude of the user
+  /// 
+  /// It should be a [double] and it should be set after the user
+  /// gave the permission.
+  static get latitude => "latitude";
+
+  /// This key contains the longitude of the user
+  /// 
+  /// Same as [latitude]
+  static get longitude => "longitude";
 }
 
 /// This class is a helper for [SharedPreferences].
