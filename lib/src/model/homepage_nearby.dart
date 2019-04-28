@@ -106,10 +106,14 @@ class NoLocationSavedWidget extends StatelessWidget {
                     onOkPressed: () async {
                       Location location = new Location();
 
-                      Map currentLocation = Map();
+                      Map<String, double> currentLocation = Map();
 
                       try {
-                        currentLocation = await location.getLocation();
+                        LocationData data = await location.getLocation();
+                        currentLocation = {
+                          "latitude": data.latitude,
+                          "longitude": data.longitude,
+                        };
                       } on PlatformException catch (_) {
                         currentLocation = null;
                       }
