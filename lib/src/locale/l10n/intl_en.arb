@@ -105,8 +105,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "noEarthquakesNearby": "No earthquakes happened in the last 7 days in your zone.",
-  "@noEarthquakesNearby": {
+  "noEarthquakes": "No earthquakes happened in the last 7 days.",
+  "@noEarthquakes": {
     "type": "text",
     "placeholders": {}
   },

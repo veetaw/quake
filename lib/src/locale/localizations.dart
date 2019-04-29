@@ -134,9 +134,9 @@ class QuakeLocalizations {
         name: "noInternetConnection",
       );
 
-  String get noEarthquakesNearby => Intl.message(
-        "No earthquakes happened in the last 7 days in your zone.",
-        name: "noEarthquakesNearby",
+  String get noEarthquakes => Intl.message(
+        "No earthquakes happened in the last 7 days.",
+        name: "noEarthquakes",
       );
 
   // == SECTION nearby screen ==
@@ -308,6 +308,26 @@ class QuakeLocalizations {
   String get githubTileDescription => Intl.message(
         "looooong description",
         name: "githubTileDescription",
+      );
+
+  String unexpectedException(Object e) => Intl.message(
+        "Something really bad happened and I can't handle it.\nTechnical Details: ${e.toString()}",
+        name: "unexpectedException",
+      );
+
+  String get badResponse => Intl.message(
+        "Got bad response from the server, retry later.",
+        name: "badResponse",
+      );
+
+  String get malformedResponse => Intl.message(
+        "Bad news here, the server answered in a language that I don't speak. Please contact the developer and check for app updates.",
+        name: "malformedResponse",
+      );
+  
+  String get noResponse => Intl.message(
+        "Server did not respond, this might be a connection issue or a server issue. Try again later.",
+        name: "noResponse",
       );
 }
 

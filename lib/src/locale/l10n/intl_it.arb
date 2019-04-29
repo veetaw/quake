@@ -105,8 +105,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "noEarthquakesNearby": "Non è avvenuto nessun terremoto nella tua zona negli ultimi 7 giorni.",
-  "@noEarthquakesNearby": {
+  "noEarthquakes": "Non è avvenuto nessun terremoto negli ultimi 7 giorni.",
+  "@noEarthquakes": {
     "type": "text",
     "placeholders": {}
   },
