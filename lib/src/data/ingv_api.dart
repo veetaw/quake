@@ -62,7 +62,7 @@ class IngvAPI {
           "maxlat": (maxLatitude ?? 90).toString(),
           "minlon": (minLongitude ?? -180).toString(),
           "maxlon": (maxLongitude ?? 180).toString(),
-          "minversion": _kMinVersion,
+          "minversion": _kMinVersion, 
           "orderby": _kOrderBy,
           "format": _kFormat,
           "limit": _kLimit,
@@ -71,13 +71,13 @@ class IngvAPI {
     );
 
     /// no response, probably there's no connection
-    if (response == null) throw Exception('no response');
+    if (response == null) throw NoResponseException;
 
     /// server returned 204 no content because there are no earthquakes to return
-    if (response.statusCode == 204) throw Exception('no content');
+    if (response.statusCode == 204) throw NoContentException;
 
     /// response status is not ok
-    if (response.statusCode != 200) throw Exception('bad response');
+    if (response.statusCode != 200) throw BadResponseException(response.statusCode);
 
     var data = response.body.split('\n');
 
@@ -86,13 +86,13 @@ class IngvAPI {
     data.removeWhere((earthquake) => earthquake.isEmpty || earthquake == null);
 
     /// list empty after removing header
-    if (data.length == 0) throw Exception('no results');
+    if (data.length == 0) throw NoEarthquakesException;
 
     try {
       return data.map((earthquake) => Earthquake.fromText(earthquake)).toList();
     } catch (_) {
       /// something bad happened during parsing text
-      throw Exception('parse exception');
+      throw MalformedResponseException;
     }
   }
 
@@ -100,4 +100,24 @@ class IngvAPI {
   void dispose() {
     client.close();
   }
+}
+
+/// Server did not respond, maybe because it's down or because the connection of
+/// the phone dropped
+class NoResponseException implements Exception {}
+
+/// Server answered with 204 no content
+class NoContentException implements Exception {}
+
+/// There are no earthquakes to show
+class NoEarthquakesException implements Exception {}
+
+/// Bad response from the server
+class MalformedResponseException implements Exception {}
+
+/// Unknown response code from Server.
+class BadResponseException implements Exception {
+  final int statusCode;
+
+  BadResponseException(this.statusCode);
 }
