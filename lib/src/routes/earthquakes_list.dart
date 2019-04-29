@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:meta/meta.dart';
+import 'package:quake/src/data/ingv_api.dart';
 
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/model/earthquake_card.dart';
 import 'package:quake/src/model/earthquake_details.dart';
-import 'package:quake/src/model/loading.dart';
 import 'package:quake/src/model/error.dart';
+import 'package:quake/src/model/quake_builders.dart';
 
 class EarthquakesList extends StatelessWidget {
   final Stream<List<Earthquake>> stream;
@@ -26,68 +27,99 @@ class EarthquakesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return QuakeStreamBuilder<List<Earthquake>>(
       stream: stream,
-      builder: (context, snapshot) {
-        if (snapshot.data == null) return Loading();
-
-        if (snapshot.hasError) {
+      onError: (e) {
+        switch (e) {
+          case NoResponseException:
             return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).noEarthquakesNearby,
+              message: QuakeLocalizations.of(context).noResponse,
+              icon: Icons.sentiment_dissatisfied,
+            );
+          case NoContentException:
+            return QuakeErrorWidget(
+              message: QuakeLocalizations.of(context).noEarthquakes,
               icon: Icons.sentiment_very_satisfied,
             );
-        } else if (snapshot.hasData) {
-          if (snapshot.data.length == 0)
+          case NoEarthquakesException:
             return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).noEarthquakesNearby,
+              message: QuakeLocalizations.of(context).noEarthquakes,
               icon: Icons.sentiment_very_satisfied,
             );
-          else
-            return LiquidPullToRefresh(
-              onRefresh: onRefresh,
-              showChildOpacityTransition: false,
-              backgroundColor: Theme.of(context).accentColor,
-              color: Theme.of(context).canvasColor,
-              child: ListView.builder(
-                itemCount: snapshot.data?.length ?? 0,
-                itemBuilder: (
-                  BuildContext context,
-                  int index,
-                ) =>
-                    EarthquakeCard(
-                      earthquake: snapshot.data[index],
-                      onTap: () => Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => EarthquakeDetails(
-                                    earthquake: snapshot.data[index],
-                                  ),
-                              transitionsBuilder: (
-                                BuildContext context,
-                                Animation animation,
-                                Animation secondaryAnimation,
-                                Widget child,
-                              ) =>
-                                  SlideTransition(
-                                    position: Tween<Offset>(
-                                      begin: Offset(0, 1),
-                                      end: Offset.zero,
-                                    ).animate(animation),
-                                    child: SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: Offset.zero,
-                                        end: Offset(1, 0),
-                                      ).animate(secondaryAnimation),
-                                      child: child,
-                                    ),
-                                  ),
-                            ),
-                          ),
-                    ),
-              ),
+          case MalformedResponseException:
+            return QuakeErrorWidget(
+              message: QuakeLocalizations.of(context).malformedResponse,
+              icon: Icons.sentiment_dissatisfied,
+            );
+          case BadResponseException:
+            return QuakeErrorWidget(
+              message: QuakeLocalizations.of(context).badResponse,
+              icon: Icons.sentiment_dissatisfied,
+            );
+          default:
+            // unexpected exception happened here
+            return QuakeErrorWidget(
+              message: QuakeLocalizations.of(context).unexpectedException(e),
+              icon: Icons.sentiment_dissatisfied,
             );
         }
-        return Loading();
       },
+      builder: (context, list) {
+        return (list ?? []).length != 0
+            ? LiquidPullToRefresh(
+                onRefresh: onRefresh,
+                showChildOpacityTransition: false,
+                backgroundColor: Theme.of(context).accentColor,
+                color: Theme.of(context).canvasColor,
+                child: ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (
+                    BuildContext context,
+                    int index,
+                  ) =>
+                      EarthquakeCard(
+                        earthquake: list[index],
+                        onTap: () => _startNewPage(
+                              context,
+                              list[index],
+                            ),
+                      ),
+                ),
+              )
+            : QuakeErrorWidget(
+                message: QuakeLocalizations.of(context).noEarthquakes,
+                icon: Icons.sentiment_very_satisfied,
+              );
+      },
+    );
+  }
+
+  void _startNewPage(BuildContext context, Earthquake earthquake) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => EarthquakeDetails(
+              earthquake: earthquake,
+            ),
+        transitionsBuilder: (
+          BuildContext context,
+          Animation animation,
+          Animation secondaryAnimation,
+          Widget child,
+        ) =>
+            SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset(0, 1),
+                end: Offset.zero,
+              ).animate(animation),
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: Offset(1, 0),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
+            ),
+      ),
     );
   }
 }
