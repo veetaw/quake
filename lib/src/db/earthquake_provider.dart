@@ -88,7 +88,8 @@ class EarthquakePersistentCacheProvider {
   /// (Just a wrapper over [addEarthquakes()])
   void addEarthquakes({@required List<Earthquake> earthquakes}) {
     if (earthquakes == null || earthquakes.isEmpty)
-      throw Exception('null_earthquake');
+      // throw Exception('null_earthquake');
+      return;
 
     earthquakes.forEach((e) async => await addEarthquake(earthquake: e));
   }
