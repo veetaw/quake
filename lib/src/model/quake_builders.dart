@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
 
-import 'package:quake/src/utils/quake_error.dart';
-
 /// This function is called when loading data.
 typedef LoadingCallback = Widget Function();
 
 /// This function is called when occurred an error (details inside [error]).
-typedef ErrorCallback = Widget Function(QuakeError error);
+typedef ErrorCallback = Widget Function(Object error);
 
 /// This function is called to build the child.
 ///
@@ -31,6 +29,7 @@ abstract class QuakeBuilderBase<T> {
   final QuakeBuilderType<T> builder;
 
   QuakeBuilderBase(this.onLoading, this.onError, this.builder);
+
   Widget build(BuildContext context);
 }
 
@@ -50,7 +49,8 @@ abstract class QuakeBuilderBase<T> {
 ///   builder: (context, data) => Text(data.toString()),
 /// )
 /// ```
-class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilderBase<T> {
+class QuakeStreamBuilder<T> extends StatelessWidget
+    implements QuakeBuilderBase<T> {
   /// The stream where the data will flow.
   final Stream<T> stream;
 
@@ -90,18 +90,13 @@ class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilderBase<
       initialData: initialData,
       builder: (context, snapshot) {
         // an error occurred so call onError
-        if (snapshot.hasError)
-          return onError != null
-              ? onError(
-                  QuakeError(snapshot.error.toString()) ??
-                      const QuakeError.unknown(),
-                )
-              : Container();
+        if (snapshot.hasError) 
+          return onError != null ? onError(snapshot.error) : Container();
         // stream doesn't have data yet
         if (!snapshot.hasData)
           return onLoading != null
               ? onLoading()
-              : const CircularProgressIndicator();
+              : Center(child: CircularProgressIndicator());
 
         // got data with no errors, so the widget is ready to call the builder
         return builder(context, snapshot.data);
@@ -126,7 +121,8 @@ class QuakeStreamBuilder<T> extends StatelessWidget implements QuakeBuilderBase<
 ///   builder: (context, data) => Text(data.toString()),
 /// )
 /// ```
-class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilderBase<T> {
+class QuakeFutureBuilder<T> extends StatelessWidget
+    implements QuakeBuilderBase<T> {
   /// The [Future] of type [T] that will return the data asyncronously
   final Future<T> future;
 
@@ -165,12 +161,7 @@ class QuakeFutureBuilder<T> extends StatelessWidget implements QuakeBuilderBase<
       builder: (context, snapshot) {
         // the snapshot has an error, so call the onError function
         if (snapshot.hasError)
-          return onError != null
-              ? onError(
-                  QuakeError(snapshot.error.toString()) ??
-                      const QuakeError.unknown(),
-                )
-              : Container();
+          return onError != null ? onError(snapshot.error) : Container();
         // the snapshot has a connection active and no data, so it's still loading
         if (!snapshot.hasData)
           return onLoading != null
