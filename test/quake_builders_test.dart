@@ -203,7 +203,7 @@ class TestStreamWidget extends StatelessWidget {
         body: QuakeStreamBuilder<String>(
           stream: streamController.stream,
           initialData: initialData,
-          onError: handleCallbacks ? (QuakeError error) => Text('error') : null,
+          onError: handleCallbacks ? (Object error) => Text('error') : null,
           onLoading: handleCallbacks ? () => Text('loading') : null,
           builder: (context, data) {
             return Text(data);
@@ -234,7 +234,7 @@ class TestFutureWidget extends StatelessWidget {
         body: QuakeFutureBuilder<String>(
           future: future,
           initialData: initialData,
-          onError: handleCallbacks ? (QuakeError error) => Text('error') : null,
+          onError: handleCallbacks ? (Object error) => Text('error') : null,
           onLoading: handleCallbacks ? () => Text('loading') : null,
           builder: (context, data) {
             return Text(data);
