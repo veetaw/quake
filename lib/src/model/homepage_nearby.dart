@@ -45,13 +45,16 @@ class _HomePageNearbyState extends State<HomePageNearby> {
     }
 
     // create a "bounding box" to check for earthquakes in a circle of 40km radius
-    Map newCoordMin = kmOffsetToLatitudeOffset(-40, -40, location);
-    Map newCoordMax = kmOffsetToLatitudeOffset(40, 40, location);
+    Map newCoordMin = kmOffsetToLatitudeOffset(-30, -30, location);
+    Map newCoordMax = kmOffsetToLatitudeOffset(30, 30, location);
     SearchOptions options = SearchOptions(
       minLatitude: newCoordMin["latitude"],
       maxLatitude: newCoordMax["latitude"],
       minLongitude: newCoordMin["longitude"],
-      maxLongitude: newCoordMax["latitude"],
+      maxLongitude: newCoordMax["longitude"],
+      startTime: DateTime.now().subtract(Duration(
+        days: 15,
+      )),
     );
 
     earthquakesBloc.search(options: options);
@@ -162,7 +165,7 @@ Map<String, double> getLocation() {
   );
 
   location["longitude"] = quakeSharedPreferences.getValue<double>(
-    key: QuakeSharedPreferencesKey.latitude,
+    key: QuakeSharedPreferencesKey.longitude,
   );
 
   return location;

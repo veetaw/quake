@@ -24,9 +24,9 @@ class _HomePageAllState extends State<HomePageAll> {
 
     return Container(
       child: EarthquakesList(
-          stream: earthquakesBloc.earthquakes,
-          onRefresh: () async => earthquakesBloc.fetchData(force: true),
-        ),
+        stream: earthquakesBloc.earthquakes,
+        onRefresh: () async => earthquakesBloc.fetchData(force: true),
+      ),
     );
   }
 }
