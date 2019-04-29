@@ -25,27 +25,31 @@ class EarthquakesBloc extends BlocBase {
 
   /// Instance of [QuakeSharedPreferences] used to access some keys.
   QuakeSharedPreferences _quakeSharedPreferences = QuakeSharedPreferences();
-  
+
   /// Instance of [EarthquakePersistentCacheProvider] used to access the database.
   EarthquakePersistentCacheProvider _earthquakePersistentCacheProvider =
       EarthquakePersistentCacheProvider();
 
   /// exposes [_streamController]'s stream
   Stream get earthquakes => _streamController.stream;
-  
+
   /// exposes [_searchController]'s stream;
   Stream get searchedEarthquakes => _searchController.stream;
 
   /// This *must* be called before using every method of this class, otherwise it
   /// will result in a crash.
   Future initializeCacheDatabase() async =>
-    await _earthquakePersistentCacheProvider.open('quake_test.db');
+      await _earthquakePersistentCacheProvider.open('quake_test.db');
+
+  /// Since it's useless for me to cache nearby earthquakes permanently, I cache
+  /// only temporarly
+  static List<Earthquake> _nearbyCache = List();
 
   /// Fetches data from the API using the default options
   ///
   /// The parameter [source] defines the API where to fetch the data, it actually
   /// defaults to the only source available: [EarthquakesListSource.ingv].
-  /// The app doesn't fetch new earthquakes if the last fetch was made less than 
+  /// The app doesn't fetch new earthquakes if the last fetch was made less than
   /// [QuakeSharedPreferencesKey.fetchUpdatesDelta] milliseconds ago, but you can
   /// force-fetch new data using the parameter [force]. Avoid force-fetching too
   /// many times because it's slow, set [force] to true only if this function is
@@ -70,12 +74,16 @@ class EarthquakesBloc extends BlocBase {
 
     switch (source) {
       case EarthquakesListSource.ingv:
-        if (!force && lastFetchTimestamp == null ||
+        if (force ||
+            lastFetchTimestamp == null ||
             actualTimeMs - lastFetchTimestamp >= deltaTime) {
           IngvAPI _api = IngvAPI();
-
-          _data = await _api.getData();
-
+          try {
+            _data = await _api.getData();
+          } catch (e) {
+            _streamController.sink.addError(e);
+            return;
+          }
           // clear cache before saving new data to avoid DB getting bigger and bigger
           await _earthquakePersistentCacheProvider.dropCache();
           _earthquakePersistentCacheProvider.addEarthquakes(earthquakes: _data);
@@ -92,47 +100,68 @@ class EarthquakesBloc extends BlocBase {
         _streamController.sink.addError(UnknownSourceException);
         break;
     }
-    
+
     // finally push data through the stream
-    _streamController.sink.add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
+    _streamController.sink
+        .add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
   }
 
-
   /// Fetch earthquakes by passing options
-  /// 
+  ///
   /// See [SearchOptions] to understand what [options] can be set.
   /// See [fetchData] for [source]
   Future search({
     @required SearchOptions options,
     EarthquakesListSource source: EarthquakesListSource.ingv,
+    bool force: false,
   }) async {
     List<Earthquake> _data = List();
-    if(options.isEmpty) return _searchController.sink.addError(EmptySearchOptionsException);
 
-    switch (source) {
-      case EarthquakesListSource.ingv:
-        IngvAPI _api = IngvAPI();
+    if (options.isEmpty)
+      return _searchController.sink.addError(EmptySearchOptionsException);
 
-        _data = await _api.getData(
-          startTime: options.startTime,
-          endTime: options.endTime,
-          minMagnitude: options.minMagnitude,
-          maxDepth: options.maxDepth,
-          maxMagnitude: options.maxMagnitude,
-          minDepth: options.minDepth,
-          minLatitude: options.minLatitude,
-          maxLatitude: options.maxLatitude,
-          maxLongitude: options.maxLongitude,
-          minLongitude: options.minLongitude,
-        ).catchError((_) => _data = []); // TODO_ BAD HANDLING
+    if (force || _nearbyCache.length == 0) {
+      switch (source) {
+        case EarthquakesListSource.ingv:
+          IngvAPI _api = IngvAPI();
 
-        break;
-      default:
-        _streamController.sink.addError(UnknownSourceException);
-        break;
+          try {
+            _data = await _api.getData(
+              startTime: options.startTime,
+              endTime: options.endTime,
+              minMagnitude: options.minMagnitude,
+              maxMagnitude: options.maxMagnitude,
+              minDepth: options.minDepth,
+              maxDepth: options.maxDepth,
+              minLatitude: options.minLatitude,
+              maxLatitude: options.maxLatitude,
+              minLongitude: options.minLongitude,
+              maxLongitude: options.maxLongitude,
+            );
+          } catch (e) {
+            _searchController.sink.addError(e);
+            return;
+          }
+
+          // force is true on search not nearby, so don't cache search
+          if (!force) {
+            _nearbyCache = _data;
+          }
+
+          break;
+        default:
+          _searchController.sink.addError(UnknownSourceException);
+          break;
+      }
+    } else {
+      // HACK
+      await Future.delayed(Duration(microseconds: 1));
+
+      _data = _nearbyCache;
     }
 
-    _searchController.sink.add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
+    _searchController.sink
+        .add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
   }
 
   /// Close the streams
