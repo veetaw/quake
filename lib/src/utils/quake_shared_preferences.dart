@@ -46,6 +46,12 @@ class QuakeSharedPreferencesKey {
   /// 
   /// Same as [latitude]
   static get longitude => "longitude";
+
+  /// This key contains a enum key that represents the map tiles provider
+  /// 
+  /// It should be a [String] and it should contain a .toString of the enum
+  /// key ([MapStyles]).
+  static get mapTilesProvider => "mapTilesProvider";
 }
 
 /// This class is a helper for [SharedPreferences].
