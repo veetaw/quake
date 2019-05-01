@@ -79,7 +79,7 @@ class EarthquakesList extends StatelessWidget {
                   ) =>
                       EarthquakeCard(
                         earthquake: list[index],
-                        onTap: () => _startNewPage(
+                        onTap: () => startDetailPage(
                               context,
                               list[index],
                             ),
@@ -93,33 +93,33 @@ class EarthquakesList extends StatelessWidget {
       },
     );
   }
+}
 
-  void _startNewPage(BuildContext context, Earthquake earthquake) {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => EarthquakeDetails(
-              earthquake: earthquake,
-            ),
-        transitionsBuilder: (
-          BuildContext context,
-          Animation animation,
-          Animation secondaryAnimation,
-          Widget child,
-        ) =>
-            SlideTransition(
+void startDetailPage(BuildContext context, Earthquake earthquake) {
+  Navigator.of(context).push(
+    PageRouteBuilder(
+      pageBuilder: (_, __, ___) => EarthquakeDetails(
+            earthquake: earthquake,
+          ),
+      transitionsBuilder: (
+        BuildContext context,
+        Animation animation,
+        Animation secondaryAnimation,
+        Widget child,
+      ) =>
+          SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(0, 1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: SlideTransition(
               position: Tween<Offset>(
-                begin: Offset(0, 1),
-                end: Offset.zero,
-              ).animate(animation),
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: Offset.zero,
-                  end: Offset(1, 0),
-                ).animate(secondaryAnimation),
-                child: child,
-              ),
+                begin: Offset.zero,
+                end: Offset(1, 0),
+              ).animate(secondaryAnimation),
+              child: child,
             ),
-      ),
-    );
-  }
+          ),
+    ),
+  );
 }
