@@ -52,9 +52,6 @@ class _HomePageNearbyState extends State<HomePageNearby> {
       maxLatitude: newCoordMax["latitude"],
       minLongitude: newCoordMin["longitude"],
       maxLongitude: newCoordMax["longitude"],
-      startTime: DateTime.now().subtract(Duration(
-        days: 15,
-      )),
     );
 
     earthquakesBloc.search(options: options);
@@ -122,9 +119,9 @@ class NoLocationSavedWidget extends StatelessWidget {
                       }
                       if (currentLocation != null) {
                         _saveLocation(currentLocation);
+                        Navigator.pop(context);
                         callback();
                       }
-                      Navigator.pop(context);
                     },
                   ),
                   dismissible: true,
