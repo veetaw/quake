@@ -269,9 +269,10 @@ class MapProviderDialog extends StatelessWidget {
   MapStyles _getCurrentProvider() {
     String rawTemplateEnumString = quakeSharedPreferences.getValue<String>(
       key: QuakeSharedPreferencesKey.mapTilesProvider,
+      defaultValue: MapStyles.base.toString(),
     );
 
-    return getMapStyleByString(rawTemplateEnumString) ?? MapStyles.base;
+    return getMapStyleByString(rawTemplateEnumString);
   }
 
   void _saveProvider(int value) {
@@ -328,6 +329,7 @@ class UnitOfMeasurementDialog extends StatelessWidget {
   UnitOfMeasurement _getUnitOfMeasurementFromSharedPrefs() {
     var _rawStr = quakeSharedPreferences.getValue<String>(
       key: QuakeSharedPreferencesKey.unitOfMeasurement,
+      defaultValue: UnitOfMeasurement.kilometers.toString(),
     );
     return UnitOfMeasurementConversion.unitOfMeasurementFromString(_rawStr);
   }
