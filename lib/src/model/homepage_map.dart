@@ -70,6 +70,7 @@ class _EarthquakeMapState extends State<EarthquakeMap>
     final TileLayerOptions tileLayerOptions = TileLayerOptions(
       urlTemplate: _getTemplateUrl(),
       subdomains: ['a', 'b', 'c'],
+      backgroundColor: Theme.of(context).backgroundColor,
     );
 
     final MapOptions options = MapOptions(
