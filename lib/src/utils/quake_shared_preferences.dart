@@ -7,60 +7,66 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// TODO(REFACTOR): ALL KEYS SHOULD BE ADDED
 class QuakeSharedPreferencesKey {
   /// This key is used to check if the user has already opened the app before.
-  /// 
+  ///
   /// It should be a [bool] and it should be set to true only after the user
   /// has finished the intro at [LandingPage].
   static get firstTime => "firstTime";
 
   /// This key is used to save the app's theme from settings.
-  /// 
+  ///
   /// It should be a [String] and must only assume the values
   /// of the keys of [_themes] inside [ThemeProvider].
   static get theme => "theme";
 
   /// This keys is used to prevent fetching data from server multiple times
   /// in a short timestamp.
-  /// 
+  ///
   /// It should be a [int] and it should represent the unix timestamp of the
   /// last time the app has fetched earthquakes from the server.
   static get lastEarthquakesFetch => "lastEarthquakesFetch";
 
   /// This key stores the time delta between new queries to the api
-  /// 
+  ///
   /// It should be a [int] and it should represent a time delta expressed
   /// in milliseconds, for example two minutes are 2*60000 = 120000 ms.
   static get fetchUpdatesDelta => "fetchUpdatesDelta";
 
   /// This key is set to true if the user gave location permission
-  /// 
+  ///
   /// It should be a [bool].
   static get hasLocationSaved => "hasLocationSaved";
 
   /// This key contains the latitude of the user
-  /// 
+  ///
   /// It should be a [double] and it should be set after the user
   /// gave the permission.
   static get latitude => "latitude";
 
   /// This key contains the longitude of the user
-  /// 
+  ///
   /// Same as [latitude]
   static get longitude => "longitude";
 
   /// This key contains a enum key that represents the map tiles provider
-  /// 
+  ///
   /// It should be a [String] and it should contain a .toString of the enum
   /// key ([MapStyles]).
   static get mapTilesProvider => "mapTilesProvider";
+
+  /// This key contains a enum key that represents the current unit of distance
+  ///
+  /// It should be a [String] and it should contain a .toString of the enum
+  /// key ([UnitOfMeasurement]).
+  static get unitOfMeasurement => "unitOfMeasurement";
 }
 
 /// This class is a helper for [SharedPreferences].
 class QuakeSharedPreferences {
   /// Returns the instance of [QuakeSharedPreferences]
   static QuakeSharedPreferences _instance = QuakeSharedPreferences._();
-  
+
   QuakeSharedPreferences._();
-  
+
   /// Contains and initializes a singleton of [QuakeSharedPreferences]
   factory QuakeSharedPreferences() => _instance;
 
