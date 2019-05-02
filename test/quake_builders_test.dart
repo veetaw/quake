@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:quake/src/model/quake_builders.dart';
-import 'package:quake/src/utils/quake_error.dart';
 
 main() {
   StreamController<String> streamController = StreamController.broadcast();

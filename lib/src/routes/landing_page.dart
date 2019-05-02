@@ -120,15 +120,8 @@ class _LandingPageState extends State<LandingPage> {
             }),
       ),
     );
-
-    @override
-    void dispose() {
-      pageStreamController.close();
-      super.dispose();
-    }
   }
 
-  // TODO: REFACTOR
   void _closeLandingPage(BuildContext context) async {
     // set firstTime var to false so the next time the main will not launch landing page
     (await SharedPreferences.getInstance()).setBool("firstTime", false);
@@ -152,6 +145,12 @@ class _LandingPageState extends State<LandingPage> {
         ),
         onPressed: onPressed,
       );
+
+      @override
+      void dispose() {
+        pageStreamController.close();
+        super.dispose();
+      }
 }
 
 /// This represents a page of the initial introuction to the app

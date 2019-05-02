@@ -1,5 +1,3 @@
-// TODO(REFACTOR): move all exceptions here
-
 class QuakeError {
   const QuakeError(this.message);
 
