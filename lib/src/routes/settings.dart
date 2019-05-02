@@ -177,14 +177,11 @@ class Settings extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).bottomAppBarColor,
       brightness: Theme.of(context)
           .brightness, // make status bar icons dark or light depending on the brightness
       centerTitle: Theme.of(context).platform ==
           TargetPlatform.iOS, // center title if running on ios
       primary: true,
-      iconTheme: Theme.of(context).iconTheme,
-      textTheme: Theme.of(context).textTheme,
       elevation: 2,
       title: Text(
         QuakeLocalizations.of(context).settings,
@@ -316,13 +313,14 @@ class UnitOfMeasurementDialog extends StatelessWidget {
 
   Future<int> _getUnitOfMeasurementFromSharedPrefs() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getInt("unitOfMeasurement") ?? 0;
+    var _rawStr = sharedPreferences.getString("unitOfMeasurement");
+    return UnitOfMeasurementConversion.unitOfMeasurementFromString(_rawStr).index;
   }
 
   void _saveUnitOfMeasurementToSharedPrefs(int value) async {
     valuesStream.sink.add(value);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setInt("unitOfMeasurement", value);
+    sharedPreferences.setString("unitOfMeasurement", UnitOfMeasurement.values[value].toString());
   }
 
   void dispose() {

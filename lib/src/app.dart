@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:connectivity/connectivity.dart';
 
 import 'package:quake/src/bloc/home_page_screen_bloc.dart';
-import 'package:quake/src/bloc/bloc_provider.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/homepage_all.dart';
 import 'package:quake/src/model/homepage_map.dart';
@@ -109,14 +108,11 @@ class Home extends StatelessWidget {
   /// When [iconsEnabled] is true the icons are clickable (used by [_handleNoConnection]).
   AppBar _buildAppBar(BuildContext context, {bool iconsEnabled = true}) {
     return AppBar(
-      backgroundColor: Theme.of(context).bottomAppBarColor,
       brightness: Theme.of(context)
           .brightness, // make status bar icons dark or light depending on the brightness
       centerTitle: Theme.of(context).platform ==
           TargetPlatform.iOS, // center title if running on ios
       primary: true,
-      iconTheme: Theme.of(context).iconTheme,
-      textTheme: Theme.of(context).textTheme,
       title: Text(QuakeLocalizations.of(context).title),
       elevation: _kAppBarElevation,
       actions: <Widget>[
