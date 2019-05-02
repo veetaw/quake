@@ -288,13 +288,18 @@ class QuakeLocalizations {
         name: "depthSettingsTile",
       );
 
+  String get mapProviderSettingsTile => Intl.message(
+        "Map Provider",
+        name: "mapProviderSettingsTile",
+      );
+
   String get notificationsSettingsTile => Intl.message(
         "that's definitely a TODO.",
         name: "notificationsSettingsTile",
       );
 
   String get specialThanksTile => Intl.message(
-        "that's a TODO too (doo).",
+        "Contributors",
         name: "specialThanksTile",
       );
 
@@ -314,12 +319,12 @@ class QuakeLocalizations {
       );
 
   String get githubTileTitle => Intl.message(
-        "Github link",
+        "Contribute to Quake",
         name: "githubTileTitle",
       );
 
   String get githubTileDescription => Intl.message(
-        "looooong description",
+        "Quake is an open source project, PRs with your additions are welcome. If you are having any issues check the issue tracker",
         name: "githubTileDescription",
       );
 
@@ -341,6 +346,34 @@ class QuakeLocalizations {
   String get noResponse => Intl.message(
         "Server did not respond, this might be a connection issue or a server issue. Try again later.",
         name: "noResponse",
+      );
+
+  String theme(String supportedTheme) {
+    switch(supportedTheme) {
+      case "light":
+        return light;
+      case "dark":
+        return dark;
+      case "indigoLight":
+        return indigoLight;
+      default:
+        return "unknown";
+    }
+  }
+
+  String get light => Intl.message(
+        "Light",
+        name: "light",
+      );
+
+  String get dark => Intl.message(
+        "Dark",
+        name: "dark",
+      );
+
+  String get indigoLight => Intl.message(
+        "Indigo Light",
+        name: "indigoLight",
       );
 }
 
