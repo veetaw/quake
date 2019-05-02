@@ -1,29 +1,50 @@
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter/material.dart' hide VerticalDivider;
+
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:quake/src/model/quake_builders.dart';
+import 'package:quake/src/utils/map_url.dart';
+import 'package:quake/src/utils/quake_shared_preferences.dart';
+import 'package:quake/src/utils/unit_of_measurement_conversion.dart';
+import 'package:timeago/timeago.dart';
+import 'package:share/share.dart';
+
 import 'package:quake/src/data/osm_nominatim.dart';
 import 'package:quake/src/data/population.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
-import 'package:quake/src/model/vertical_divider.dart'
-    as vd; // to ignore ambiguos import
-import 'package:quake/src/themes/quake_icons.dart';
-import 'package:share/share.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:quake/src/model/vertical_divider.dart';
+
+final QuakeSharedPreferences quakeSharedPreferences = QuakeSharedPreferences();
 
 class EarthquakeDetails extends StatelessWidget {
   static const routeName = '/details';
 
   final Earthquake earthquake;
 
-  const EarthquakeDetails({Key key, this.earthquake}) : super(key: key);
+  const EarthquakeDetails({
+    Key key,
+    this.earthquake,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     const double paddingBetween = 10;
+    final TileLayerOptions tileLayerOptions = TileLayerOptions(
+      urlTemplate: _getTemplateUrl(),
+      subdomains: ['a', 'b', 'c'],
+    );
+
+    UnitOfMeasurement currentUnitOfMeasurement =
+        UnitOfMeasurementConversion.unitOfMeasurementFromString(
+      quakeSharedPreferences.getValue<String>(
+        key: QuakeSharedPreferencesKey.unitOfMeasurement,
+        defaultValue: UnitOfMeasurement.kilometers.toString(),
+      ),
+    );
 
     return Scaffold(
       appBar: _buildAppBar(context),
@@ -34,34 +55,7 @@ class EarthquakeDetails extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height / 2 - 56,
-              child: FlutterMap(
-                options: MapOptions(
-                  center: LatLng(earthquake.latitude, earthquake.longitude),
-                  zoom: 8.0,
-                  interactive: false,
-                ),
-                layers: [
-                  TileLayerOptions(
-                    urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'],
-                  ),
-                  MarkerLayerOptions(
-                    markers: [
-                      Marker(
-                        point:
-                            LatLng(earthquake.latitude, earthquake.longitude),
-                        builder: (BuildContext context) {
-                          return FlareActor(
-                            "assets/flare/pulse.flr",
-                            animation: "final animation",
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              child: _buildStaticMap(tileLayerOptions),
             ),
             Expanded(
               child: Row(
@@ -85,9 +79,19 @@ class EarthquakeDetails extends StatelessWidget {
                         _buildLeftTile(
                           context,
                           paddingBetween,
-                          earthquake.depth.toString(),
-                          QuakeLocalizations.of(context).depth,
-                        )
+                          // convert depth to the current unit of measurement.
+                          UnitOfMeasurementConversion.convertTo(
+                            kmValue: earthquake.depth,
+                            unit: currentUnitOfMeasurement,
+                          ).toString(),
+                          QuakeLocalizations.of(context).depth +
+                              " (" +
+                              QuakeLocalizations.of(context).unitOfMeasurement(
+                                currentUnitOfMeasurement,
+                                short: true,
+                              ) +
+                              ")",
+                        ),
                       ],
                     ),
                   ),
@@ -96,8 +100,7 @@ class EarthquakeDetails extends StatelessWidget {
                       vertical: 16.0,
                       horizontal: 16.0,
                     ),
-                    child: vd.VerticalDivider(
-                      // divider
+                    child: VerticalDivider(
                       width: 2,
                       height: MediaQuery.of(context).size.height / 2,
                       color: Theme.of(context).dividerColor,
@@ -111,48 +114,44 @@ class EarthquakeDetails extends StatelessWidget {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            FutureBuilder(
-                              future: initializeDateFormatting(
-                                QuakeLocalizations.localeCode,
-                                null,
-                              ),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState !=
-                                    ConnectionState.done)
-                                  return Container(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                return _buildRightTile(
-                                  context,
-                                  paddingBetween,
-                                  Icons.access_time,
-                                  DateFormat.yMMMMd()
-                                      .format(earthquake.time)
-                                      .toString(),
-                                  DateFormat.Hm()
-                                      .format(earthquake.time)
-                                      .toString(),
-                                );
-                              },
+                            _buildRightTile(
+                              context,
+                              paddingBetween,
+                              Icons.access_time,
+                              DateFormat.yMMMMd()
+                                  .format(earthquake.time)
+                                  .toString(),
+                              DateFormat.Hm()
+                                  .format(earthquake.time)
+                                  .toString(),
                             ),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: paddingBetween,
                               ),
                             ),
-                            FutureBuilder(
+                            QuakeFutureBuilder<Map>(
                                 future: OpenStreetMapNominatim().reverseGeo(
                                   latitude: earthquake.latitude,
                                   longitude: earthquake.longitude,
                                   language: QuakeLocalizations.localeCode,
                                 ),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData && !snapshot.hasError)
-                                    return Container(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  if (snapshot.hasError ||
-                                      snapshot.data["error"] != null)
+                                onError: (_) => _buildRightTile(
+                                      context,
+                                      paddingBetween,
+                                      Icons.location_on,
+                                      earthquake.eventLocationName,
+                                      "",
+                                    ),
+                                onLoading: () => _buildRightTile(
+                                      context,
+                                      paddingBetween,
+                                      Icons.location_on,
+                                      earthquake.eventLocationName,
+                                      "",
+                                    ),
+                                builder: (context, data) {
+                                  if (data == null || data["address"] == null)
                                     return _buildRightTile(
                                       context,
                                       paddingBetween,
@@ -160,17 +159,18 @@ class EarthquakeDetails extends StatelessWidget {
                                       earthquake.eventLocationName,
                                       "",
                                     );
+
                                   return _buildRightTile(
                                     context,
                                     paddingBetween,
                                     Icons.location_on,
                                     // good game osm for consistency ...
-                                    snapshot.data["address"]["village"] ??
-                                        snapshot.data["address"]["town"] ??
-                                        snapshot.data["address"]["city"] ??
-                                        snapshot.data["address"]["hamlet"] ??
-                                        snapshot.data["display_name"],
-                                    snapshot.data["address"]["country"],
+                                    data["address"]["village"] ??
+                                        data["address"]["town"] ??
+                                        data["address"]["city"] ??
+                                        data["address"]["hamlet"] ??
+                                        data["display_name"],
+                                    data["address"]["country"],
                                   );
                                 }),
                             Padding(
@@ -178,41 +178,34 @@ class EarthquakeDetails extends StatelessWidget {
                                 top: paddingBetween,
                               ),
                             ),
-                            FutureBuilder(
+                            QuakeFutureBuilder<Map>(
                               future: getPopulationByCoordinates(
                                 latitude: earthquake.latitude,
                                 longitude: earthquake.longitude,
                               ),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData && !snapshot.hasError)
-                                  return _buildRightTile(
+                              onLoading: () => _buildRightTile(
                                     context,
                                     paddingBetween,
                                     Icons.people,
                                     QuakeLocalizations.of(context)
                                         .peopleInvolved,
-                                    "loading..", // TODO:
-                                  );
-                                if (snapshot.hasError ||
-                                    snapshot.data["results"][0]["value"]
-                                            ["resultCode"] !=
-                                        0)
-                                  return _buildRightTile(
+                                    "...",
+                                  ),
+                              onError: (_) => _buildRightTile(
                                     context,
                                     paddingBetween,
                                     Icons.people,
                                     QuakeLocalizations.of(context)
                                         .peopleInvolved,
-                                    "not available", // TODO:
-                                  );
-
+                                    "0",
+                                  ),
+                              builder: (context, data) {
                                 return _buildRightTile(
                                   context,
                                   paddingBetween,
                                   Icons.people,
                                   QuakeLocalizations.of(context).peopleInvolved,
-                                  snapshot.data["results"][0]["value"]
-                                              ["estimates"]
+                                  data["results"][0]["value"]["estimates"]
                                           ["gpw-v4-population-count-rev10_2020"]
                                       ["SUM"],
                                 );
@@ -229,6 +222,33 @@ class EarthquakeDetails extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  FlutterMap _buildStaticMap(TileLayerOptions tileLayerOptions) {
+    return FlutterMap(
+      options: MapOptions(
+        center: LatLng(earthquake.latitude, earthquake.longitude),
+        zoom: 8.0,
+        interactive: false,
+      ),
+      layers: [
+        tileLayerOptions,
+        MarkerLayerOptions(
+          markers: [
+            Marker(
+              point: LatLng(earthquake.latitude, earthquake.longitude),
+              builder: (BuildContext context) {
+                return FlareActor(
+                  "assets/flare/pulse.flr",
+                  animation: "final animation",
+                  color: Theme.of(context).primaryColor,
+                );
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -296,7 +316,7 @@ class EarthquakeDetails extends StatelessWidget {
   ) =>
       SizedBox(
         width: double.infinity,
-        height: (MediaQuery.of(context).size.height / 2) / 3 - paddingBetween,
+        height: (MediaQuery.of(context).size.height / 2) / 2.5 - paddingBetween,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -304,7 +324,7 @@ class EarthquakeDetails extends StatelessWidget {
               title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 60,
+                fontSize: 50,
               ),
             ),
             Text(
@@ -320,14 +340,11 @@ class EarthquakeDetails extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).bottomAppBarColor,
       brightness: Theme.of(context)
           .brightness, // make status bar icons dark or light depending on the brightness
       centerTitle: Theme.of(context).platform ==
           TargetPlatform.iOS, // center title if running on ios
       primary: true,
-      iconTheme: Theme.of(context).iconTheme,
-      textTheme: Theme.of(context).textTheme,
       title: Text(QuakeLocalizations.of(context).earthquake),
       elevation: 0,
       automaticallyImplyLeading: true,
@@ -373,7 +390,7 @@ class EarthquakeDetails extends StatelessWidget {
                     locationName,
                     earthquake.magnitude.toString(),
                     country,
-                    timeago.format(
+                    format(
                       earthquake.time,
                       locale: QuakeLocalizations.localeCode,
                     ),
@@ -386,4 +403,12 @@ class EarthquakeDetails extends StatelessWidget {
       ],
     );
   }
+}
+
+String _getTemplateUrl() {
+  String rawTemplateEnumString = quakeSharedPreferences.getValue<String>(
+    key: QuakeSharedPreferencesKey.mapTilesProvider,
+  );
+
+  return getUrlByMapStyle(getMapStyleByString(rawTemplateEnumString));
 }
