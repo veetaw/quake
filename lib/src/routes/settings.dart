@@ -255,7 +255,8 @@ class MapProviderDialog extends StatelessWidget {
                 },
                 groupValue: data,
                 title: Text(
-                  MapStyles.values[index].toString(),
+                  QuakeLocalizations.of(context)
+                      .mapProvider(MapStyles.values[index]),
                 ),
               );
             },

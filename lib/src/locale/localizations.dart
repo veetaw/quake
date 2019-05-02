@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 import 'package:quake/src/locale/l10n/messages_all.dart';
+import 'package:quake/src/utils/map_url.dart';
 import 'package:quake/src/utils/unit_of_measurement_conversion.dart';
 
 /// https://flutter.io/docs/development/accessibility-and-localization/internationalization
@@ -282,6 +283,34 @@ class QuakeLocalizations {
         return short ? kilometersShort : kilometers;
     }
   }
+
+  String mapProvider(MapStyles style) {
+    switch (style) {
+      case MapStyles.base:
+        return baseMap;
+      case MapStyles.dark:
+        return darkMap;
+      case MapStyles.light:
+        return lightMap;
+      default:
+        return "unknown";
+    }
+  }
+
+  String get baseMap => Intl.message(
+        "Base map",
+        name: "baseMap",
+      );
+
+  String get darkMap => Intl.message(
+        "Dark map",
+        name: "darkMap",
+      );
+
+  String get lightMap => Intl.message(
+        "Light map",
+        name: "lightMap",
+      );
 
   String get depthSettingsTile => Intl.message(
         "Unit of measurement for depth",
