@@ -24,7 +24,8 @@ class BlocProvider extends StatefulWidget {
   _BlocProviderState createState() => _BlocProviderState();
 }
 
-class _BlocProviderState extends State<BlocProvider> with AutomaticKeepAliveClientMixin<BlocProvider> {
+class _BlocProviderState extends State<BlocProvider>
+    with AutomaticKeepAliveClientMixin<BlocProvider> {
   @override
   Widget build(BuildContext context) => widget.child;
 

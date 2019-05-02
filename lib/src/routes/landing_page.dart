@@ -127,6 +127,7 @@ class _LandingPageState extends State<LandingPage> {
       super.dispose();
     }
   }
+
   // TODO: REFACTOR
   void _closeLandingPage(BuildContext context) async {
     // set firstTime var to false so the next time the main will not launch landing page

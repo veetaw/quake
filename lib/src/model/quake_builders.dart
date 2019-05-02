@@ -90,7 +90,7 @@ class QuakeStreamBuilder<T> extends StatelessWidget
       initialData: initialData,
       builder: (context, snapshot) {
         // an error occurred so call onError
-        if (snapshot.hasError) 
+        if (snapshot.hasError)
           return onError != null ? onError(snapshot.error) : Container();
         // stream doesn't have data yet
         if (!snapshot.hasData)

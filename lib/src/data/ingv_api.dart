@@ -62,7 +62,7 @@ class IngvAPI {
           "maxlat": (maxLatitude ?? 90).toString(),
           "minlon": (minLongitude ?? -180).toString(),
           "maxlon": (maxLongitude ?? 180).toString(),
-          "minversion": _kMinVersion, 
+          "minversion": _kMinVersion,
           "orderby": _kOrderBy,
           "format": _kFormat,
           "limit": _kLimit,
@@ -77,7 +77,8 @@ class IngvAPI {
     if (response.statusCode == 204) throw NoContentException;
 
     /// response status is not ok
-    if (response.statusCode != 200) throw BadResponseException(response.statusCode);
+    if (response.statusCode != 200)
+      throw BadResponseException(response.statusCode);
 
     var data = response.body.split('\n');
 

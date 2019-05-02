@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:quake/src/bloc/bloc_provider.dart';
-import 'package:quake/src/bloc/earthquakes_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:timeago/timeago.dart';
 import 'package:connectivity/connectivity.dart';
 
 import 'package:quake/src/app.dart';
 import 'package:quake/src/bloc/theme_bloc.dart';
+import 'package:quake/src/bloc/bloc_provider.dart';
+import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/quake_builders.dart';
 import 'package:quake/src/routes/landing_page.dart';
@@ -86,6 +87,12 @@ main() async {
                 setLocaleMessages(
                   QuakeLocalizations.localeCode,
                   getLocaleStringsClass(QuakeLocalizations.localeCode),
+                );
+
+                // initialize dart's date formatter with the current locale code
+                initializeDateFormatting(
+                  QuakeLocalizations.localeCode,
+                  null,
                 );
 
                 return isFirstTime ? LandingPage() : Home();

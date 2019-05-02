@@ -8,9 +8,10 @@ abstract class HomePageScreenBase {
 }
 
 class HomePageScreenBloc extends BlocBase {
-  final StreamController<HomePageScreenBase> _stream = PublishSubject<HomePageScreenBase>();
+  final StreamController<HomePageScreenBase> _stream =
+      PublishSubject<HomePageScreenBase>();
   Stream<HomePageScreenBase> get pageStream => _stream.stream;
-  
+
   set page(HomePageScreenBase newPage) => _stream.sink.add(newPage);
 
   @override
