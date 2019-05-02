@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter/material.dart' hide VerticalDivider;
 import 'package:intl/intl.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/themes/quake_icons.dart';
-import 'package:quake/src/model/vertical_divider.dart'
-    as vd; // to ignore ambiguos import
+import 'package:quake/src/model/vertical_divider.dart';
+import 'package:quake/src/utils/quake_shared_preferences.dart';
+import 'package:quake/src/utils/unit_of_measurement_conversion.dart'; // to ignore ambiguos import
+
+final QuakeSharedPreferences quakeSharedPreferences = QuakeSharedPreferences();
 
 class EarthquakeCard extends StatelessWidget {
   final Earthquake earthquake;
@@ -16,7 +18,7 @@ class EarthquakeCard extends StatelessWidget {
     @required this.onTap,
   }) : assert(earthquake != null);
 
-  static const double _kCardHeight = 160;
+  // static const double _kCardHeight = 160;
   static const double _kCardElevation = 2;
   final ShapeBorder _kCardShape = RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(8.0),
@@ -57,19 +59,11 @@ class EarthquakeCard extends StatelessWidget {
                     vertical: _kPaddingBetweenText / 2,
                   ),
                 ),
-                FutureBuilder(
-                  future: initializeDateFormatting(
-                    QuakeLocalizations.localeCode,
-                    null,
-                  ),
-                  builder: (context, _) => _buildText(
-                        context: context,
-                        text: DateFormat.yMMMMd()
-                            .format(earthquake.time)
-                            .toString(),
-                        size: _kEarthquakeDateSize,
-                        weight: FontWeight.w300,
-                      ),
+                _buildText(
+                  context: context,
+                  text: DateFormat.yMMMMd().format(earthquake.time).toString(),
+                  size: _kEarthquakeDateSize,
+                  weight: FontWeight.w300,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -110,7 +104,6 @@ class EarthquakeCard extends StatelessWidget {
         text,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          // fontFamily: 'Roboto', TODO
           fontStyle: FontStyle.normal,
           fontSize: size,
           fontWeight: weight,
@@ -128,6 +121,22 @@ class _EarthquakeCardBottomInfos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UnitOfMeasurement currentUnitOfMeasurement =
+        UnitOfMeasurementConversion.unitOfMeasurementFromString(
+      quakeSharedPreferences.getValue<String>(
+        key: QuakeSharedPreferencesKey.unitOfMeasurement,
+        defaultValue: UnitOfMeasurement.kilometers.toString(),
+      ),
+    );
+
+    String _title = "${UnitOfMeasurementConversion.convertTo(
+      kmValue: earthquake.depth,
+      unit: currentUnitOfMeasurement,
+    ).toString()} ${QuakeLocalizations.of(context).unitOfMeasurement(
+      currentUnitOfMeasurement,
+      short: true,
+    )}";
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -136,9 +145,9 @@ class _EarthquakeCardBottomInfos extends StatelessWidget {
           subtitle: QuakeLocalizations.of(context).magnitude,
           icon: QuakeIcons.pulse,
         ),
-        vd.VerticalDivider(),
+        VerticalDivider(),
         _EarthquakeCardBottomTile(
-          title: "${earthquake.depth.toString()} Km",
+          title: _title,
           subtitle: QuakeLocalizations.of(context).depth,
           icon: QuakeIcons.earth,
         ),
@@ -173,7 +182,6 @@ class _EarthquakeCardBottomTile extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  // fontFamily: 'Roboto', TODO
                   fontStyle: FontStyle.normal,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -183,7 +191,6 @@ class _EarthquakeCardBottomTile extends StatelessWidget {
               Text(
                 subtitle.toUpperCase(),
                 style: TextStyle(
-                  // fontFamily: 'Roboto', TODO
                   fontStyle: FontStyle.normal,
                   fontSize: 12,
                   fontWeight: FontWeight.w300,
