@@ -257,16 +257,29 @@ class QuakeLocalizations {
         name: "miles",
       );
 
-  String unitOfMeasurement(UnitOfMeasurement unit) {
+  String get metersShort => Intl.message(
+        "m",
+        name: "metersShort",
+      );
+  String get kilometersShort => Intl.message(
+        "km",
+        name: "kilometersShort",
+      );
+  String get milesShort => Intl.message(
+        "mi",
+        name: "milesShort",
+      );
+
+  String unitOfMeasurement(UnitOfMeasurement unit, {bool short: false}) {
     switch (unit) {
       case UnitOfMeasurement.kilometers:
-        return kilometers;
+        return short ? kilometersShort : kilometers;
       case UnitOfMeasurement.meters:
-        return meters;
+        return short ? metersShort : meters;
       case UnitOfMeasurement.miles:
-        return miles;
+        return short ? milesShort : miles;
       default:
-        return kilometers;
+        return short ? kilometersShort : kilometers;
     }
   }
 
@@ -324,7 +337,7 @@ class QuakeLocalizations {
         "Bad news here, the server answered in a language that I don't speak. Please contact the developer and check for app updates.",
         name: "malformedResponse",
       );
-  
+
   String get noResponse => Intl.message(
         "Server did not respond, this might be a connection issue or a server issue. Try again later.",
         name: "noResponse",
