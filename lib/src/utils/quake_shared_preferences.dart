@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// This is the class containing all the sharedPreferences keys.
-/// TODO(REFACTOR): ALL KEYS SHOULD BE ADDED
 class QuakeSharedPreferencesKey {
   /// This key is used to check if the user has already opened the app before.
   ///
