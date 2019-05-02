@@ -24,6 +24,6 @@ class UnitOfMeasurementConversion {
       UnitOfMeasurement.values.firstWhere((u) => u.toString() == s);
 }
 
-double _round(double value) => (value  * 10e1).truncate() / 10e1;
+double _round(double value) => (value * 10e1).truncate() / 10e1;
 
 enum UnitOfMeasurement { kilometers, meters, miles }

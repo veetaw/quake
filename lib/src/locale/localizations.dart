@@ -349,7 +349,7 @@ class QuakeLocalizations {
       );
 
   String theme(String supportedTheme) {
-    switch(supportedTheme) {
+    switch (supportedTheme) {
       case "light":
         return light;
       case "dark":

@@ -146,11 +146,11 @@ class _LandingPageState extends State<LandingPage> {
         onPressed: onPressed,
       );
 
-      @override
-      void dispose() {
-        pageStreamController.close();
-        super.dispose();
-      }
+  @override
+  void dispose() {
+    pageStreamController.close();
+    super.dispose();
+  }
 }
 
 /// This represents a page of the initial introuction to the app

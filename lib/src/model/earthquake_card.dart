@@ -136,7 +136,7 @@ class _EarthquakeCardBottomInfos extends StatelessWidget {
       currentUnitOfMeasurement,
       short: true,
     )}";
-    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[

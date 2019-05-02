@@ -15,9 +15,8 @@ class ThemeProvider {
         iconTheme: ThemeData.light().iconTheme.copyWith(
               color: Colors.black,
             ),
-        appBarTheme: ThemeData.light()
-            .appBarTheme
-            .copyWith(iconTheme: IconThemeData(color: Colors.black), color: Colors.white),
+        appBarTheme: ThemeData.light().appBarTheme.copyWith(
+            iconTheme: IconThemeData(color: Colors.black), color: Colors.white),
         primaryIconTheme:
             ThemeData.light().primaryIconTheme.copyWith(color: Colors.black),
         primaryTextTheme:
