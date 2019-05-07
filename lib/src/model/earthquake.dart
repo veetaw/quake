@@ -57,7 +57,7 @@ class Earthquake {
   Earthquake.fromText(String rawText)
       : assert(rawText.split('|')?.length == 13),
         this.eventID = int.parse(rawText.split('|')[0] ?? null),
-        this.time = DateTime.parse(rawText.split('|')[1]),
+        this.time = DateTime.parse(rawText.split('|')[1] + "Z").toLocal(),
         this.latitude = num.parse(rawText.split('|')[2] ?? 0.0),
         this.longitude = num.parse(rawText.split('|')[3] ?? 0.0),
         this.depth = num.parse(rawText.split('|')[4] ?? 0.0),
@@ -74,7 +74,7 @@ class Earthquake {
   Earthquake.fromMap(Map map)
       : assert(map != null),
         this.eventID = map["eventID"] ?? 0,
-        this.time = DateTime.fromMillisecondsSinceEpoch(map["time"] ?? null),
+        this.time = DateTime.fromMillisecondsSinceEpoch(map["time"] ?? null).toLocal(),
         this.latitude = map["latitude"] ?? 0.0,
         this.longitude = map["longitude"] ?? 0.0,
         this.depth = map["depth"] ?? 0.0,
