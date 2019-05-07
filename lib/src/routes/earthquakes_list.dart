@@ -27,7 +27,6 @@ class EarthquakesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("called");
     return QuakeStreamBuilder<List<Earthquake>>(
       stream: stream,
       onError: (e) => handleError(e, context),
