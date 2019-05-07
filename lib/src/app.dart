@@ -10,6 +10,7 @@ import 'package:quake/src/model/homepage_map.dart';
 import 'package:quake/src/model/homepage_nearby.dart';
 import 'package:quake/src/model/error.dart';
 import 'package:quake/src/model/quake_builders.dart';
+import 'package:quake/src/routes/search.dart';
 import 'package:quake/src/routes/settings.dart';
 import 'package:quake/src/utils/connectivity.dart';
 
@@ -116,11 +117,11 @@ class Home extends StatelessWidget {
       title: Text(QuakeLocalizations.of(context).title),
       elevation: _kAppBarElevation,
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: iconsEnabled ? () {/*TODO(veetaw): search*/} : null,
-          tooltip: QuakeLocalizations.of(context).searchTooltip,
-        ),
+        // IconButton(
+        //   icon: Icon(Icons.search),
+        //   onPressed: iconsEnabled ? () => _startSearchPage(context) : null,
+        //   tooltip: QuakeLocalizations.of(context).searchTooltip,
+        // ),
         IconButton(
           icon: Icon(Icons.settings),
           onPressed: iconsEnabled
@@ -154,6 +155,32 @@ class Home extends StatelessWidget {
       ],
     );
   }
+
+  void _startSearchPage(BuildContext context) {  Navigator.of(context).push(
+    PageRouteBuilder(
+      pageBuilder: (_, __, ___) => SearchPage(),
+      transitionsBuilder: (
+        BuildContext context,
+        Animation animation,
+        Animation secondaryAnimation,
+        Widget child,
+      ) =>
+          SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(0, 1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset.zero,
+                end: Offset(1, 0),
+              ).animate(secondaryAnimation),
+              child: child,
+            ),
+          ),
+    ),
+  );
+}
 
   /// Builds an item for the bottom navigation bar
   ///
