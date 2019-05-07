@@ -27,43 +27,10 @@ class EarthquakesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("called");
     return QuakeStreamBuilder<List<Earthquake>>(
       stream: stream,
-      onError: (e) {
-        switch (e) {
-          case NoResponseException:
-            return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).noResponse,
-              icon: Icons.sentiment_dissatisfied,
-            );
-          case NoContentException:
-            return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).noEarthquakes,
-              icon: Icons.sentiment_very_satisfied,
-            );
-          case NoEarthquakesException:
-            return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).noEarthquakes,
-              icon: Icons.sentiment_very_satisfied,
-            );
-          case MalformedResponseException:
-            return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).malformedResponse,
-              icon: Icons.sentiment_dissatisfied,
-            );
-          case BadResponseException:
-            return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).badResponse,
-              icon: Icons.sentiment_dissatisfied,
-            );
-          default:
-            // unexpected exception happened here
-            return QuakeErrorWidget(
-              message: QuakeLocalizations.of(context).unexpectedException(e),
-              icon: Icons.sentiment_dissatisfied,
-            );
-        }
-      },
+      onError: (e) => handleError(e, context),
       builder: (context, list) {
         return (list ?? []).length != 0
             ? LiquidPullToRefresh(
@@ -122,4 +89,40 @@ void startDetailPage(BuildContext context, Earthquake earthquake) {
           ),
     ),
   );
+}
+
+Widget handleError(Object e, BuildContext context) {
+  switch (e) {
+    case NoResponseException:
+      return QuakeErrorWidget(
+        message: QuakeLocalizations.of(context).noResponse,
+        icon: Icons.sentiment_dissatisfied,
+      );
+    case NoContentException:
+      return QuakeErrorWidget(
+        message: QuakeLocalizations.of(context).noEarthquakes,
+        icon: Icons.sentiment_very_satisfied,
+      );
+    case NoEarthquakesException:
+      return QuakeErrorWidget(
+        message: QuakeLocalizations.of(context).noEarthquakes,
+        icon: Icons.sentiment_very_satisfied,
+      );
+    case MalformedResponseException:
+      return QuakeErrorWidget(
+        message: QuakeLocalizations.of(context).malformedResponse,
+        icon: Icons.sentiment_dissatisfied,
+      );
+    case BadResponseException:
+      return QuakeErrorWidget(
+        message: QuakeLocalizations.of(context).badResponse,
+        icon: Icons.sentiment_dissatisfied,
+      );
+    default:
+      // unexpected exception happened here
+      return QuakeErrorWidget(
+        message: QuakeLocalizations.of(context).unexpectedException(e),
+        icon: Icons.sentiment_dissatisfied,
+      );
+  }
 }

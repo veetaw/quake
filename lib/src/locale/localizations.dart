@@ -99,7 +99,7 @@ class QuakeLocalizations {
 
   // == SECTION tooltips ==
   String get searchTooltip => Intl.message(
-        "search",
+        "Search",
         name: "searchTooltip",
       );
 
@@ -403,6 +403,34 @@ class QuakeLocalizations {
   String get indigoLight => Intl.message(
         "Indigo Light",
         name: "indigoLight",
+      );
+  String get search => Intl.message(
+        "Search earthquake",
+        name: "search",
+      );
+  String get advancedSearch => Intl.message(
+        "Advanced search",
+        name: "advancedSearch",
+      );
+  String get searchBoxLabel => Intl.message(
+        "Search for location",
+        name: "searchBoxLabel",
+      );
+  String get minDepth => Intl.message(
+        "Min depth",
+        name: "minDepth",
+      );
+  String get maxDepth => Intl.message(
+        "Max depth",
+        name: "maxDepth",
+      );
+  String get minMagnitude => Intl.message(
+        "Min magnitude",
+        name: "minMagnitude",
+      );
+  String get maxMagnitude => Intl.message(
+        "Max magnitude",
+        name: "maxMagnitude",
       );
 }
 
