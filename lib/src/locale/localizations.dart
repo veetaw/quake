@@ -323,7 +323,7 @@ class QuakeLocalizations {
       );
 
   String get notificationsSettingsTile => Intl.message(
-        "that's definitely a TODO.",
+        "Enable/Disable notifications.",
         name: "notificationsSettingsTile",
       );
 
