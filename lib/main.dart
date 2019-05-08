@@ -28,10 +28,6 @@ import 'package:quake/src/db/earthquake_provider.dart';
 /// Main function, returns a [QuakeStreamBuilder] with the whole app as a child,
 /// it's rebuilt when a theme is changed.
 main() async {
-  /// instance of the BLoC used to handle theme change, called when a theme is
-  /// changed to rebuild the whole app with the new theme.
-  ThemeBloc themeBloc = ThemeBloc();
-
   /// Instance of [QuakeConnectivityHelper], used to save the initial connection,
   /// so it can be accessed by the whole app
   QuakeConnectivityHelper quakeConnectivityHelper = QuakeConnectivityHelper();
@@ -50,6 +46,23 @@ main() async {
   // initialize database
   await EarthquakesBloc().initializeCacheDatabase();
 
+  bool notificationsEnabled = sharedPreferences.getValue<bool>(
+    key: QuakeSharedPreferencesKey.notificationsEnabled,
+    defaultValue: false,
+  );
+
+  runApp(Quake());
+
+  if (notificationsEnabled)
+    BackgroundFetch.registerHeadlessTask(onBackgroundFetch);
+}
+
+class Quake extends StatefulWidget {
+  @override
+  _QuakeState createState() => _QuakeState();
+}
+
+class _QuakeState extends State<Quake> {
   /// Supported language translations for Quake.
   ///
   /// They're defined in [_QuakeLocalizationsDelegate.supportedLocales]
@@ -65,11 +78,28 @@ main() async {
     EarthquakeDetails.routeName: (_) => EarthquakeDetails(),
   };
 
-  bool notificationsEnabled = sharedPreferences.getValue<bool>(
-      key: QuakeSharedPreferencesKey.notificationsEnabled, defaultValue: false);
+  /// instance of the BLoC used to handle theme change, called when a theme is
+  /// changed to rebuild the whole app with the new theme.
+  ThemeBloc themeBloc = ThemeBloc();
+  QuakeSharedPreferences sharedPreferences = QuakeSharedPreferences();
 
-  runApp(
-    BlocProvider(
+  bool notificationsEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    notificationsEnabled = sharedPreferences.getValue<bool>(
+      key: QuakeSharedPreferencesKey.notificationsEnabled,
+      defaultValue: false,
+    );
+
+    if (notificationsEnabled)
+      initNotificationsPluginAndBackgroundFetch(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
       bloc: themeBloc,
       child: QuakeStreamBuilder<ThemeData>(
         stream: themeBloc.themeStream,
@@ -86,7 +116,7 @@ main() async {
               supportedLocales: supportedLocales,
               routes: routes,
               theme: theme,
-              home: LayoutBuilder(builder: (context, _) {
+              home: Builder(builder: (ctx) {
                 setLocaleMessages(
                   QuakeLocalizations.localeCode,
                   getLocaleStringsClass(QuakeLocalizations.localeCode),
@@ -97,18 +127,13 @@ main() async {
                   QuakeLocalizations.localeCode,
                   null,
                 );
-                if (notificationsEnabled)
-                  initNotificationsPluginAndBackgroundFetch(context);
 
-                      return Home();
+                return Home();
               }),
             ),
       ),
-    ),
-  );
-
-  if (notificationsEnabled)
-    BackgroundFetch.registerHeadlessTask(onBackgroundFetch);
+    );
+  }
 }
 
 void initNotificationsPluginAndBackgroundFetch(BuildContext context) {
@@ -155,12 +180,11 @@ void onBackgroundFetch() async {
   EarthquakePersistentCacheProvider _cache =
       EarthquakePersistentCacheProvider();
 
-  await EarthquakesBloc().initializeCacheDatabase();
   await sharedPreferences.init();
 
   Earthquake earthquake = await earthquakesBloc.fetchLast();
   int lastFetchedEarthquakeID = sharedPreferences.getValue<int>(
-      key: QuakeSharedPreferencesKey.lastEarthquakesFetch, defaultValue: -1);
+      key: QuakeSharedPreferencesKey.lastEarthquakeID, defaultValue: -1,);
 
   if (lastFetchedEarthquakeID != -1) {
     Earthquake _last =
@@ -169,8 +193,10 @@ void onBackgroundFetch() async {
     if (_last == null) return;
     if (earthquake.time.isAfter(_last.time)) {
       sharedPreferences.setValue<int>(
-          key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
-          value: earthquake.eventID);
+        key: QuakeSharedPreferencesKey.lastEarthquakeID,
+        value: earthquake.eventID,
+      );
+
       await sendNotification(earthquake);
     }
   }
