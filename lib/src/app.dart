@@ -114,7 +114,22 @@ class Home extends StatelessWidget {
       centerTitle: Theme.of(context).platform ==
           TargetPlatform.iOS, // center title if running on ios
       primary: true,
-      title: Text(QuakeLocalizations.of(context).title),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Image.asset(
+            "assets/images/logo_with_bg.png",
+            alignment: Alignment.centerRight,
+          ),
+          Text(QuakeLocalizations.of(context).title.substring(1)),
+        ],
+      ),
+      textTheme: Theme.of(context).primaryTextTheme.copyWith(
+            title: Theme.of(context)
+                .primaryTextTheme
+                .title
+                .copyWith(letterSpacing: 3),
+          ),
       elevation: _kAppBarElevation,
       actions: <Widget>[
         // IconButton(
@@ -156,31 +171,32 @@ class Home extends StatelessWidget {
     );
   }
 
-  void _startSearchPage(BuildContext context) {  Navigator.of(context).push(
-    PageRouteBuilder(
-      pageBuilder: (_, __, ___) => SearchPage(),
-      transitionsBuilder: (
-        BuildContext context,
-        Animation animation,
-        Animation secondaryAnimation,
-        Widget child,
-      ) =>
-          SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(0, 1),
-              end: Offset.zero,
-            ).animate(animation),
-            child: SlideTransition(
+  void _startSearchPage(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => SearchPage(),
+        transitionsBuilder: (
+          BuildContext context,
+          Animation animation,
+          Animation secondaryAnimation,
+          Widget child,
+        ) =>
+            SlideTransition(
               position: Tween<Offset>(
-                begin: Offset.zero,
-                end: Offset(1, 0),
-              ).animate(secondaryAnimation),
-              child: child,
+                begin: Offset(0, 1),
+                end: Offset.zero,
+              ).animate(animation),
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: Offset(1, 0),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
             ),
-          ),
-    ),
-  );
-}
+      ),
+    );
+  }
 
   /// Builds an item for the bottom navigation bar
   ///
