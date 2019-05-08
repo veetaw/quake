@@ -55,14 +55,10 @@ class Settings extends StatelessWidget {
                   builder: (_) => MapProviderDialog(),
                 ),
           ),
-          // SettingsSectionHeader(
-          //   title: QuakeLocalizations.of(context).notifications,
-          // ),
-          // ListTile(
-          //   title:
-          //       Text(QuakeLocalizations.of(context).notificationsSettingsTile),
-          //   leading: Icon(Icons.directions_walk),
-          // ),
+          SettingsSectionHeader(
+            title: QuakeLocalizations.of(context).notifications,
+          ),
+          NotitificationsEnabledTile(),
           SettingsSectionHeader(
             title: QuakeLocalizations.of(context).specialThanks,
           ),
@@ -225,6 +221,29 @@ class Settings extends StatelessWidget {
       title: Text(
         QuakeLocalizations.of(context).settings,
       ),
+    );
+  }
+}
+
+class NotitificationsEnabledTile extends StatelessWidget {
+  StreamController streamController = StreamController<bool>.broadcast();
+
+  @override
+  Widget build(BuildContext context) {
+    return QuakeStreamBuilder<bool>(
+      stream: streamController.stream,
+      initialData: quakeSharedPreferences.getValue<bool>(key: QuakeSharedPreferencesKey.notificationsEnabled, defaultValue: false),
+      builder: (context, data) {
+        return SwitchListTile(
+          title:
+              Text(QuakeLocalizations.of(context).notificationsSettingsTile),
+          value: data,
+          onChanged: (newValue) {
+            quakeSharedPreferences.setValue<bool>(key: QuakeSharedPreferencesKey.notificationsEnabled, value: newValue);
+            streamController.sink.add(newValue);
+          },
+        );
+      }
     );
   }
 }
