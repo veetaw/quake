@@ -45,6 +45,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/flare/pulse.flr
+    - assets/images/logo_with_bg.png
   fonts:
     - family: Montserrat
       fonts:
