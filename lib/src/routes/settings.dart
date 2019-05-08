@@ -17,6 +17,7 @@ import 'package:quake/src/utils/quake_shared_preferences.dart';
 final QuakeSharedPreferences quakeSharedPreferences = QuakeSharedPreferences();
 final Map<String, String> contributors = {
   "Vito (dev)": "https://github.com/veetaw",
+  "Eskilop (icon design)": "https://www.eskilop.it",
   "Alessio": "https://github.com/AlecsFerra",
   "Giorgio": "https://github.com/giorgioshine",
 };
