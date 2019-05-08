@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:quake/src/db/earthquake_provider.dart';
 import 'package:timeago/timeago.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,7 +15,6 @@ import 'package:quake/src/bloc/bloc_provider.dart';
 import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/quake_builders.dart';
-import 'package:quake/src/routes/landing_page.dart';
 import 'package:quake/src/routes/settings.dart';
 import 'package:quake/src/themes/theme_provider.dart';
 import 'package:quake/src/utils/quake_shared_preferences.dart';
@@ -25,6 +23,7 @@ import 'package:quake/src/model/earthquake_details.dart';
 import 'package:quake/src/utils/connectivity.dart';
 import 'package:quake/src/data/ingv_api.dart';
 import 'package:quake/src/model/earthquake.dart';
+import 'package:quake/src/db/earthquake_provider.dart';
 
 /// Main function, returns a [QuakeStreamBuilder] with the whole app as a child,
 /// it's rebuilt when a theme is changed.
@@ -50,12 +49,6 @@ main() async {
 
   // initialize database
   await EarthquakesBloc().initializeCacheDatabase();
-
-  /// Checks if the user has already finished the [LandingPage] before.
-  bool isFirstTime = sharedPreferences.getValue<bool>(
-    key: QuakeSharedPreferencesKey.firstTime,
-    defaultValue: true,
-  );
 
   /// Supported language translations for Quake.
   ///
@@ -107,7 +100,7 @@ main() async {
                 if (notificationsEnabled)
                   initNotificationsPluginAndBackgroundFetch(context);
 
-                return isFirstTime ? LandingPage() : Home();
+                      return Home();
               }),
             ),
       ),
