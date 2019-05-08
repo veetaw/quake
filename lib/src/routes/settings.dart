@@ -238,6 +238,7 @@ class NotitificationsEnabledTile extends StatelessWidget {
         return SwitchListTile(
           title:
               Text(QuakeLocalizations.of(context).notificationsSettingsTile),
+          secondary: Icon(Icons.notifications),
           value: data,
           onChanged: (newValue) {
             quakeSharedPreferences.setValue<bool>(key: QuakeSharedPreferencesKey.notificationsEnabled, value: newValue);
