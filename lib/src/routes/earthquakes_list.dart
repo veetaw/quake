@@ -38,6 +38,7 @@ class EarthquakesList extends StatelessWidget {
                 backgroundColor: Theme.of(context).accentColor,
                 color: Theme.of(context).canvasColor,
                 child: ListView.builder(
+                  padding: EdgeInsets.only(top: 8),
                   itemCount: list.length,
                   itemBuilder: (
                     BuildContext context,
