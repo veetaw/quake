@@ -14,7 +14,6 @@ class IngvAPI {
   static const String _kMinVersion = "100";
   static const String _kOrderBy = "time";
   static const String _kFormat = "text";
-  static const String _kLimit = "100";
 
   Client client;
 
@@ -41,6 +40,7 @@ class IngvAPI {
     num maxLatitude,
     num minLongitude,
     num maxLongitude,
+    num limit: 100,
   }) async {
     Response response = await client.get(
       Uri(
@@ -65,7 +65,7 @@ class IngvAPI {
           "minversion": _kMinVersion,
           "orderby": _kOrderBy,
           "format": _kFormat,
-          "limit": _kLimit,
+          "limit": limit.toString(),
         },
       ),
     );
@@ -95,6 +95,46 @@ class IngvAPI {
       /// something bad happened during parsing text
       throw MalformedResponseException;
     }
+  }
+
+  Future<Earthquake> fetchEarthquakeById(String eventID) async {
+    Response response = await client.get(
+      Uri(
+        scheme: _kScheme,
+        host: _kUrl,
+        path: _kPath,
+        queryParameters: {
+          "eventId": eventID,
+          "format": _kFormat,
+        },
+      ),
+    );
+    /// no response, probably there's no connection
+    if (response == null) throw NoResponseException;
+
+    /// server returned 204 no content because there are no earthquakes to return
+    if (response.statusCode == 204) throw NoContentException;
+
+    /// response status is not ok
+    if (response.statusCode != 200)
+      throw BadResponseException(response.statusCode);
+
+    var data = response.body.split('\n');
+
+    /// remove first and null/empty elements from list
+    data.removeAt(0);
+    data.removeWhere((earthquake) => earthquake.isEmpty || earthquake == null);
+
+    /// list empty after removing header
+    if (data.length == 0) throw NoEarthquakesException;
+
+    try {
+      return Earthquake.fromText(data.first);
+    } catch (_) {
+      /// something bad happened during parsing text
+      throw MalformedResponseException;
+    }
+
   }
 
   //// must be called in order to free client's memory
