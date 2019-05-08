@@ -57,6 +57,17 @@ class QuakeSharedPreferencesKey {
   /// It should be a [String] and it should contain a .toString of the enum
   /// key ([UnitOfMeasurement]).
   static get unitOfMeasurement => "unitOfMeasurement";
+
+  /// This key contains the id of the last fetched earthquake
+  ///
+  /// It should be a [int].
+  static get lastEarthquakeID => "lastEarthquakeId";
+
+  /// This key contains true if the app should fetch earthquakes in the background
+  /// for notifications
+  ///
+  /// It should be a [bool].
+  static get notificationsEnabled => "notificationsEnabled";
 }
 
 /// This class is a helper for [SharedPreferences].
