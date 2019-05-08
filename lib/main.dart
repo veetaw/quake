@@ -191,7 +191,7 @@ void onBackgroundFetch() async {
         await _cache.getEarthquakeById(eventID: lastFetchedEarthquakeID);
 
     if (_last == null) return;
-    if (earthquake.time.isAfter(_last.time)) {
+    if (earthquake.time != _last.time) {
       sharedPreferences.setValue<int>(
         key: QuakeSharedPreferencesKey.lastEarthquakeID,
         value: earthquake.eventID,
