@@ -101,9 +101,15 @@ class EarthquakesBloc extends BlocBase {
         break;
     }
 
+    _data = _data..sort((e1, e2) => e2.time.compareTo(e1.time));
+
     // finally push data through the stream
-    _streamController.sink
-        .add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
+    _streamController.sink.add(_data);
+
+    _quakeSharedPreferences.setValue<int>(
+      key: QuakeSharedPreferencesKey.lastEarthquakeID,
+      value: _data.first.eventID,
+    );
   }
 
   /// Fetch earthquakes by passing options
@@ -162,6 +168,16 @@ class EarthquakesBloc extends BlocBase {
 
     _searchController.sink
         .add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
+  }
+
+  Future<Earthquake> fetchLast({EarthquakesListSource source: EarthquakesListSource.ingv}) async {
+    switch(source) {
+      case EarthquakesListSource.ingv:
+        IngvAPI api = IngvAPI();
+        return  (await api.getData(limit: 1)).first;
+      default:
+        throw UnknownSourceException;
+    }
   }
 
   /// Close the streams
