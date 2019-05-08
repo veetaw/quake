@@ -140,7 +140,7 @@ void initNotificationsPluginAndBackgroundFetch(BuildContext context) {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('app_icon');
+      AndroidInitializationSettings('app_logo');
   InitializationSettings initializationSettings =
       InitializationSettings(initializationSettingsAndroid, null);
   flutterLocalNotificationsPlugin.initialize(initializationSettings,
@@ -211,7 +211,7 @@ sendNotification(Earthquake earthquake) async {
   AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
     'quake-${earthquake.eventID}',
-    'quake',
+    'Quake',
     'quake notification channel',
     importance: Importance.Default,
     priority: Priority.Default,
