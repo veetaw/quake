@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart' hide TextStyle;
+import 'package:flutter_map/plugin_api.dart';
 
 import 'package:k_means_cluster/k_means_cluster.dart';
 import 'package:latlong/latlong.dart' hide Path;
@@ -74,12 +76,12 @@ class _EarthquakeMapState extends State<EarthquakeMap>
     );
 
     final MapOptions options = MapOptions(
-      zoom: 5,
-      minZoom: 2,
-      maxZoom: 17,
-      center: _getCenter(),
-      onPositionChanged: _handleOnPositionChanged,
-    );
+        zoom: 5,
+        minZoom: 2,
+        maxZoom: 17,
+        center: _getCenter(),
+        onPositionChanged: _handleOnPositionChanged,
+        plugins: [MapCreditsPlugin()]);
 
     return FlutterMap(
       options: options,
@@ -90,6 +92,15 @@ class _EarthquakeMapState extends State<EarthquakeMap>
           markers: _buildMarkers(
             widget.data.where((e) => e.magnitude > 1.5).toList(),
             _mapPosition,
+          ),
+        ),
+        MapCreditsOption(
+          text: getCreditsByMapStyle(
+            getMapStyleByString(
+              quakeSharedPreferences.getValue<String>(
+                key: QuakeSharedPreferencesKey.mapTilesProvider,
+              ),
+            ),
           ),
         ),
       ],
@@ -315,3 +326,34 @@ class LocationMarkerPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+
+class MapCreditsOption extends LayerOptions {
+  final String text;
+
+  MapCreditsOption({@required this.text});
+}
+
+class MapCreditsPlugin extends MapPlugin {
+  @override
+  Widget createLayer(
+      LayerOptions options, MapState mapState, Stream<Null> stream) {
+    if (options is MapCreditsOption) {
+      return Builder(
+        builder: (context) => Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                color: Theme.of(context).canvasColor,
+                padding: EdgeInsets.all(4),
+                child: Text(options.text ?? ''),
+              ),
+            ),
+      );
+    }
+    throw UnknownOptionsException;
+  }
+
+  @override
+  bool supportsLayer(LayerOptions options) => options is MapCreditsOption;
+}
+
+class UnknownOptionsException implements Exception {}
