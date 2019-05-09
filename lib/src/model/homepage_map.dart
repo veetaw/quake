@@ -172,7 +172,9 @@ class _EarthquakeMapState extends State<EarthquakeMap>
             },
             child: CircleAvatar(
               backgroundColor: Theme.of(context).primaryColor,
-              child: Text(cluster.instances.length.toString()),
+              child: Text(
+                cluster.instances.length.toString(),
+              ),
             ),
           ),
     );
