@@ -1,93 +1,300 @@
 {
-  "@@last_modified": "2019-01-05T11:46:32.384169",
-  "applicationName": "Quake",
-  "@applicationName": {
-    "description": "application name",
-    "type": "text",
-    "placeholders": {}
-  },
-  "title": "Quake",
-  "@title": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "skip": "salta",
-  "@skip": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "next": "avanti",
-  "@next": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "finish": "fine",
-  "@finish": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "welcomeTitle": "Benvenuto in Quake!",
-  "@welcomeTitle": {
-    "description": "the title of the first landing page screen",
-    "type": "text",
-    "placeholders": {}
-  },
-  "welcomeDescription": "Rimani aggiornato sui terremoti vicino a te per rimanere sicuro.",
-  "@welcomeDescription": {
-    "description": "the description of the first landing page screen",
-    "type": "text",
-    "placeholders": {}
-  },
-  "appStatusTitle": "Puoi aiutare a migliorare Quake!",
-  "@appStatusTitle": {
-    "description": "the title of the second landing page screen",
-    "type": "text",
-    "placeholders": {}
-  },
-  "appStatusDescription": "L'applicazione è ancora in uno stato di sviluppo. Aiuta lo sviluppatore segnalando bug o suggerendo nuove funzioni da aggiungere.",
-  "@appStatusDescription": {
-    "description": "the description of the first landing page screen",
-    "type": "text",
-    "placeholders": {}
-  },
-  "all": "Tutti",
-  "@all": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "nearby": "Vicino",
-  "@nearby": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "map": "Mappa",
-  "@map": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "searchTooltip": "cerca",
-  "@searchTooltip": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsTooltip": "impostazioni",
-  "@settingsTooltip": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "magnitude": "magnitudo",
-  "@magnitude": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "depth": "profondità",
-  "@depth": {
-    "type": "text",
-    "placeholders": {}
-  },
-  "allEarthquakesError": "Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto perchè è successo qualcosa di inaspettato.",
-  "@allEarthquakesError": {
-    "type": "text",
-    "placeholders": {}
-  }
+	"@@last_modified": "2019-05-09T18:47:01.023999",
+	"@advancedSearch": {
+		"type": "text"
+	},
+	"@alertCancelButton": {
+		"type": "text"
+	},
+	"@alertOkButton": {
+		"type": "text"
+	},
+	"@all": {
+		"type": "text"
+	},
+	"@allEarthquakesError": {
+		"type": "text"
+	},
+	"@appStatusDescription": {
+		"description": "the description of the first landing page screen",
+		"type": "text"
+	},
+	"@appStatusTitle": {
+		"description": "the title of the second landing page screen",
+		"type": "text"
+	},
+	"@appearance": {
+		"type": "text"
+	},
+	"@applicationName": {
+		"description": "application name",
+		"type": "text"
+	},
+	"@badResponse": {
+		"type": "text"
+	},
+	"@baseMap": {
+		"type": "text"
+	},
+	"@chooseTheme": {
+		"type": "text"
+	},
+	"@chooseThemeLong": {
+		"type": "text"
+	},
+	"@dark": {
+		"type": "text"
+	},
+	"@darkMap": {
+		"type": "text"
+	},
+	"@depth": {
+		"type": "text"
+	},
+	"@depthKm": {
+		"type": "text"
+	},
+	"@depthSettingsTile": {
+		"type": "text"
+	},
+	"@distanceMapSettingsTile": {
+		"type": "text"
+	},
+	"@earthquake": {
+		"type": "text"
+	},
+	"@earthquakesCountSettingsTile": {
+		"type": "text"
+	},
+	"@finish": {
+		"type": "text"
+	},
+	"@general": {
+		"type": "text"
+	},
+	"@githubTileDescription": {
+		"type": "text"
+	},
+	"@githubTileTitle": {
+		"type": "text"
+	},
+	"@indigoLight": {
+		"type": "text"
+	},
+	"@kilometers": {
+		"type": "text"
+	},
+	"@kilometersShort": {
+		"type": "text"
+	},
+	"@light": {
+		"type": "text"
+	},
+	"@lightMap": {
+		"type": "text"
+	},
+	"@loadingEarthquakeInfos": {
+		"type": "text"
+	},
+	"@loadingWithDots": {
+		"type": "text"
+	},
+	"@locationNotEnabled": {
+		"type": "text"
+	},
+	"@locationPromptAlertContent": {
+		"type": "text"
+	},
+	"@locationPromptAlertTitle": {
+		"type": "text"
+	},
+	"@magnitude": {
+		"type": "text"
+	},
+	"@malformedResponse": {
+		"type": "text"
+	},
+	"@map": {
+		"type": "text"
+	},
+	"@mapProviderSettingsTile": {
+		"type": "text"
+	},
+	"@maxDepth": {
+		"type": "text"
+	},
+	"@maxMagnitude": {
+		"type": "text"
+	},
+	"@meters": {
+		"type": "text"
+	},
+	"@metersShort": {
+		"type": "text"
+	},
+	"@miles": {
+		"type": "text"
+	},
+	"@milesShort": {
+		"type": "text"
+	},
+	"@minDepth": {
+		"type": "text"
+	},
+	"@minMagnitude": {
+		"type": "text"
+	},
+	"@minMagnitudeSettingsTile": {
+		"type": "text"
+	},
+	"@nearby": {
+		"type": "text"
+	},
+	"@next": {
+		"type": "text"
+	},
+	"@noEarthquakes": {
+		"type": "text"
+	},
+	"@noInternetConnection": {
+		"type": "text"
+	},
+	"@noResponse": {
+		"type": "text"
+	},
+	"@notAvailable": {
+		"type": "text"
+	},
+	"@notifications": {
+		"type": "text"
+	},
+	"@notificationsSettingsTile": {
+		"type": "text"
+	},
+	"@other": {
+		"type": "text"
+	},
+	"@peopleInvolved": {
+		"type": "text"
+	},
+	"@promptForLocationPermissionButton": {
+		"type": "text"
+	},
+	"@search": {
+		"type": "text"
+	},
+	"@searchBoxLabel": {
+		"type": "text"
+	},
+	"@searchTooltip": {
+		"type": "text"
+	},
+	"@settings": {
+		"type": "text"
+	},
+	"@settingsTooltip": {
+		"type": "text"
+	},
+	"@shareIntentText": {
+		"type": "text"
+	},
+	"@shareNotAvailable": {
+		"type": "text"
+	},
+	"@skip": {
+		"type": "text"
+	},
+	"@specialThanks": {
+		"type": "text"
+	},
+	"@specialThanksTile": {
+		"type": "text"
+	},
+	"@title": {
+		"type": "text"
+	},
+	"@unexpectedException": {
+		"type": "text"
+	},
+	"@welcomeDescription": {
+		"description": "the description of the first landing page screen",
+		"type": "text"
+	},
+	"@welcomeTitle": {
+		"description": "the title of the first landing page screen",
+		"type": "text"
+	},
+	"advancedSearch": "Ricerca Avanzata",
+	"alertCancelButton": "annulla",
+	"alertOkButton": "Ok",
+	"all": "Tutti",
+	"allEarthquakesError": "Impossibile caricare la lista dei terremoti a causa di un errore.",
+	"appStatusDescription": "L'applicazione è in via di sviluppo. Puoi aiutare lo sviluppatore segnalando bug ed errori e suggerendo funzioni aggiuntive.",
+	"appStatusTitle": "Il tuo contributo può rendere Quake migliore!",
+	"appearance": "Stile",
+	"applicationName": "Quake",
+	"badResponse": "C'è stato un errore di connessione al server, riprova più tardi.",
+	"baseMap": "Mappa base",
+	"chooseTheme": "Scegli un tema",
+	"chooseThemeLong": "Cambia l'estetica dell'intera applicazione",
+	"dark": "Scuro",
+	"darkMap": "Mappa scura",
+	"depth": "Profondità",
+	"depthKm": "Profondità (km)",
+	"depthSettingsTile": "Unità di misura della profondità",
+	"distanceMapSettingsTile": "Distanza massima dei terremoti vicini",
+	"earthquake": "Terremoto",
+	"earthquakesCountSettingsTile": "Terremoti da caricare alla volta",
+	"finish": "termina",
+	"general": "Generali",
+	"githubTileDescription": "Quake è un progetto open source, le tue aggiunte sono ben accette. Se stai riscontrando problemi controlla la sezione errori nella pagina del progetto.",
+	"githubTileTitle": "Contribuisci a Quake",
+	"indigoLight": "Indaco chiaro",
+	"kilometers": "kilometri",
+	"kilometersShort": "km",
+	"light": "Chiaro",
+	"lightMap": "Mappa chiara",
+	"loadingEarthquakeInfos": "Caricamento informazioni terremoti...",
+	"loadingWithDots": "Caricamento...",
+	"locationNotEnabled": "Non hai consentito il permesso di geolocalizzazione, consenti a Quake questo permesso per visualizzare terremoti nelle vicinanze.",
+	"locationPromptAlertContent": "Quake necessita della geolocalizzazione per trovare terremoti nelle vicinanze. I tuoi dati sono salvati nell'archivio locale.",
+	"locationPromptAlertTitle": "Permesso di geolocalizzazione",
+	"magnitude": "Magnitudo",
+	"malformedResponse": "Non sono in grado di comunicare con il server. Aggiorna l'app o contatta lo sviluppatore.",
+	"map": "Mappa",
+	"mapProviderSettingsTile": "Tema mappa",
+	"maxDepth": "Profondità massima",
+	"maxMagnitude": "Magnitudo massimo",
+	"meters": "metri",
+	"metersShort": "m",
+	"miles": "miglia",
+	"milesShort": "mi",
+	"minDepth": "Profondità minima",
+	"minMagnitude": "Magnitudo minimo",
+	"minMagnitudeSettingsTile": "Magnitudo minimo da segnare sulla mappa",
+	"nearby": "Nei dintorni",
+	"next": "avanti",
+	"noEarthquakes": "Non ci sono stati terremoti nelle vicinanze negli ultimi 7 giorni",
+	"noInternetConnection": "Nessuna connessione ad internet, Quake necessita di una connessione per funzionare.",
+	"noResponse": "I Server non rispondono, potrebbe essere un problema di connessione. Riprova più tardi.",
+	"notAvailable": "Non disponibile.",
+	"notifications": "Notifiche",
+	"notificationsSettingsTile": "Abilita/Disabilita le notifiche.",
+	"other": "Altri",
+	"peopleInvolved": "Persone coinvolte",
+	"promptForLocationPermissionButton": "Consenti i permessi di geolocalizzazione.",
+	"search": "Cerca terremoto",
+	"searchBoxLabel": "Ricerca per luogo",
+	"searchTooltip": "Search",
+	"settings": "Impostazioni",
+	"settingsTooltip": "impostazioni",
+	"shareIntentText": "{time}: Registrato un terremoto di magnitudo {magnitude} sulla scala Richter a {location}, ({country}).\n\nCondiviso con Quake.",
+	"shareNotAvailable": "Azione non disponibile per questo terremoto.",
+	"skip": "salta",
+	"specialThanks": "Ringraziamenti speciali",
+	"specialThanksTile": "Contributori",
+	"title": "Quake",
+	"unexpectedException": "C'è stato un errore imprevisto non gestibile dall'applicazione\nDettagli tecnici: {e}",
+	"welcomeDescription": "Resta informato sui terremoti nelle vicinanze.",
+	"welcomeTitle": "Benvenuto in Quake!"
 }
