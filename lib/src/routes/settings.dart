@@ -264,7 +264,7 @@ class MapProviderDialog extends StatelessWidget {
       initialData: _getCurrentProvider().index,
       builder: (context, data) {
         return QuakeDialog(
-          title: QuakeLocalizations.of(context).depthSettingsTile,
+          title: QuakeLocalizations.of(context).mapProviderSettingsTile,
           child: ListView.builder(
             itemCount: UnitOfMeasurement.values.length,
             itemBuilder: (context, index) {
