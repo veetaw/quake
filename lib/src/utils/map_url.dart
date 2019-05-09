@@ -23,3 +23,14 @@ MapStyles getMapStyleByString(String styleString) {
   else
     return null;
 }
+
+String getCreditsByMapStyle(MapStyles style) {
+  switch (style) {
+    case MapStyles.base:
+      return "© OpenStreetMap contributors";
+    case MapStyles.dark:
+      return "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.";
+    case MapStyles.light:
+      return "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.";
+  }
+}
