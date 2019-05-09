@@ -117,9 +117,13 @@ class Home extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
-            "assets/images/logo_with_bg.png",
-            alignment: Alignment.centerRight,
+          SizedBox(
+            width: 32,
+            height: 32,
+            child: Image.asset(
+              "assets/images/logo_no_bg.png",
+              alignment: Alignment.centerRight,
+            ),
           ),
           Text(QuakeLocalizations.of(context).title.substring(1)),
         ],
@@ -128,7 +132,7 @@ class Home extends StatelessWidget {
             title: Theme.of(context)
                 .primaryTextTheme
                 .title
-                .copyWith(letterSpacing: 3),
+                .copyWith(letterSpacing: 1.5),
           ),
       elevation: _kAppBarElevation,
       actions: <Widget>[
