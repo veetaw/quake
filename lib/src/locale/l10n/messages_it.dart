@@ -18,59 +18,84 @@ typedef MessageIfAbsent(String message_str, List args);
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'it';
 
-  static m0(location, magnitude, country, time) =>
-      "${time}: Registrato un terremoto di ${magnitude} sulla scala Richter a ${location} (${country}).\n\nCondiviso con Quake.";
+  static m0(location, magnitude, country, time) => "${time}: Registered an earthquake of ${magnitude} on Richter Scale in ${location} (${country}).\n\nShared with Quake.";
+
+  static m1(e) => "Something really bad happened and I can\'t handle it.\nTechnical Details: ${e}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
-        "alertCancelButton": MessageLookupByLibrary.simpleMessage("annulla"),
-        "alertOkButton": MessageLookupByLibrary.simpleMessage("ok"),
-        "all": MessageLookupByLibrary.simpleMessage("Tutti"),
-        "allEarthquakesError": MessageLookupByLibrary.simpleMessage(
-            "Non è stato possibile ottenre la lista dei terremoti, riprova tra qualche minuto."),
-        "appStatusDescription": MessageLookupByLibrary.simpleMessage(
-            "L\'applicazione è ancora in uno stato di sviluppo. Aiuta lo sviluppatore segnalando bug o suggerendo nuove funzioni da aggiungere."),
-        "appStatusTitle": MessageLookupByLibrary.simpleMessage(
-            "Puoi aiutare a migliorare Quake!"),
-        "applicationName": MessageLookupByLibrary.simpleMessage("Quake"),
-        "depth": MessageLookupByLibrary.simpleMessage("Profondità"),
-        "depthKm": MessageLookupByLibrary.simpleMessage("Profondità (km)"),
-        "earthquake": MessageLookupByLibrary.simpleMessage("Earthquake"),
-        "finish": MessageLookupByLibrary.simpleMessage("fine"),
-        "loadingEarthquakeInfos": MessageLookupByLibrary.simpleMessage(
-            "Carico le informazioni sul terremoto..."),
-        "loadingWithDots":
-            MessageLookupByLibrary.simpleMessage("Caricamento..."),
-        "locationNotEnabled": MessageLookupByLibrary.simpleMessage(
-            "Non hai mai dato il consenso al permesso di localizzazione, devi attivarlo per poter usare la scheda \"Nei dintorni\"."),
-        "locationPromptAlertContent": MessageLookupByLibrary.simpleMessage(
-            "Quake ha bisogno della localizzazione per la scheda \"Nei dintorni\", i dati sono salvati nel database locale."),
-        "locationPromptAlertTitle":
-            MessageLookupByLibrary.simpleMessage("Permesso localizzazione"),
-        "magnitude": MessageLookupByLibrary.simpleMessage("Magnitudo"),
-        "map": MessageLookupByLibrary.simpleMessage("Mappa"),
-        "nearby": MessageLookupByLibrary.simpleMessage("Nei dintorni"),
-        "next": MessageLookupByLibrary.simpleMessage("avanti"),
-        "noEarthquakesNearby": MessageLookupByLibrary.simpleMessage(
-            "Non è avvenuto nessun terremoto nella tua zona negli ultimi 7 giorni."),
-        "noInternetConnection": MessageLookupByLibrary.simpleMessage(
-            "Non sei connesso ad internet, devi avere una connessione attiva per poter usare Quake."),
-        "notAvailable":
-            MessageLookupByLibrary.simpleMessage("Non disponibile."),
-        "peopleInvolved":
-            MessageLookupByLibrary.simpleMessage("Persone coinvolte"),
-        "promptForLocationPermissionButton":
-            MessageLookupByLibrary.simpleMessage("Consenti localizzazione."),
-        "searchTooltip": MessageLookupByLibrary.simpleMessage("cerca"),
-        "settingsTooltip": MessageLookupByLibrary.simpleMessage("Impostazioni"),
-        "shareIntentText": m0,
-        "shareNotAvailable": MessageLookupByLibrary.simpleMessage(
-            "Azione non disponibile per questo terremoto..."),
-        "skip": MessageLookupByLibrary.simpleMessage("salta"),
-        "title": MessageLookupByLibrary.simpleMessage("Quake"),
-        "welcomeDescription": MessageLookupByLibrary.simpleMessage(
-            "Rimani aggiornato sui terremoti nei dintorni per rimanere sicuro."),
-        "welcomeTitle":
-            MessageLookupByLibrary.simpleMessage("Benvenuto in Quake!")
-      };
+  static _notInlinedMessages(_) => <String, Function> {
+    "advancedSearch" : MessageLookupByLibrary.simpleMessage("Advanced search"),
+    "alertCancelButton" : MessageLookupByLibrary.simpleMessage("cancel"),
+    "alertOkButton" : MessageLookupByLibrary.simpleMessage("ok"),
+    "all" : MessageLookupByLibrary.simpleMessage("All"),
+    "allEarthquakesError" : MessageLookupByLibrary.simpleMessage("Failed to get the list of earthquakes, try again later because something bad happened."),
+    "appStatusDescription" : MessageLookupByLibrary.simpleMessage("The app is in an active development state. Help the developer by reporting bug or suggesting features to add."),
+    "appStatusTitle" : MessageLookupByLibrary.simpleMessage("You can make Quake better!"),
+    "appearance" : MessageLookupByLibrary.simpleMessage("Appearance"),
+    "applicationName" : MessageLookupByLibrary.simpleMessage("Quake"),
+    "badResponse" : MessageLookupByLibrary.simpleMessage("Got bad response from the server, retry later."),
+    "baseMap" : MessageLookupByLibrary.simpleMessage("Base map"),
+    "chooseTheme" : MessageLookupByLibrary.simpleMessage("Choose theme"),
+    "chooseThemeLong" : MessageLookupByLibrary.simpleMessage("Change the whole app\'s appearance"),
+    "dark" : MessageLookupByLibrary.simpleMessage("Dark"),
+    "darkMap" : MessageLookupByLibrary.simpleMessage("Dark map"),
+    "depth" : MessageLookupByLibrary.simpleMessage("Depth"),
+    "depthKm" : MessageLookupByLibrary.simpleMessage("Depth (km)"),
+    "depthSettingsTile" : MessageLookupByLibrary.simpleMessage("Unit of measurement for depth"),
+    "distanceMapSettingsTile" : MessageLookupByLibrary.simpleMessage("Distance for near earthquakes"),
+    "earthquake" : MessageLookupByLibrary.simpleMessage("Earthquake"),
+    "earthquakesCountSettingsTile" : MessageLookupByLibrary.simpleMessage("How many earthquakes to load at time"),
+    "finish" : MessageLookupByLibrary.simpleMessage("finish"),
+    "general" : MessageLookupByLibrary.simpleMessage("General"),
+    "githubTileDescription" : MessageLookupByLibrary.simpleMessage("Quake is an open source project, PRs with your additions are welcome. If you are having any issues check the issue tracker"),
+    "githubTileTitle" : MessageLookupByLibrary.simpleMessage("Contribute to Quake"),
+    "indigoLight" : MessageLookupByLibrary.simpleMessage("Indigo Light"),
+    "kilometers" : MessageLookupByLibrary.simpleMessage("kilometers"),
+    "kilometersShort" : MessageLookupByLibrary.simpleMessage("km"),
+    "light" : MessageLookupByLibrary.simpleMessage("Light"),
+    "lightMap" : MessageLookupByLibrary.simpleMessage("Light map"),
+    "loadingEarthquakeInfos" : MessageLookupByLibrary.simpleMessage("Loading earthquake infos..."),
+    "loadingWithDots" : MessageLookupByLibrary.simpleMessage("Loading..."),
+    "locationNotEnabled" : MessageLookupByLibrary.simpleMessage("You have never allowed location permission, allow Quake to access it to view nearby earthquakes."),
+    "locationPromptAlertContent" : MessageLookupByLibrary.simpleMessage("Quake needs location to show earthquakes nearby, we keep the data in the local storage"),
+    "locationPromptAlertTitle" : MessageLookupByLibrary.simpleMessage("Location permission"),
+    "magnitude" : MessageLookupByLibrary.simpleMessage("Magnitude"),
+    "malformedResponse" : MessageLookupByLibrary.simpleMessage("Bad news here, the server answered in a language that I don\'t speak. Please contact the developer and check for app updates."),
+    "map" : MessageLookupByLibrary.simpleMessage("Map"),
+    "mapProviderSettingsTile" : MessageLookupByLibrary.simpleMessage("Map Provider"),
+    "maxDepth" : MessageLookupByLibrary.simpleMessage("Max depth"),
+    "maxMagnitude" : MessageLookupByLibrary.simpleMessage("Max magnitude"),
+    "meters" : MessageLookupByLibrary.simpleMessage("meters"),
+    "metersShort" : MessageLookupByLibrary.simpleMessage("m"),
+    "miles" : MessageLookupByLibrary.simpleMessage("miles"),
+    "milesShort" : MessageLookupByLibrary.simpleMessage("mi"),
+    "minDepth" : MessageLookupByLibrary.simpleMessage("Min depth"),
+    "minMagnitude" : MessageLookupByLibrary.simpleMessage("Min magnitude"),
+    "minMagnitudeSettingsTile" : MessageLookupByLibrary.simpleMessage("Minimum magnitude for map marker"),
+    "nearby" : MessageLookupByLibrary.simpleMessage("Nearby"),
+    "next" : MessageLookupByLibrary.simpleMessage("next"),
+    "noEarthquakes" : MessageLookupByLibrary.simpleMessage("No earthquakes happened in the last 7 days."),
+    "noInternetConnection" : MessageLookupByLibrary.simpleMessage("You\'re not connected to internet, you must enable an internet connectionto use Quake."),
+    "noResponse" : MessageLookupByLibrary.simpleMessage("Server did not respond, this might be a connection issue or a server issue. Try again later."),
+    "notAvailable" : MessageLookupByLibrary.simpleMessage("Not available."),
+    "notifications" : MessageLookupByLibrary.simpleMessage("Notifications"),
+    "notificationsSettingsTile" : MessageLookupByLibrary.simpleMessage("Enable/Disable notifications."),
+    "other" : MessageLookupByLibrary.simpleMessage("Other"),
+    "peopleInvolved" : MessageLookupByLibrary.simpleMessage("People involved"),
+    "promptForLocationPermissionButton" : MessageLookupByLibrary.simpleMessage("Allow location permission."),
+    "search" : MessageLookupByLibrary.simpleMessage("Search earthquake"),
+    "searchBoxLabel" : MessageLookupByLibrary.simpleMessage("Search for location"),
+    "searchTooltip" : MessageLookupByLibrary.simpleMessage("Search"),
+    "settings" : MessageLookupByLibrary.simpleMessage("Settings"),
+    "settingsTooltip" : MessageLookupByLibrary.simpleMessage("settings"),
+    "shareIntentText" : m0,
+    "shareNotAvailable" : MessageLookupByLibrary.simpleMessage("Action not available for this earthquake..."),
+    "skip" : MessageLookupByLibrary.simpleMessage("skip"),
+    "specialThanks" : MessageLookupByLibrary.simpleMessage("Special thanks"),
+    "specialThanksTile" : MessageLookupByLibrary.simpleMessage("Contributors"),
+    "title" : MessageLookupByLibrary.simpleMessage("Quake"),
+    "unexpectedException" : m1,
+    "welcomeDescription" : MessageLookupByLibrary.simpleMessage("Keep track of the earthquakes near you to stay safe."),
+    "welcomeTitle" : MessageLookupByLibrary.simpleMessage("Welcome to Quake!")
+  };
 }

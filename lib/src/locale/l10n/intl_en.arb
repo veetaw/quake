@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-03-05T16:38:48.414329",
+  "@@last_modified": "2019-05-09T18:47:01.023999",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -70,7 +70,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "searchTooltip": "search",
+  "searchTooltip": "Search",
   "@searchTooltip": {
     "type": "text",
     "placeholders": {}
@@ -174,5 +174,207 @@
       "country": {},
       "time": {}
     }
+  },
+  "settings": "Settings",
+  "@settings": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "appearance": "Appearance",
+  "@appearance": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chooseTheme": "Choose theme",
+  "@chooseTheme": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chooseThemeLong": "Change the whole app's appearance",
+  "@chooseThemeLong": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "general": "General",
+  "@general": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "specialThanks": "Special thanks",
+  "@specialThanks": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "other": "Other",
+  "@other": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "meters": "meters",
+  "@meters": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "kilometers": "kilometers",
+  "@kilometers": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "miles": "miles",
+  "@miles": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "metersShort": "m",
+  "@metersShort": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "kilometersShort": "km",
+  "@kilometersShort": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "milesShort": "mi",
+  "@milesShort": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "baseMap": "Base map",
+  "@baseMap": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "darkMap": "Dark map",
+  "@darkMap": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "lightMap": "Light map",
+  "@lightMap": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "depthSettingsTile": "Unit of measurement for depth",
+  "@depthSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "mapProviderSettingsTile": "Map Provider",
+  "@mapProviderSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationsSettingsTile": "Enable/Disable notifications.",
+  "@notificationsSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "specialThanksTile": "Contributors",
+  "@specialThanksTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "minMagnitudeSettingsTile": "Minimum magnitude for map marker",
+  "@minMagnitudeSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "earthquakesCountSettingsTile": "How many earthquakes to load at time",
+  "@earthquakesCountSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "distanceMapSettingsTile": "Distance for near earthquakes",
+  "@distanceMapSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "githubTileTitle": "Contribute to Quake",
+  "@githubTileTitle": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "githubTileDescription": "Quake is an open source project, PRs with your additions are welcome. If you are having any issues check the issue tracker",
+  "@githubTileDescription": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "unexpectedException": "Something really bad happened and I can't handle it.\nTechnical Details: {e}",
+  "@unexpectedException": {
+    "type": "text",
+    "placeholders": {
+      "e": {}
+    }
+  },
+  "badResponse": "Got bad response from the server, retry later.",
+  "@badResponse": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "malformedResponse": "Bad news here, the server answered in a language that I don't speak. Please contact the developer and check for app updates.",
+  "@malformedResponse": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "noResponse": "Server did not respond, this might be a connection issue or a server issue. Try again later.",
+  "@noResponse": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "light": "Light",
+  "@light": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "dark": "Dark",
+  "@dark": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "indigoLight": "Indigo Light",
+  "@indigoLight": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "search": "Search earthquake",
+  "@search": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "advancedSearch": "Advanced search",
+  "@advancedSearch": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "searchBoxLabel": "Search for location",
+  "@searchBoxLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "minDepth": "Min depth",
+  "@minDepth": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "maxDepth": "Max depth",
+  "@maxDepth": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "minMagnitude": "Min magnitude",
+  "@minMagnitude": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "maxMagnitude": "Max magnitude",
+  "@maxMagnitude": {
+    "type": "text",
+    "placeholders": {}
   }
 }
