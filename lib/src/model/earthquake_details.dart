@@ -370,20 +370,20 @@ class EarthquakeDetails extends StatelessWidget {
                   longitude: earthquake.longitude,
                   language: QuakeLocalizations.localeCode,
                 );
-                if (locationInfos["error"] != null)
-                  return Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        QuakeLocalizations.of(context).shareNotAvailable,
-                      ),
-                    ),
-                  );
+                // if (locationInfos["error"] != null)
+                //   return Scaffold.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text(
+                //         QuakeLocalizations.of(context).shareNotAvailable,
+                //       ),
+                //     ),
+                //   );
                 String locationName = locationInfos["address"]["village"] ??
                     locationInfos["address"]["town"] ??
                     locationInfos["address"]["city"] ??
                     locationInfos["address"]["hamlet"] ??
-                    locationInfos["display_name"];
-                String country = locationInfos["address"]["country"];
+                    locationInfos["display_name"] ?? "";
+                String country = locationInfos["address"]["country"] ?? earthquake.eventLocationName;
 
                 return Share.share(
                   QuakeLocalizations.of(context).shareIntentText(
