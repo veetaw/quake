@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-09T18:47:01.023999",
+  "@@last_modified": "2019-05-10T19:18:05.478806",
   "applicationName": "Terremoti",
   "@applicationName": {
     "description": "application name",
@@ -374,6 +374,21 @@
   },
   "maxMagnitude": "Magnitudo massimo",
   "@maxMagnitude": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "sourceSettingsTile": "Provider di i terremoti",
+  "@sourceSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "emsc": "Centro Sismologico Euro Mediterraneo",
+  "@emsc": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "ingv": "Istituto Nazionale Geofisica e Vulcanologia",
+  "@ingv": {
     "type": "text",
     "placeholders": {}
   }
