@@ -39,7 +39,7 @@ class EarthquakePersistentCacheProvider {
       onCreate: (Database db, int version) async {
         await db.execute('''
           CREATE TABLE IF NOT EXISTS $table_name (
-            ${columns[0]} INTEGER PRIMARY KEY,
+            ${columns[0]} TEXT PRIMARY KEY,
             ${columns[1]} INTEGER NOT NULL,
             ${columns[2]} REAL NOT NULL,
             ${columns[3]} REAL NOT NULL,
@@ -54,7 +54,7 @@ class EarthquakePersistentCacheProvider {
   /// returns an earthquake instance from a given ID
   ///
   /// This will be useful when opening earthquake detail page
-  Future<Earthquake> getEarthquakeById({@required int eventID}) async {
+  Future<Earthquake> getEarthquakeById({@required String eventID}) async {
     if (eventID == null) throw Exception('null_id');
     List results = await _db.query(
       table_name,
@@ -95,7 +95,7 @@ class EarthquakePersistentCacheProvider {
   }
 
   /// Delete earthquake by eventID
-  Future<void> deleteEarthquake({@required int eventID}) async {
+  Future<void> deleteEarthquake({@required String eventID}) async {
     if (eventID == null) throw Exception('null_id');
     try {
       await _db

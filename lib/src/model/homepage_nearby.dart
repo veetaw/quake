@@ -56,6 +56,7 @@ class _HomePageNearbyState extends State<HomePageNearby> {
 
     String rawSource = quakeSharedPreferences.getValue<String>(
       key: QuakeSharedPreferencesKey.earthquakesSource,
+      defaultValue: EarthquakesListSource.ingv.toString(),
     );
 
     earthquakesBloc.search(

@@ -153,7 +153,7 @@ void initNotificationsPluginAndBackgroundFetch(BuildContext context) async {
     await earthquakesBloc.initializeCacheDatabase();
     try {
       Earthquake earthquake =
-          (await _cache.getEarthquakeById(eventID: int.parse(payload)));
+          (await _cache.getEarthquakeById(eventID: payload));
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -200,17 +200,17 @@ void onBackgroundFetch() async {
           .singleWhere((s) => s.toString() == source),
     );
 
-  int lastCachedEarthquakeID = sharedPreferences.getValue<int>(
+  String lastCachedEarthquakeID = sharedPreferences.getValue<String>(
     key: QuakeSharedPreferencesKey.lastEarthquakeID,
-    defaultValue: -1,
+    defaultValue: '-1',
   );
 
   Earthquake _lastCachedEarthquake =
       await _cache.getEarthquakeById(eventID: lastCachedEarthquakeID);
 
   if (_lastFetchedEarthquake.time != _lastCachedEarthquake.time ||
-      lastCachedEarthquakeID == -1) {
-    sharedPreferences.setValue<int>(
+      lastCachedEarthquakeID == '-1') {
+    sharedPreferences.setValue<String>(
       key: QuakeSharedPreferencesKey.lastEarthquakeID,
       value: _lastFetchedEarthquake.eventID,
     );

@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 ///
 /// The data from the api is returned in this way:
 /// #EventID|Time|Latitude|Longitude|Depth/Km|Author|Catalog|Contributor|ContributorID|MagType|Magnitude|MagAuthor|EventLocationName
+/// "20190510_0000083|2019-05-10T15:12:36.0Z|2.48|118.79|24.0|DJA|EMSC-RTS|DJA|764804|m|4.1|DJA|CELEBES SEA"
 /// so to parse it from a raw string it's needed to split the string by '|'
 ///
 /// Indexes and what they represent after split:
@@ -22,7 +23,7 @@ import 'package:meta/meta.dart';
 /// 12 => EventLocationName
 @immutable
 class Earthquake {
-  final int eventID;
+  final String eventID;
   final DateTime time;
   final num latitude;
   final num longitude;
@@ -56,8 +57,10 @@ class Earthquake {
   /// Named constructor that must be used with a valid string response from the API
   Earthquake.fromText(String rawText)
       : assert(rawText.split('|')?.length == 13),
-        this.eventID = int.parse(rawText.split('|')[0] ?? null),
-        this.time = DateTime.parse(rawText.split('|')[1] + "Z").toLocal(),
+        this.eventID = rawText.split('|')[0] ?? null,
+        this.time = DateTime.parse(rawText.split('|')[1] +
+                (rawText.split('|')[1].endsWith("Z") ? "" : "Z"))
+            .toLocal(),
         this.latitude = num.parse(rawText.split('|')[2] ?? 0.0),
         this.longitude = num.parse(rawText.split('|')[3] ?? 0.0),
         this.depth = num.parse(rawText.split('|')[4] ?? 0.0),
@@ -70,10 +73,10 @@ class Earthquake {
         this.magnitudeAuthor = rawText.split('|')[11] ?? "",
         this.eventLocationName = rawText.split('|')[12] ?? "";
 
-  /// This constructor is here because of future implementation of caching
+  /// This constructor is here because of caching
   Earthquake.fromMap(Map map)
       : assert(map != null),
-        this.eventID = map["eventID"] ?? 0,
+        this.eventID = map["eventID"] ?? '0',
         this.time =
             DateTime.fromMillisecondsSinceEpoch(map["time"] ?? null).toLocal(),
         this.latitude = map["latitude"] ?? 0.0,
