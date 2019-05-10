@@ -408,7 +408,9 @@ class SourceDialog extends StatelessWidget {
                 onChanged: (v) {
                   _saveSourceToSharedPrefs(v);
                   // force the bloc to fetch earthquakes again with the new source
-                  quakeSharedPreferences.setValue(key: QuakeSharedPreferencesKey.lastEarthquakesFetch, value: 0);
+                  quakeSharedPreferences.setValue(
+                      key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
+                      value: 0);
                   Navigator.of(context).pop();
                 },
                 groupValue: data,

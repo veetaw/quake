@@ -122,7 +122,8 @@ class FsdnAPI {
 
     /// server returned 204 no content because there are no earthquakes to return
     /// 400 is here because [EmscCsemAPI] returns 400: cannot send response with 204 (lol)
-    if (response.statusCode == 204 || response.statusCode == 400) throw NoContentException;
+    if (response.statusCode == 204 || response.statusCode == 400)
+      throw NoContentException;
 
     /// response status is not ok
     if (response.statusCode != 200)

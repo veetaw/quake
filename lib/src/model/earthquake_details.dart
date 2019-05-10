@@ -382,8 +382,10 @@ class EarthquakeDetails extends StatelessWidget {
                     locationInfos["address"]["town"] ??
                     locationInfos["address"]["city"] ??
                     locationInfos["address"]["hamlet"] ??
-                    locationInfos["display_name"] ?? "";
-                String country = locationInfos["address"]["country"] ?? earthquake.eventLocationName;
+                    locationInfos["display_name"] ??
+                    "";
+                String country = locationInfos["address"]["country"] ??
+                    earthquake.eventLocationName;
 
                 return Share.share(
                   QuakeLocalizations.of(context).shareIntentText(
