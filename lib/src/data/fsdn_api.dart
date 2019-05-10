@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:http/http.dart';
 import 'package:quake/src/model/earthquake.dart';
 
-/// Wrapper over ingv's text API
-class IngvAPI {
-  static const String _kScheme = "http";
-  static const String _kUrl = "webservices.ingv.it";
-  static const String _kPath = "fdsnws/event/1/query";
+/// Supports every FDSN WS-EVENT
+///
+/// The API defaults to IngvAPI
+class FsdnAPI {
+  final String url;
+  final String urlScheme;
+  final String urlPath;
 
   static const int _kDaysToSubtract = 5;
 
@@ -20,7 +22,12 @@ class IngvAPI {
   /// constructor
   ///
   /// client is an optional parameter, useful for testing
-  IngvAPI({this.client}) {
+  FsdnAPI({
+    this.client,
+    this.urlScheme: "http",
+    this.url: "webservices.ingv.it",
+    this.urlPath: "fdsnws/event/1/query",
+  }) {
     if (client == null) {
       client = Client();
     }
@@ -44,9 +51,9 @@ class IngvAPI {
   }) async {
     Response response = await client.get(
       Uri(
-        scheme: _kScheme,
-        host: _kUrl,
-        path: _kPath,
+        scheme: urlScheme,
+        host: url,
+        path: urlPath,
         queryParameters: {
           "starttime": (startTime != null
                   ? startTime
@@ -100,9 +107,9 @@ class IngvAPI {
   Future<Earthquake> fetchEarthquakeById(String eventID) async {
     Response response = await client.get(
       Uri(
-        scheme: _kScheme,
-        host: _kUrl,
-        path: _kPath,
+        scheme: urlScheme,
+        host: url,
+        path: urlPath,
         queryParameters: {
           "eventId": eventID,
           "format": _kFormat,
@@ -142,6 +149,16 @@ class IngvAPI {
     client.close();
   }
 }
+
+class EmscCsemAPI extends FsdnAPI {
+  EmscCsemAPI()
+      : super(
+          url: "www.seismicportal.eu",
+          urlPath: "fdsnws/event/1/query",
+        );
+}
+
+class IngvAPI extends FsdnAPI {}
 
 /// Server did not respond, maybe because it's down or because the connection of
 /// the phone dropped

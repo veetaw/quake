@@ -21,7 +21,6 @@ import 'package:quake/src/utils/quake_shared_preferences.dart';
 import 'package:quake/src/utils/timeago.dart';
 import 'package:quake/src/model/earthquake_details.dart';
 import 'package:quake/src/utils/connectivity.dart';
-import 'package:quake/src/data/ingv_api.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/db/earthquake_provider.dart';
 
@@ -136,7 +135,7 @@ class _QuakeState extends State<Quake> {
   }
 }
 
-void initNotificationsPluginAndBackgroundFetch(BuildContext context) {
+void initNotificationsPluginAndBackgroundFetch(BuildContext context) async {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   AndroidInitializationSettings initializationSettingsAndroid =
@@ -146,9 +145,15 @@ void initNotificationsPluginAndBackgroundFetch(BuildContext context) {
   flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
     if (payload == null || payload.isEmpty) return;
-    IngvAPI ingvApi = IngvAPI();
+    EarthquakesBloc earthquakesBloc = EarthquakesBloc();
+
+    EarthquakePersistentCacheProvider _cache =
+        EarthquakePersistentCacheProvider();
+
+    await earthquakesBloc.initializeCacheDatabase();
     try {
-      Earthquake earthquake = (await ingvApi.fetchEarthquakeById(payload));
+      Earthquake earthquake =
+          (await _cache.getEarthquakeById(eventID: int.parse(payload)));
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -181,7 +186,20 @@ void onBackgroundFetch() async {
   await sharedPreferences.init();
   await earthquakesBloc.initializeCacheDatabase();
 
-  Earthquake _lastFetchedEarthquake = await earthquakesBloc.fetchLast();
+  String source = sharedPreferences.getValue<String>(
+    key: QuakeSharedPreferencesKey.earthquakesSource,
+  );
+  Earthquake _lastFetchedEarthquake;
+  if (source == null || source.isEmpty)
+    _lastFetchedEarthquake = await earthquakesBloc.fetchLast(
+      source: EarthquakesListSource.ingv,
+    );
+  else
+    _lastFetchedEarthquake = await earthquakesBloc.fetchLast(
+      source: EarthquakesListSource.values
+          .singleWhere((s) => s.toString() == source),
+    );
+
   int lastCachedEarthquakeID = sharedPreferences.getValue<int>(
     key: QuakeSharedPreferencesKey.lastEarthquakeID,
     defaultValue: -1,

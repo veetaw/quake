@@ -68,6 +68,11 @@ class QuakeSharedPreferencesKey {
   ///
   /// It should be a [bool].
   static get notificationsEnabled => "notificationsEnabled";
+
+  /// This key contains the website where to query for earthquakes
+  ///
+  /// It should be a [EarthquakesListSource.toString].
+  static get earthquakesSource => "earthquakesSource";
 }
 
 /// This class is a helper for [SharedPreferences].

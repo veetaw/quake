@@ -54,7 +54,15 @@ class _HomePageNearbyState extends State<HomePageNearby> {
       maxLongitude: newCoordMax["longitude"],
     );
 
-    earthquakesBloc.search(options: options);
+    String rawSource = quakeSharedPreferences.getValue<String>(
+      key: QuakeSharedPreferencesKey.earthquakesSource,
+    );
+
+    earthquakesBloc.search(
+      options: options,
+      source: EarthquakesListSource.values
+          .singleWhere((s) => s.toString() == rawSource),
+    );
     return EarthquakesList(
       stream: earthquakesBloc.searchedEarthquakes,
       onRefresh: () => earthquakesBloc.search(options: options),

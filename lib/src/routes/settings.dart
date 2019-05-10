@@ -227,7 +227,7 @@ class Settings extends StatelessWidget {
 }
 
 class NotitificationsEnabledTile extends StatelessWidget {
-  StreamController streamController = StreamController<bool>.broadcast();
+  final StreamController streamController = StreamController<bool>.broadcast();
 
   @override
   Widget build(BuildContext context) {
@@ -250,6 +250,10 @@ class NotitificationsEnabledTile extends StatelessWidget {
             },
           );
         });
+  }
+  
+  void dispose() {
+    streamController.close();
   }
 }
 

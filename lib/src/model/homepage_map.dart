@@ -33,7 +33,14 @@ class HomePageMapState extends State<HomePageMap> {
 
   @override
   Widget build(BuildContext context) {
-    earthquakesBloc.fetchData();
+    String rawSource = quakeSharedPreferences.getValue<String>(
+      key: QuakeSharedPreferencesKey.earthquakesSource,
+    );
+
+    earthquakesBloc.fetchData(
+      source: EarthquakesListSource.values
+          .singleWhere((s) => s.toString() == rawSource),
+    );
     return QuakeStreamBuilder<List<Earthquake>>(
       stream: earthquakesBloc.earthquakes,
       builder: (context, data) {

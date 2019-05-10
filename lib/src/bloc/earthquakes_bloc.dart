@@ -4,13 +4,16 @@ import 'package:rxdart/rxdart.dart';
 import 'package:meta/meta.dart';
 
 import 'package:quake/src/bloc/bloc_provider.dart';
-import 'package:quake/src/data/ingv_api.dart';
+import 'package:quake/src/data/fsdn_api.dart';
 import 'package:quake/src/db/earthquake_provider.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/utils/quake_shared_preferences.dart';
 
 /// Contains every possible API where to fetch earthquakes
-enum EarthquakesListSource { ingv }
+enum EarthquakesListSource { ingv, emsc }
+
+/// https://stackoverflow.com/questions/23112130/creating-an-instance-of-a-generic-type-in-dart
+typedef T ItemCreator<T>();
 
 /// This BLoC takes care of fetching earthquakes and searching for them
 /// based on the options given.
@@ -48,7 +51,7 @@ class EarthquakesBloc extends BlocBase {
   /// Fetches data from the API using the default options
   ///
   /// The parameter [source] defines the API where to fetch the data, it actually
-  /// defaults to the only source available: [EarthquakesListSource.ingv].
+  /// defaults to: [EarthquakesListSource.ingv].
   /// The app doesn't fetch new earthquakes if the last fetch was made less than
   /// [QuakeSharedPreferencesKey.fetchUpdatesDelta] milliseconds ago, but you can
   /// force-fetch new data using the parameter [force]. Avoid force-fetching too
@@ -58,6 +61,20 @@ class EarthquakesBloc extends BlocBase {
     EarthquakesListSource source: EarthquakesListSource.ingv,
     bool force: false,
   }) async {
+    switch (source) {
+      case EarthquakesListSource.ingv:
+        await _requestAndCache<IngvAPI>(force);
+        break;
+      case EarthquakesListSource.emsc:
+        await _requestAndCache<EmscCsemAPI>(force);
+        break;
+      default:
+        _streamController.sink.addError(UnknownSourceException);
+        break;
+    }
+  }
+
+  Future _requestAndCache<T extends FsdnAPI>(bool force) async {
     List<Earthquake> _data = List();
 
     // Stores the last fetch's timestamp to ensure that the app won't query the server too often
@@ -72,35 +89,28 @@ class EarthquakesBloc extends BlocBase {
 
     int actualTimeMs = DateTime.now().millisecondsSinceEpoch;
 
-    switch (source) {
-      case EarthquakesListSource.ingv:
-        if (force ||
-            lastFetchTimestamp == null ||
-            actualTimeMs - lastFetchTimestamp >= deltaTime) {
-          IngvAPI _api = IngvAPI();
-          try {
-            _data = await _api.getData();
-          } catch (e) {
-            _streamController.sink.addError(e);
-            return;
-          }
-          // clear cache before saving new data to avoid DB getting bigger and bigger
-          await _earthquakePersistentCacheProvider.dropCache();
-          _earthquakePersistentCacheProvider.addEarthquakes(earthquakes: _data);
+    if (force ||
+        lastFetchTimestamp == null ||
+        (actualTimeMs - lastFetchTimestamp) >= deltaTime) {
+      ItemCreator<T> creator;
+      T _api = creator();
+      try {
+        _data = await _api.getData();
+      } catch (e) {
+        _streamController.sink.addError(e);
+        return;
+      }
+      // clear cache before saving new data to avoid DB getting bigger and bigger
+      await _earthquakePersistentCacheProvider.dropCache();
+      _earthquakePersistentCacheProvider.addEarthquakes(earthquakes: _data);
 
-          _quakeSharedPreferences.setValue<int>(
-            key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
-            value: actualTimeMs,
-          );
-        } else {
-          _data = await _earthquakePersistentCacheProvider.getAllEarthquakes();
-        }
-        break;
-      default:
-        _streamController.sink.addError(UnknownSourceException);
-        break;
+      _quakeSharedPreferences.setValue<int>(
+        key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
+        value: actualTimeMs,
+      );
+    } else {
+      _data = await _earthquakePersistentCacheProvider.getAllEarthquakes();
     }
-
     _data = _data..sort((e1, e2) => e2.time.compareTo(e1.time));
 
     // finally push data through the stream
@@ -155,6 +165,33 @@ class EarthquakesBloc extends BlocBase {
           }
 
           break;
+        case EarthquakesListSource.emsc:
+          EmscCsemAPI _api = EmscCsemAPI();
+
+          try {
+            _data = await _api.getData(
+              startTime: options.startTime,
+              endTime: options.endTime,
+              minMagnitude: options.minMagnitude,
+              maxMagnitude: options.maxMagnitude,
+              minDepth: options.minDepth,
+              maxDepth: options.maxDepth,
+              minLatitude: options.minLatitude,
+              maxLatitude: options.maxLatitude,
+              minLongitude: options.minLongitude,
+              maxLongitude: options.maxLongitude,
+            );
+          } catch (e) {
+            _searchController.sink.addError(e);
+            return;
+          }
+
+          // force is true on search not nearby, so don't cache search
+          if (!force) {
+            _nearbyCache = _data;
+          }
+
+          break;
         default:
           _searchController.sink.addError(UnknownSourceException);
           break;
@@ -175,6 +212,9 @@ class EarthquakesBloc extends BlocBase {
     switch (source) {
       case EarthquakesListSource.ingv:
         IngvAPI api = IngvAPI();
+        return (await api.getData(limit: 1)).first;
+      case EarthquakesListSource.emsc:
+        EmscCsemAPI api = EmscCsemAPI();
         return (await api.getData(limit: 1)).first;
       default:
         throw UnknownSourceException;

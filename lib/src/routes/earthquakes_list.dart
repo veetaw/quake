@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:meta/meta.dart';
-import 'package:quake/src/data/ingv_api.dart';
 
 import 'package:quake/src/locale/localizations.dart';
 import 'package:quake/src/model/earthquake.dart';
@@ -12,6 +11,7 @@ import 'package:quake/src/model/earthquake_card.dart';
 import 'package:quake/src/model/earthquake_details.dart';
 import 'package:quake/src/model/error.dart';
 import 'package:quake/src/model/quake_builders.dart';
+import 'package:quake/src/data/fsdn_api.dart';
 
 class EarthquakesList extends StatelessWidget {
   final Stream<List<Earthquake>> stream;
