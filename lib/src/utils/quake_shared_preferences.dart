@@ -60,7 +60,7 @@ class QuakeSharedPreferencesKey {
 
   /// This key contains the id of the last fetched earthquake
   ///
-  /// It should be a [int].
+  /// It should be a [String].
   static get lastEarthquakeID => "lastEarthquakeId";
 
   /// This key contains true if the app should fetch earthquakes in the background

@@ -25,6 +25,7 @@ class _HomePageAllState extends State<HomePageAll> {
   Widget build(BuildContext context) {
     String rawSource = sharedPreferences.getValue<String>(
       key: QuakeSharedPreferencesKey.earthquakesSource,
+      defaultValue: EarthquakesListSource.ingv.toString(),
     );
 
     earthquakesBloc.fetchData(

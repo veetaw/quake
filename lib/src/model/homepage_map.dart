@@ -35,6 +35,7 @@ class HomePageMapState extends State<HomePageMap> {
   Widget build(BuildContext context) {
     String rawSource = quakeSharedPreferences.getValue<String>(
       key: QuakeSharedPreferencesKey.earthquakesSource,
+      defaultValue: EarthquakesListSource.ingv.toString(),
     );
 
     earthquakesBloc.fetchData(
@@ -207,7 +208,7 @@ class _EarthquakeMapState extends State<EarthquakeMap>
     final eventMap =
         data.fold<Map<String, Earthquake>>(Map(), (list, earthquake) {
       if (position.bounds.contains(_getPosition(earthquake))) {
-        list[earthquake.eventID.toString()] = earthquake;
+        list[earthquake.eventID] = earthquake;
       }
       return list;
     });
@@ -218,7 +219,7 @@ class _EarthquakeMapState extends State<EarthquakeMap>
     List<Instance> instances = eventMap.values.map((earthquake) {
       return Instance(
         [earthquake.latitude, earthquake.longitude],
-        id: earthquake.eventID.toString(),
+        id: earthquake.eventID,
       );
     }).toList();
 
