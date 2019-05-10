@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
 import 'package:package_info/package_info.dart';
+import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:quake/src/bloc/theme_bloc.dart';
@@ -45,6 +46,15 @@ class Settings extends StatelessWidget {
                   context: context,
                   barrierDismissible: true,
                   builder: (_) => UnitOfMeasurementDialog(),
+                ),
+          ),
+          ListTile(
+            title: Text(QuakeLocalizations.of(context).sourceSettingsTile),
+            leading: Icon(Icons.adjust),
+            onTap: () => showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (_) => SourceDialog(),
                 ),
           ),
           ListTile(
@@ -251,7 +261,7 @@ class NotitificationsEnabledTile extends StatelessWidget {
           );
         });
   }
-  
+
   void dispose() {
     streamController.close();
   }
@@ -367,6 +377,70 @@ class UnitOfMeasurementDialog extends StatelessWidget {
     quakeSharedPreferences.setValue<String>(
       key: QuakeSharedPreferencesKey.unitOfMeasurement,
       value: UnitOfMeasurement.values[value].toString(),
+    );
+  }
+
+  void dispose() {
+    valuesStream.close();
+  }
+}
+
+class SourceDialog extends StatelessWidget {
+  SourceDialog({
+    Key key,
+  }) : super(key: key);
+
+  final StreamController<int> valuesStream = StreamController.broadcast();
+
+  @override
+  Widget build(BuildContext context) {
+    return QuakeStreamBuilder<int>(
+      stream: valuesStream.stream,
+      initialData: _getSourceFromSharedPrefs().index,
+      builder: (context, data) {
+        return QuakeDialog(
+          title: QuakeLocalizations.of(context).sourceSettingsTile,
+          child: ListView.builder(
+            itemCount: EarthquakesListSource.values.length,
+            itemBuilder: (context, index) {
+              return RadioListTile(
+                value: index,
+                onChanged: (v) {
+                  _saveSourceToSharedPrefs(v);
+                  // force the bloc to fetch earthquakes again with the new source
+                  quakeSharedPreferences.setValue(key: QuakeSharedPreferencesKey.lastEarthquakesFetch, value: 0);
+                  Navigator.of(context).pop();
+                },
+                groupValue: data,
+                title: Text(
+                  QuakeLocalizations.of(context).source(
+                    EarthquakesListSource.values[index],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  EarthquakesListSource _getSourceFromSharedPrefs() {
+    String rawSource = quakeSharedPreferences.getValue<String>(
+      key: QuakeSharedPreferencesKey.earthquakesSource,
+      defaultValue: EarthquakesListSource.ingv.toString(),
+    );
+    return EarthquakesListSource.values
+        .singleWhere((s) => s.toString() == rawSource);
+  }
+
+  void _saveSourceToSharedPrefs(int value) {
+    valuesStream.sink.add(value);
+    quakeSharedPreferences.setValue<String>(
+      key: QuakeSharedPreferencesKey.earthquakesSource,
+      value: EarthquakesListSource.values
+          .singleWhere((s) => s.index == value)
+          .toString(),
     );
   }
 
