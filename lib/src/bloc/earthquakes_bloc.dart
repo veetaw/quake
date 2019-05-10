@@ -170,11 +170,12 @@ class EarthquakesBloc extends BlocBase {
         .add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
   }
 
-  Future<Earthquake> fetchLast({EarthquakesListSource source: EarthquakesListSource.ingv}) async {
-    switch(source) {
+  Future<Earthquake> fetchLast(
+      {EarthquakesListSource source: EarthquakesListSource.ingv}) async {
+    switch (source) {
       case EarthquakesListSource.ingv:
         IngvAPI api = IngvAPI();
-        return  (await api.getData(limit: 1)).first;
+        return (await api.getData(limit: 1)).first;
       default:
         throw UnknownSourceException;
     }

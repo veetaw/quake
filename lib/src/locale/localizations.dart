@@ -358,10 +358,9 @@ class QuakeLocalizations {
       );
 
   String unexpectedException(Object e) => Intl.message(
-        "Something really bad happened and I can't handle it.\nTechnical Details: $e",
-        name: "unexpectedException",
-        args: [e]
-      );
+      "Something really bad happened and I can't handle it.\nTechnical Details: $e",
+      name: "unexpectedException",
+      args: [e]);
 
   String get badResponse => Intl.message(
         "Got bad response from the server, retry later.",

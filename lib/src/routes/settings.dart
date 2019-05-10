@@ -232,21 +232,24 @@ class NotitificationsEnabledTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QuakeStreamBuilder<bool>(
-      stream: streamController.stream,
-      initialData: quakeSharedPreferences.getValue<bool>(key: QuakeSharedPreferencesKey.notificationsEnabled, defaultValue: false),
-      builder: (context, data) {
-        return SwitchListTile(
-          title:
-              Text(QuakeLocalizations.of(context).notificationsSettingsTile),
-          secondary: Icon(Icons.notifications),
-          value: data,
-          onChanged: (newValue) {
-            quakeSharedPreferences.setValue<bool>(key: QuakeSharedPreferencesKey.notificationsEnabled, value: newValue);
-            streamController.sink.add(newValue);
-          },
-        );
-      }
-    );
+        stream: streamController.stream,
+        initialData: quakeSharedPreferences.getValue<bool>(
+            key: QuakeSharedPreferencesKey.notificationsEnabled,
+            defaultValue: false),
+        builder: (context, data) {
+          return SwitchListTile(
+            title:
+                Text(QuakeLocalizations.of(context).notificationsSettingsTile),
+            secondary: Icon(Icons.notifications),
+            value: data,
+            onChanged: (newValue) {
+              quakeSharedPreferences.setValue<bool>(
+                  key: QuakeSharedPreferencesKey.notificationsEnabled,
+                  value: newValue);
+              streamController.sink.add(newValue);
+            },
+          );
+        });
   }
 }
 

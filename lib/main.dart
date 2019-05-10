@@ -190,12 +190,13 @@ void onBackgroundFetch() async {
   Earthquake _lastCachedEarthquake =
       await _cache.getEarthquakeById(eventID: lastCachedEarthquakeID);
 
-  if (_lastFetchedEarthquake.time != _lastCachedEarthquake.time || lastCachedEarthquakeID == -1) {
+  if (_lastFetchedEarthquake.time != _lastCachedEarthquake.time ||
+      lastCachedEarthquakeID == -1) {
     sharedPreferences.setValue<int>(
       key: QuakeSharedPreferencesKey.lastEarthquakeID,
       value: _lastFetchedEarthquake.eventID,
     );
-    
+
     await _cache.addEarthquake(earthquake: _lastFetchedEarthquake);
 
     await sendNotification(_lastFetchedEarthquake);

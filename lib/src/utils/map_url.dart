@@ -32,7 +32,7 @@ String getCreditsByMapStyle(MapStyles style) {
       return "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.";
     case MapStyles.light:
       return "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.";
-    default: 
+    default:
       return "© OpenStreetMap contributors";
   }
 }

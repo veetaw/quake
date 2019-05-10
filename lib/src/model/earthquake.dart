@@ -74,7 +74,8 @@ class Earthquake {
   Earthquake.fromMap(Map map)
       : assert(map != null),
         this.eventID = map["eventID"] ?? 0,
-        this.time = DateTime.fromMillisecondsSinceEpoch(map["time"] ?? null).toLocal(),
+        this.time =
+            DateTime.fromMillisecondsSinceEpoch(map["time"] ?? null).toLocal(),
         this.latitude = map["latitude"] ?? 0.0,
         this.longitude = map["longitude"] ?? 0.0,
         this.depth = map["depth"] ?? 0.0,

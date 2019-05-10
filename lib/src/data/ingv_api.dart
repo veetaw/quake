@@ -109,6 +109,7 @@ class IngvAPI {
         },
       ),
     );
+
     /// no response, probably there's no connection
     if (response == null) throw NoResponseException;
 
@@ -134,7 +135,6 @@ class IngvAPI {
       /// something bad happened during parsing text
       throw MalformedResponseException;
     }
-
   }
 
   //// must be called in order to free client's memory
