@@ -166,9 +166,7 @@ void initNotificationsPluginAndBackgroundFetch(BuildContext context) {
     BackgroundFetchConfig(
       minimumFetchInterval: 10,
       stopOnTerminate: false,
-      forceReload: false,
       enableHeadless: true,
-      startOnBoot: true,
     ),
     onBackgroundFetch,
   );
@@ -181,24 +179,26 @@ void onBackgroundFetch() async {
       EarthquakePersistentCacheProvider();
 
   await sharedPreferences.init();
+  await earthquakesBloc.initializeCacheDatabase();
 
-  Earthquake earthquake = await earthquakesBloc.fetchLast();
-  int lastFetchedEarthquakeID = sharedPreferences.getValue<int>(
-      key: QuakeSharedPreferencesKey.lastEarthquakeID, defaultValue: -1,);
+  Earthquake _lastFetchedEarthquake = await earthquakesBloc.fetchLast();
+  int lastCachedEarthquakeID = sharedPreferences.getValue<int>(
+    key: QuakeSharedPreferencesKey.lastEarthquakeID,
+    defaultValue: -1,
+  );
 
-  if (lastFetchedEarthquakeID != -1) {
-    Earthquake _last =
-        await _cache.getEarthquakeById(eventID: lastFetchedEarthquakeID);
+  Earthquake _lastCachedEarthquake =
+      await _cache.getEarthquakeById(eventID: lastCachedEarthquakeID);
 
-    if (_last == null) return;
-    if (earthquake.time != _last.time) {
-      sharedPreferences.setValue<int>(
-        key: QuakeSharedPreferencesKey.lastEarthquakeID,
-        value: earthquake.eventID,
-      );
+  if (_lastFetchedEarthquake.time != _lastCachedEarthquake.time || lastCachedEarthquakeID == -1) {
+    sharedPreferences.setValue<int>(
+      key: QuakeSharedPreferencesKey.lastEarthquakeID,
+      value: _lastFetchedEarthquake.eventID,
+    );
+    
+    await _cache.addEarthquake(earthquake: _lastFetchedEarthquake);
 
-      await sendNotification(earthquake);
-    }
+    await sendNotification(_lastFetchedEarthquake);
   }
 
   BackgroundFetch.finish();
@@ -210,9 +210,9 @@ sendNotification(Earthquake earthquake) async {
 
   AndroidNotificationDetails androidPlatformChannelSpecifics =
       AndroidNotificationDetails(
-    'quake-${earthquake.eventID}',
+    'Quake-${earthquake.eventID}',
     'Quake',
-    'quake notification channel',
+    'Quake notification channel',
     importance: Importance.Default,
     priority: Priority.Default,
   );
