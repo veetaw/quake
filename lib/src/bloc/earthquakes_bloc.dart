@@ -61,20 +61,6 @@ class EarthquakesBloc extends BlocBase {
     EarthquakesListSource source: EarthquakesListSource.ingv,
     bool force: false,
   }) async {
-    switch (source) {
-      case EarthquakesListSource.ingv:
-        await _requestAndCache<IngvAPI>(force);
-        break;
-      case EarthquakesListSource.emsc:
-        await _requestAndCache<EmscCsemAPI>(force);
-        break;
-      default:
-        _streamController.sink.addError(UnknownSourceException);
-        break;
-    }
-  }
-
-  Future _requestAndCache<T extends FsdnAPI>(bool force) async {
     List<Earthquake> _data = List();
 
     // Stores the last fetch's timestamp to ensure that the app won't query the server too often
@@ -89,34 +75,64 @@ class EarthquakesBloc extends BlocBase {
 
     int actualTimeMs = DateTime.now().millisecondsSinceEpoch;
 
-    if (force ||
-        lastFetchTimestamp == null ||
-        (actualTimeMs - lastFetchTimestamp) >= deltaTime) {
-      ItemCreator<T> creator;
-      T _api = creator();
-      try {
-        _data = await _api.getData();
-      } catch (e) {
-        _streamController.sink.addError(e);
-        return;
-      }
-      // clear cache before saving new data to avoid DB getting bigger and bigger
-      await _earthquakePersistentCacheProvider.dropCache();
-      _earthquakePersistentCacheProvider.addEarthquakes(earthquakes: _data);
+    switch (source) {
+      case EarthquakesListSource.ingv:
+        if (force ||
+            lastFetchTimestamp == null ||
+            (actualTimeMs - lastFetchTimestamp) >= deltaTime) {
+          IngvAPI _api = IngvAPI();
+          try {
+            _data = await _api.getData();
+          } catch (e) {
+            _streamController.sink.addError(e);
+            return;
+          }
+          // clear cache before saving new data to avoid DB getting bigger and bigger
+          await _earthquakePersistentCacheProvider.dropCache();
+          _earthquakePersistentCacheProvider.addEarthquakes(earthquakes: _data);
 
-      _quakeSharedPreferences.setValue<int>(
-        key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
-        value: actualTimeMs,
-      );
-    } else {
-      _data = await _earthquakePersistentCacheProvider.getAllEarthquakes();
+          _quakeSharedPreferences.setValue<int>(
+            key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
+            value: actualTimeMs,
+          );
+        } else {
+          _data = await _earthquakePersistentCacheProvider.getAllEarthquakes();
+        }
+
+        break;
+      case EarthquakesListSource.emsc:
+        if (force ||
+            lastFetchTimestamp == null ||
+            (actualTimeMs - lastFetchTimestamp) >= deltaTime) {
+          EmscCsemAPI _api = EmscCsemAPI();
+          try {
+            _data = await _api.getData();
+          } catch (e) {
+            _streamController.sink.addError(e);
+            return;
+          }
+          // clear cache before saving new data to avoid DB getting bigger and bigger
+          await _earthquakePersistentCacheProvider.dropCache();
+          _earthquakePersistentCacheProvider.addEarthquakes(earthquakes: _data);
+
+          _quakeSharedPreferences.setValue<int>(
+            key: QuakeSharedPreferencesKey.lastEarthquakesFetch,
+            value: actualTimeMs,
+          );
+        } else {
+          _data = await _earthquakePersistentCacheProvider.getAllEarthquakes();
+        }
+        break;
+      default:
+        _streamController.sink.addError(UnknownSourceException);
+        break;
     }
     _data = _data..sort((e1, e2) => e2.time.compareTo(e1.time));
 
     // finally push data through the stream
     _streamController.sink.add(_data);
 
-    _quakeSharedPreferences.setValue<int>(
+    _quakeSharedPreferences.setValue<String>(
       key: QuakeSharedPreferencesKey.lastEarthquakeID,
       value: _data.first.eventID,
     );
