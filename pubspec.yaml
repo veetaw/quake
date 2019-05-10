@@ -1,6 +1,6 @@
 name: quake
 description: An earthquake news app.
-version: 0.2.1+1
+version: 1.0.0-rc2
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -46,6 +46,7 @@ flutter:
   assets:
     - assets/flare/pulse.flr
     - assets/images/logo_with_bg.png
+    - assets/images/logo_no_bg.png
   fonts:
     - family: Montserrat
       fonts:
