@@ -1,6 +1,6 @@
 {
   "@@last_modified": "2019-05-09T18:47:01.023999",
-  "applicationName": "Quake",
+  "applicationName": "Terremoti",
   "@applicationName": {
     "description": "application name",
     "type": "text",
@@ -11,22 +11,22 @@
     "type": "text",
     "placeholders": {}
   },
-  "earthquake": "Earthquake",
+  "earthquake": "Terremoto",
   "@earthquake": {
     "type": "text",
     "placeholders": {}
   },
-  "skip": "skip",
+  "skip": "salta",
   "@skip": {
     "type": "text",
     "placeholders": {}
   },
-  "next": "next",
+  "next": "prossimo",
   "@next": {
     "type": "text",
     "placeholders": {}
   },
-  "finish": "finish",
+  "finish": "termina",
   "@finish": {
     "type": "text",
     "placeholders": {}
@@ -55,82 +55,82 @@
     "type": "text",
     "placeholders": {}
   },
-  "all": "All",
+  "all": "Tutti",
   "@all": {
     "type": "text",
     "placeholders": {}
   },
-  "nearby": "Nearby",
+  "nearby": "Nei dintorni",
   "@nearby": {
     "type": "text",
     "placeholders": {}
   },
-  "map": "Map",
+  "map": "Mappa",
   "@map": {
     "type": "text",
     "placeholders": {}
   },
-  "searchTooltip": "Search",
+  "searchTooltip": "Ricerca",
   "@searchTooltip": {
     "type": "text",
     "placeholders": {}
   },
-  "settingsTooltip": "settings",
+  "settingsTooltip": "impostazioni",
   "@settingsTooltip": {
     "type": "text",
     "placeholders": {}
   },
-  "magnitude": "Magnitude",
+  "magnitude": "Magnitudo",
   "@magnitude": {
     "type": "text",
     "placeholders": {}
   },
-  "depthKm": "Depth (km)",
+  "depthKm": "Profondità (km)",
   "@depthKm": {
     "type": "text",
     "placeholders": {}
   },
-  "depth": "Depth",
+  "depth": "Profondità",
   "@depth": {
     "type": "text",
     "placeholders": {}
   },
-  "allEarthquakesError": "Failed to get the list of earthquakes, try again later because something bad happened.",
+  "allEarthquakesError": "Impossibile ottenere la lista dei terremoti, prova di nuvovo più tardi.",
   "@allEarthquakesError": {
     "type": "text",
     "placeholders": {}
   },
-  "noInternetConnection": "You're not connected to internet, you must enable an internet connectionto use Quake.",
+  "noInternetConnection": "Non sei connesso ad internet, devi avere una connessione attiva per poter vedere gli ultimi terremoti.",
   "@noInternetConnection": {
     "type": "text",
     "placeholders": {}
   },
-  "noEarthquakes": "No earthquakes happened in the last 7 days.",
+  "noEarthquakes": "Non ci sono stati terremoti negli ultimi giorni.",
   "@noEarthquakes": {
     "type": "text",
     "placeholders": {}
   },
-  "locationNotEnabled": "You have never allowed location permission, allow Quake to access it to view nearby earthquakes.",
+  "locationNotEnabled": "Non hai concesso il permesso di localizzazione, concedilo per poter vedere i terremoti nelle vicinanze.",
   "@locationNotEnabled": {
     "type": "text",
     "placeholders": {}
   },
-  "promptForLocationPermissionButton": "Allow location permission.",
+  "promptForLocationPermissionButton": "Concedi permesso di localizzazione.",
   "@promptForLocationPermissionButton": {
     "type": "text",
     "placeholders": {}
   },
-  "locationPromptAlertTitle": "Location permission",
+  "locationPromptAlertTitle": "Localizzazione",
   "@locationPromptAlertTitle": {
     "type": "text",
     "placeholders": {}
   },
-  "locationPromptAlertContent": "Quake needs location to show earthquakes nearby, we keep the data in the local storage",
+  "locationPromptAlertContent": "Quake ha bisogno del permesso di localizzazione per mostrare i terremoti nelle vicinanze, i dati sono salvati nello storage locale.",
   "@locationPromptAlertContent": {
     "type": "text",
     "placeholders": {}
   },
-  "alertCancelButton": "cancel",
+  "alertCancelButton": "annulla",
   "@alertCancelButton": {
     "type": "text",
     "placeholders": {}
@@ -140,32 +140,32 @@
     "type": "text",
     "placeholders": {}
   },
-  "peopleInvolved": "People involved",
+  "peopleInvolved": "Persone coinvolte",
   "@peopleInvolved": {
     "type": "text",
     "placeholders": {}
   },
-  "loadingEarthquakeInfos": "Loading earthquake infos...",
+  "loadingEarthquakeInfos": "Carico le informazioni del terremoto...",
   "@loadingEarthquakeInfos": {
     "type": "text",
     "placeholders": {}
   },
-  "shareNotAvailable": "Action not available for this earthquake...",
+  "shareNotAvailable": "Azione non disponibile per questo terremoto...",
   "@shareNotAvailable": {
     "type": "text",
     "placeholders": {}
   },
-  "loadingWithDots": "Loading...",
+  "loadingWithDots": "Caricamento...",
   "@loadingWithDots": {
     "type": "text",
     "placeholders": {}
   },
-  "notAvailable": "Not available.",
+  "notAvailable": "Non disponibile.",
   "@notAvailable": {
     "type": "text",
     "placeholders": {}
   },
-  "shareIntentText": "{time}: Registered an earthquake of {magnitude} on Richter Scale in {location} ({country}).\n\nShared with Quake.",
+  "shareIntentText": "{time}: A {location} ({country}) è stato Registrato un terremoto di magnitudo {magnitude} sulla scala Richter.\n\nCondiviso con Quake.",
   "@shareIntentText": {
     "type": "text",
     "placeholders": {
@@ -175,57 +175,57 @@
       "time": {}
     }
   },
-  "settings": "Settings",
+  "settings": "Impostazioni",
   "@settings": {
     "type": "text",
     "placeholders": {}
   },
-  "appearance": "Appearance",
+  "appearance": "Aspetto",
   "@appearance": {
     "type": "text",
     "placeholders": {}
   },
-  "chooseTheme": "Choose theme",
+  "chooseTheme": "Scegli tema",
   "@chooseTheme": {
     "type": "text",
     "placeholders": {}
   },
-  "chooseThemeLong": "Change the whole app's appearance",
+  "chooseThemeLong": "Cambia l'aspetto dell'app",
   "@chooseThemeLong": {
     "type": "text",
     "placeholders": {}
   },
-  "general": "General",
+  "general": "Generale",
   "@general": {
     "type": "text",
     "placeholders": {}
   },
-  "notifications": "Notifications",
+  "notifications": "Notifiche",
   "@notifications": {
     "type": "text",
     "placeholders": {}
   },
-  "specialThanks": "Special thanks",
+  "specialThanks": "Ringraziamenti speciali",
   "@specialThanks": {
     "type": "text",
     "placeholders": {}
   },
-  "other": "Other",
+  "other": "Altro",
   "@other": {
     "type": "text",
     "placeholders": {}
   },
-  "meters": "meters",
+  "meters": "metri",
   "@meters": {
     "type": "text",
     "placeholders": {}
   },
-  "kilometers": "kilometers",
+  "kilometers": "kilometri",
   "@kilometers": {
     "type": "text",
     "placeholders": {}
   },
-  "miles": "miles",
+  "miles": "miglia",
   "@miles": {
     "type": "text",
     "placeholders": {}
@@ -245,134 +245,134 @@
     "type": "text",
     "placeholders": {}
   },
-  "baseMap": "Base map",
+  "baseMap": "Mappa base",
   "@baseMap": {
     "type": "text",
     "placeholders": {}
   },
-  "darkMap": "Dark map",
+  "darkMap": "Mappa scura",
   "@darkMap": {
     "type": "text",
     "placeholders": {}
   },
-  "lightMap": "Light map",
+  "lightMap": "Mappa chiara",
   "@lightMap": {
     "type": "text",
     "placeholders": {}
   },
-  "depthSettingsTile": "Unit of measurement for depth",
+  "depthSettingsTile": "Unità di misura per la profondità",
   "@depthSettingsTile": {
     "type": "text",
     "placeholders": {}
   },
-  "mapProviderSettingsTile": "Map Provider",
+  "mapProviderSettingsTile": "Provider mappe",
   "@mapProviderSettingsTile": {
     "type": "text",
     "placeholders": {}
   },
-  "notificationsSettingsTile": "Enable/Disable notifications.",
+  "notificationsSettingsTile": "Abilità/Disabilita notifiche.",
   "@notificationsSettingsTile": {
     "type": "text",
     "placeholders": {}
   },
-  "specialThanksTile": "Contributors",
+  "specialThanksTile": "Collaboratori",
   "@specialThanksTile": {
     "type": "text",
     "placeholders": {}
   },
-  "minMagnitudeSettingsTile": "Minimum magnitude for map marker",
+  "minMagnitudeSettingsTile": "Magnitudo minimo per il marker sulla mappa",
   "@minMagnitudeSettingsTile": {
     "type": "text",
     "placeholders": {}
   },
-  "earthquakesCountSettingsTile": "How many earthquakes to load at time",
+  "earthquakesCountSettingsTile": "Numero di terremoti da caricare per volta",
   "@earthquakesCountSettingsTile": {
     "type": "text",
     "placeholders": {}
   },
-  "distanceMapSettingsTile": "Distance for near earthquakes",
+  "distanceMapSettingsTile": "Distanza per i terremoti nelle vicinanze",
   "@distanceMapSettingsTile": {
     "type": "text",
     "placeholders": {}
   },
-  "githubTileTitle": "Contribute to Quake",
+  "githubTileTitle": "Contribuisci a Quake",
   "@githubTileTitle": {
     "type": "text",
     "placeholders": {}
   },
-  "githubTileDescription": "Quake is an open source project, PRs with your additions are welcome. If you are having any issues check the issue tracker",
+  "githubTileDescription": "Quake è un progetto open source, delle PR con tue modifiche sono ben accette. Se stai riscontrando problemi con l'applicazione controlla l'issue tracker.",
   "@githubTileDescription": {
     "type": "text",
     "placeholders": {}
   },
-  "unexpectedException": "Something really bad happened and I can't handle it.\nTechnical Details: {e}",
+  "unexpectedException": "Qualcosa di non aspettato è successo.\nDettagli tecnici: {e}",
   "@unexpectedException": {
     "type": "text",
     "placeholders": {
       "e": {}
     }
   },
-  "badResponse": "Got bad response from the server, retry later.",
+  "badResponse": "Risposta del server non valida, riprova tra qualche minuto.",
   "@badResponse": {
     "type": "text",
     "placeholders": {}
   },
-  "malformedResponse": "Bad news here, the server answered in a language that I don't speak. Please contact the developer and check for app updates.",
+  "malformedResponse": "Brutte notizie, il server ha risposto in un modo che non riconosco. Controlla se ci sono aggiornamenti dell'applicazione e contatta lo sviluppatore.",
   "@malformedResponse": {
     "type": "text",
     "placeholders": {}
   },
-  "noResponse": "Server did not respond, this might be a connection issue or a server issue. Try again later.",
+  "noResponse": "Il server non ha risposto, questo potrebbe essere un problema di connessione o un problema del server. Riprova tra qualche minuto.",
   "@noResponse": {
     "type": "text",
     "placeholders": {}
   },
-  "light": "Light",
+  "light": "Chiaro",
   "@light": {
     "type": "text",
     "placeholders": {}
   },
-  "dark": "Dark",
+  "dark": "Scuro",
   "@dark": {
     "type": "text",
     "placeholders": {}
   },
-  "indigoLight": "Indigo Light",
+  "indigoLight": "Blu chiaro",
   "@indigoLight": {
     "type": "text",
     "placeholders": {}
   },
-  "search": "Search earthquake",
+  "search": "Cerca terremoti",
   "@search": {
     "type": "text",
     "placeholders": {}
   },
-  "advancedSearch": "Advanced search",
+  "advancedSearch": "Ricerca avanzata",
   "@advancedSearch": {
     "type": "text",
     "placeholders": {}
   },
-  "searchBoxLabel": "Search for location",
+  "searchBoxLabel": "Cerca per posizione",
   "@searchBoxLabel": {
     "type": "text",
     "placeholders": {}
   },
-  "minDepth": "Min depth",
+  "minDepth": "Profondità minima",
   "@minDepth": {
     "type": "text",
     "placeholders": {}
   },
-  "maxDepth": "Max depth",
+  "maxDepth": "Profondità massima",
   "@maxDepth": {
     "type": "text",
     "placeholders": {}
   },
-  "minMagnitude": "Min magnitude",
+  "minMagnitude": "Magnitudo minimo",
   "@minMagnitude": {
     "type": "text",
     "placeholders": {}
   },
-  "maxMagnitude": "Max magnitude",
+  "maxMagnitude": "Magnitudo massimo",
   "@maxMagnitude": {
     "type": "text",
     "placeholders": {}
