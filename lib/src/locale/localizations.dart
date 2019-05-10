@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:quake/src/bloc/earthquakes_bloc.dart';
 import 'package:quake/src/locale/l10n/messages_all.dart';
 import 'package:quake/src/utils/map_url.dart';
 import 'package:quake/src/utils/unit_of_measurement_conversion.dart';
@@ -431,6 +432,31 @@ class QuakeLocalizations {
   String get maxMagnitude => Intl.message(
         "Max magnitude",
         name: "maxMagnitude",
+      );
+
+  String get sourceSettingsTile => Intl.message(
+        "Earthquake feed source",
+        name: "sourceSettingsTile",
+      );
+
+  String source(EarthquakesListSource value) {
+    switch (value) {
+      case EarthquakesListSource.emsc:
+        return emsc;
+      case EarthquakesListSource.ingv:
+        return ingv;
+      default:
+        return ingv;
+    }
+  }
+
+  String get emsc => Intl.message(
+        "European Mediterranean Seismological Centre",
+        name: "emsc",
+      );
+  String get ingv => Intl.message(
+        "National Institute of Geophysics and Volcanology",
+        name: "ingv",
       );
 }
 
