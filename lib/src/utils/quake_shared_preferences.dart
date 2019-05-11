@@ -69,6 +69,12 @@ class QuakeSharedPreferencesKey {
   /// It should be a [bool].
   static get notificationsEnabled => "notificationsEnabled";
 
+  /// This key contains true if the app should fetch only near earthquakes
+  /// in the background for notifications
+  ///
+  /// It should be a [bool].
+  static get onlyNearNotificationsEnabled => "onlyNearNotificationsEnabled";
+
   /// This key contains the website where to query for earthquakes
   ///
   /// It should be a [EarthquakesListSource.toString].
