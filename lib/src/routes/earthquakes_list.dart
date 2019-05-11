@@ -45,6 +45,7 @@ class EarthquakesList extends StatelessWidget {
                     int index,
                   ) =>
                       EarthquakeCard(
+                        key: Key(list[index].eventID),
                         earthquake: list[index],
                         onTap: () => startDetailPage(
                               context,

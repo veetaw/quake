@@ -13,9 +13,12 @@ class EarthquakeCard extends StatelessWidget {
   final Earthquake earthquake;
   final GestureTapCallback onTap;
 
+  final Key key;
+
   EarthquakeCard({
     @required this.earthquake,
     @required this.onTap,
+    this.key,
   }) : assert(earthquake != null);
 
   // static const double _kCardHeight = 160;
@@ -34,6 +37,7 @@ class EarthquakeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: key,
       width: double.infinity, // as wide as the screen
       // height: _kCardHeight,
       child: Card(
