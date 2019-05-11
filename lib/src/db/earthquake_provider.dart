@@ -98,7 +98,7 @@ class EarthquakePersistentCacheProvider {
   }) async {
     if (earthquake == null) throw Exception('null_earthquake');
 
-    if (await getEarthquakeById(eventID: earthquake.eventID) == null)
+    if (await getEarthquakeById(eventID: earthquake.eventID, tableName: tableName) == null)
       await _db.insert(tableName, earthquake.toDBMap());
   }
 
