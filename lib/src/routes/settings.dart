@@ -237,33 +237,84 @@ class Settings extends StatelessWidget {
 }
 
 class NotitificationsEnabledTile extends StatelessWidget {
-  final StreamController streamController = StreamController<bool>.broadcast();
+  final StreamController notificationsEnabledController =
+      StreamController<bool>.broadcast();
+  final StreamController nearEnabledController =
+      StreamController<bool>.broadcast();
 
   @override
   Widget build(BuildContext context) {
     return QuakeStreamBuilder<bool>(
-        stream: streamController.stream,
+        stream: notificationsEnabledController.stream,
         initialData: quakeSharedPreferences.getValue<bool>(
             key: QuakeSharedPreferencesKey.notificationsEnabled,
             defaultValue: false),
-        builder: (context, data) {
-          return SwitchListTile(
-            title:
-                Text(QuakeLocalizations.of(context).notificationsSettingsTile),
-            secondary: Icon(Icons.notifications),
-            value: data,
-            onChanged: (newValue) {
-              quakeSharedPreferences.setValue<bool>(
-                  key: QuakeSharedPreferencesKey.notificationsEnabled,
-                  value: newValue);
-              streamController.sink.add(newValue);
-            },
+        builder: (context, notificationsEnabled) {
+          bool nearSwitchEnabled = quakeSharedPreferences.getValue<bool>(
+                key: QuakeSharedPreferencesKey.hasLocationSaved,
+                defaultValue: false,
+              ) &&
+              notificationsEnabled;
+          return Column(
+            children: <Widget>[
+              SwitchListTile(
+                title: Text(
+                  QuakeLocalizations.of(context).notificationsSettingsTile,
+                ),
+                secondary: Icon(Icons.notifications),
+                value: notificationsEnabled,
+                onChanged: (newValue) {
+                  quakeSharedPreferences.setValue<bool>(
+                    key: QuakeSharedPreferencesKey.notificationsEnabled,
+                    value: newValue,
+                  );
+
+                  if (!newValue) {
+                    quakeSharedPreferences.setValue<bool>(
+                      key: QuakeSharedPreferencesKey
+                          .onlyNearNotificationsEnabled,
+                      value: newValue,
+                    );
+                    nearEnabledController.sink.add(newValue);
+                  }
+
+                  notificationsEnabledController.sink.add(newValue);
+                },
+              ),
+              QuakeStreamBuilder<bool>(
+                  stream: nearEnabledController.stream,
+                  initialData: nearSwitchEnabled,
+                  builder: (context, onlyNear) {
+                    return SwitchListTile(
+                      title: Text(
+                        QuakeLocalizations.of(context)
+                            .nearNotificationsSettingsTile,
+                      ),
+                      subtitle: Text(
+                        QuakeLocalizations.of(context)
+                            .nearNotificationsSettingsTileSubtitle,
+                      ),
+                      secondary: Icon(Icons.my_location),
+                      value: onlyNear,
+                      onChanged: nearSwitchEnabled
+                          ? (newValue) {
+                              quakeSharedPreferences.setValue<bool>(
+                                key: QuakeSharedPreferencesKey
+                                    .onlyNearNotificationsEnabled,
+                                value: newValue,
+                              );
+                              nearEnabledController.sink.add(newValue);
+                            }
+                          : null,
+                    );
+                  }),
+            ],
           );
         });
   }
 
   void dispose() {
-    streamController.close();
+    notificationsEnabledController.close();
   }
 }
 

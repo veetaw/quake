@@ -458,6 +458,14 @@ class QuakeLocalizations {
         "National Institute of Geophysics and Volcanology",
         name: "ingv",
       );
+  String get nearNotificationsSettingsTile => Intl.message(
+        "Only near earthquakes",
+        name: "nearNotificationsSettingsTile",
+      );
+  String get nearNotificationsSettingsTileSubtitle => Intl.message(
+        "You must enable notifications and grant location permission before enabling this.",
+        name: "nearNotificationsSettingsTileSubtitle",
+      );
 }
 
 class _QuakeLocalizationsDelegate
