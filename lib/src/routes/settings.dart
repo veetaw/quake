@@ -358,7 +358,7 @@ class MapProviderDialog extends StatelessWidget {
   MapStyles _getCurrentProvider() {
     String rawTemplateEnumString = quakeSharedPreferences.getValue<String>(
       key: QuakeSharedPreferencesKey.mapTilesProvider,
-      defaultValue: MapStyles.base.toString(),
+      defaultValue: MapStyles.light.toString(),
     );
 
     return getMapStyleByString(rawTemplateEnumString);

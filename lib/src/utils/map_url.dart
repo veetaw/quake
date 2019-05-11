@@ -9,7 +9,7 @@ String getUrlByMapStyle(MapStyles style) {
     case MapStyles.light:
       return "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png";
     default:
-      return "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      return "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png";
   }
 }
 
@@ -33,6 +33,6 @@ String getCreditsByMapStyle(MapStyles style) {
     case MapStyles.light:
       return "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.";
     default:
-      return "© OpenStreetMap contributors";
+      return "Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL.";
   }
 }
