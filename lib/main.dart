@@ -23,6 +23,7 @@ import 'package:quake/src/model/earthquake_details.dart';
 import 'package:quake/src/utils/connectivity.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:quake/src/db/earthquake_provider.dart';
+import 'package:quake/src/model/homepage_nearby.dart';
 
 /// Main function, returns a [QuakeStreamBuilder] with the whole app as a child,
 /// it's rebuilt when a theme is changed.
@@ -188,36 +189,74 @@ void onBackgroundFetch() async {
 
   String source = sharedPreferences.getValue<String>(
     key: QuakeSharedPreferencesKey.earthquakesSource,
+    defaultValue: EarthquakesListSource.ingv.toString(),
   );
+
+  bool onlyNear = sharedPreferences.getValue<bool>(
+    key: QuakeSharedPreferencesKey.onlyNearNotificationsEnabled,
+    defaultValue: false,
+  );
+
   Earthquake _lastFetchedEarthquake;
-  if (source == null || source.isEmpty)
-    _lastFetchedEarthquake = await earthquakesBloc.fetchLast(
-      source: EarthquakesListSource.ingv,
-    );
-  else
-    _lastFetchedEarthquake = await earthquakesBloc.fetchLast(
-      source: EarthquakesListSource.values
-          .singleWhere((s) => s.toString() == source),
-    );
 
   String lastCachedEarthquakeID = sharedPreferences.getValue<String>(
     key: QuakeSharedPreferencesKey.lastEarthquakeID,
     defaultValue: '-1',
   );
 
-  Earthquake _lastCachedEarthquake =
-      await _cache.getEarthquakeById(eventID: lastCachedEarthquakeID);
-
-  if (_lastFetchedEarthquake.time != _lastCachedEarthquake.time ||
-      lastCachedEarthquakeID == '-1') {
-    sharedPreferences.setValue<String>(
-      key: QuakeSharedPreferencesKey.lastEarthquakeID,
-      value: _lastFetchedEarthquake.eventID,
+  if (!onlyNear) {
+    _lastFetchedEarthquake = await earthquakesBloc.fetchLast(
+      source: EarthquakesListSource.values
+          .singleWhere((s) => s.toString() == source),
     );
 
-    await _cache.addEarthquake(earthquake: _lastFetchedEarthquake);
+    Earthquake _lastCachedEarthquake = await _cache.getEarthquakeById(
+      eventID: lastCachedEarthquakeID,
+    );
 
-    await sendNotification(_lastFetchedEarthquake);
+    if (_lastFetchedEarthquake.time != _lastCachedEarthquake.time ||
+        lastCachedEarthquakeID == '-1') {
+      sharedPreferences.setValue<String>(
+        key: QuakeSharedPreferencesKey.lastEarthquakeID,
+        value: _lastFetchedEarthquake.eventID,
+      );
+
+      await _cache.addEarthquake(earthquake: _lastFetchedEarthquake);
+
+      await sendNotification(_lastFetchedEarthquake);
+    }
+  } else {
+    Map location = getLocation();
+    Map newCoordMin = kmOffsetToLatitudeOffset(-30, -30, location);
+    Map newCoordMax = kmOffsetToLatitudeOffset(30, 30, location);
+    _lastFetchedEarthquake = await earthquakesBloc.fetchLastNear(
+      source: EarthquakesListSource.values
+          .singleWhere((s) => s.toString() == source),
+      boundingBox: {
+        "minLatitude": newCoordMin["latitude"],
+        "minLongitude": newCoordMin["longitude"],
+        "maxLatitude": newCoordMax["latitude"],
+        "maxLongitude": newCoordMax["longitude"],
+      },
+    );
+
+    Earthquake _lastCachedEarthquake = await _cache.getEarthquakeById(
+      eventID: lastCachedEarthquakeID,
+      tableName: "nearby",
+    );
+
+    if (_lastFetchedEarthquake.time != _lastCachedEarthquake?.time ||
+        lastCachedEarthquakeID == '-1') {
+      sharedPreferences.setValue<String>(
+        key: QuakeSharedPreferencesKey.lastEarthquakeID,
+        value: _lastFetchedEarthquake.eventID,
+      );
+
+      await _cache.addEarthquake(
+          earthquake: _lastFetchedEarthquake, tableName: "cache");
+
+      await sendNotification(_lastFetchedEarthquake);
+    }
   }
 
   BackgroundFetch.finish();
