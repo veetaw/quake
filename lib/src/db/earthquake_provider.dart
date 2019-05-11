@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:quake/src/model/earthquake.dart';
 import 'package:sqflite/sqflite.dart';
 
-const String table_name = "cache";
+const String cacheTableName = "cache";
 const List<String> columns = [
   "eventID",
   "time",
@@ -38,7 +38,17 @@ class EarthquakePersistentCacheProvider {
       version: 1,
       onCreate: (Database db, int version) async {
         await db.execute('''
-          CREATE TABLE IF NOT EXISTS $table_name (
+          CREATE TABLE IF NOT EXISTS $cacheTableName (
+            ${columns[0]} TEXT PRIMARY KEY,
+            ${columns[1]} INTEGER NOT NULL,
+            ${columns[2]} REAL NOT NULL,
+            ${columns[3]} REAL NOT NULL,
+            ${columns[4]} REAL NOT NULL,
+            ${columns[5]} REAL NOT NULL,
+            ${columns[6]} TEXT NOT NULL)
+        ''');
+        await db.execute('''
+          CREATE TABLE IF NOT EXISTS nearby (
             ${columns[0]} TEXT PRIMARY KEY,
             ${columns[1]} INTEGER NOT NULL,
             ${columns[2]} REAL NOT NULL,
@@ -54,10 +64,13 @@ class EarthquakePersistentCacheProvider {
   /// returns an earthquake instance from a given ID
   ///
   /// This will be useful when opening earthquake detail page
-  Future<Earthquake> getEarthquakeById({@required String eventID}) async {
+  Future<Earthquake> getEarthquakeById({
+    @required String eventID,
+    String tableName: cacheTableName,
+  }) async {
     if (eventID == null) throw Exception('null_id');
     List results = await _db.query(
-      table_name,
+      tableName,
       columns: columns,
       where: "${columns[0]} = ?",
       whereArgs: [eventID],
@@ -66,8 +79,10 @@ class EarthquakePersistentCacheProvider {
   }
 
   /// returns all earthquakes saved in the db
-  Future<List<Earthquake>> getAllEarthquakes() async {
-    List results = await _db.query(table_name, columns: columns);
+  Future<List<Earthquake>> getAllEarthquakes({
+    String tableName: cacheTableName,
+  }) async {
+    List results = await _db.query(tableName, columns: columns);
 
     return results.length > 0
         ? results
@@ -77,39 +92,52 @@ class EarthquakePersistentCacheProvider {
   }
 
   /// Add earthquake to the cache
-  Future<void> addEarthquake({@required Earthquake earthquake}) async {
+  Future<void> addEarthquake({
+    @required Earthquake earthquake,
+    String tableName: cacheTableName,
+  }) async {
     if (earthquake == null) throw Exception('null_earthquake');
 
     if (await getEarthquakeById(eventID: earthquake.eventID) == null)
-      await _db.insert(table_name, earthquake.toDBMap());
+      await _db.insert(tableName, earthquake.toDBMap());
   }
 
   /// Add a list of earthquakes to the cache
   /// (Just a wrapper over [addEarthquakes()])
-  void addEarthquakes({@required List<Earthquake> earthquakes}) {
+  void addEarthquakes({
+    @required List<Earthquake> earthquakes,
+    String tableName: cacheTableName,
+  }) {
     if (earthquakes == null || earthquakes.isEmpty)
       // throw Exception('null_earthquake');
       return;
 
-    earthquakes.forEach((e) async => await addEarthquake(earthquake: e));
+    earthquakes.forEach(
+        (e) async => await addEarthquake(earthquake: e, tableName: tableName));
   }
 
   /// Delete earthquake by eventID
-  Future<void> deleteEarthquake({@required String eventID}) async {
+  Future<void> deleteEarthquake({
+    @required String eventID,
+    String tableName: cacheTableName,
+  }) async {
     if (eventID == null) throw Exception('null_id');
     try {
       await _db
-          .delete(table_name, where: "${columns[0]} = ?", whereArgs: [eventID]);
+          .delete(tableName, where: "${columns[0]} = ?", whereArgs: [eventID]);
     } catch (_) {
       throw Exception('delete_earthquake_error');
     }
   }
 
   /// Delete every earthquake in db
-  Future<void> dropCache() async {
+  Future<void> dropCache({
+    String tableName: cacheTableName,
+  }) async {
     try {
       (await getAllEarthquakes() ?? []).map((earthquake) async =>
-          await deleteEarthquake(eventID: earthquake.eventID));
+          await deleteEarthquake(
+              eventID: earthquake.eventID, tableName: tableName));
     } catch (_) {
       throw Exception('drop_cache_error');
     }
