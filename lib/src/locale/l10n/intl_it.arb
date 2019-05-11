@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-10T19:18:05.478806",
+  "@@last_modified": "2019-05-11T17:25:35.328992",
   "applicationName": "Terremoti",
   "@applicationName": {
     "description": "application name",
@@ -389,6 +389,16 @@
   },
   "ingv": "Istituto Nazionale Geofisica e Vulcanologia",
   "@ingv": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nearNotificationsSettingsTile": "Solo terremoti nelle vicinanze",
+  "@nearNotificationsSettingsTile": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nearNotificationsSettingsTileSubtitle": "Devi abilitare le notifiche e dare il permesso di localizzazione per abilitare.",
+  "@nearNotificationsSettingsTileSubtitle": {
     "type": "text",
     "placeholders": {}
   }
