@@ -334,7 +334,7 @@ class MapProviderDialog extends StatelessWidget {
         return QuakeDialog(
           title: QuakeLocalizations.of(context).mapProviderSettingsTile,
           child: ListView.builder(
-            itemCount: UnitOfMeasurement.values.length,
+            itemCount: MapStyles.values.length,
             itemBuilder: (context, index) {
               return RadioListTile(
                 value: index,
