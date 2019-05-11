@@ -33,6 +33,9 @@ class EarthquakesBloc extends BlocBase {
   EarthquakePersistentCacheProvider _earthquakePersistentCacheProvider =
       EarthquakePersistentCacheProvider();
 
+  /// Stores the last nearby earthquakes fetch timestamp in a volatile way
+  static int nearbyLastFetchTimeStamp;
+
   /// exposes [_streamController]'s stream
   Stream get earthquakes => _streamController.stream;
 
@@ -43,10 +46,6 @@ class EarthquakesBloc extends BlocBase {
   /// will result in a crash.
   Future initializeCacheDatabase() async =>
       await _earthquakePersistentCacheProvider.open('quake_test.db');
-
-  /// Since it's useless for me to cache nearby earthquakes permanently, I cache
-  /// only temporarly
-  static List<Earthquake> _nearbyCache = List();
 
   /// Fetches data from the API using the default options
   ///
@@ -152,7 +151,16 @@ class EarthquakesBloc extends BlocBase {
     if (options.isEmpty)
       return _searchController.sink.addError(EmptySearchOptionsException);
 
-    if (force || _nearbyCache.length == 0) {
+    int deltaTime = _quakeSharedPreferences.getValue<int>(
+      key: QuakeSharedPreferencesKey.fetchUpdatesDelta,
+      defaultValue: 10 * 60000, // 10 minutes
+    );
+
+    int actualTimeMs = DateTime.now().millisecondsSinceEpoch;
+
+    if (force ||
+        nearbyLastFetchTimeStamp == null ||
+        (actualTimeMs - nearbyLastFetchTimeStamp) >= deltaTime) {
       switch (source) {
         case EarthquakesListSource.ingv:
           IngvAPI _api = IngvAPI();
@@ -175,9 +183,18 @@ class EarthquakesBloc extends BlocBase {
             return;
           }
 
+          nearbyLastFetchTimeStamp = actualTimeMs;
+
           // force is true on search not nearby, so don't cache search
           if (!force) {
-            _nearbyCache = _data;
+            // clear cache before saving new data to avoid DB getting bigger and bigger
+            await _earthquakePersistentCacheProvider.dropCache(
+              tableName: "nearby",
+            );
+            _earthquakePersistentCacheProvider.addEarthquakes(
+              earthquakes: _data,
+              tableName: "nearby",
+            );
           }
 
           break;
@@ -202,9 +219,18 @@ class EarthquakesBloc extends BlocBase {
             return;
           }
 
+          nearbyLastFetchTimeStamp = actualTimeMs;
+
           // force is true on search not nearby, so don't cache search
           if (!force) {
-            _nearbyCache = _data;
+            // clear cache before saving new data to avoid DB getting bigger and bigger
+            await _earthquakePersistentCacheProvider.dropCache(
+              tableName: "nearby",
+            );
+            _earthquakePersistentCacheProvider.addEarthquakes(
+              earthquakes: _data,
+              tableName: "nearby",
+            );
           }
 
           break;
@@ -213,18 +239,18 @@ class EarthquakesBloc extends BlocBase {
           break;
       }
     } else {
-      // HACK
-      await Future.delayed(Duration(microseconds: 1));
-
-      _data = _nearbyCache;
+      _data = await _earthquakePersistentCacheProvider.getAllEarthquakes(
+        tableName: "nearby",
+      );
     }
 
     _searchController.sink
         .add(_data..sort((e1, e2) => e2.time.compareTo(e1.time)));
   }
 
-  Future<Earthquake> fetchLast(
-      {EarthquakesListSource source: EarthquakesListSource.ingv}) async {
+  Future<Earthquake> fetchLast({
+    EarthquakesListSource source: EarthquakesListSource.ingv,
+  }) async {
     switch (source) {
       case EarthquakesListSource.ingv:
         IngvAPI api = IngvAPI();
@@ -232,6 +258,36 @@ class EarthquakesBloc extends BlocBase {
       case EarthquakesListSource.emsc:
         EmscCsemAPI api = EmscCsemAPI();
         return (await api.getData(limit: 1)).first;
+      default:
+        throw UnknownSourceException;
+    }
+  }
+
+  Future<Earthquake> fetchLastNear({
+    EarthquakesListSource source: EarthquakesListSource.ingv,
+    Map<String, double> boundingBox,
+  }) async {
+    switch (source) {
+      case EarthquakesListSource.ingv:
+        IngvAPI api = IngvAPI();
+        return (await api.getData(
+          limit: 1,
+          minLatitude: boundingBox["minLatitude"],
+          maxLatitude: boundingBox["maxLatitude"],
+          minLongitude: boundingBox["minLongitude"],
+          maxLongitude: boundingBox["maxLongitude"],
+        ))
+            .first;
+      case EarthquakesListSource.emsc:
+        EmscCsemAPI api = EmscCsemAPI();
+        return (await api.getData(
+          limit: 1,
+          minLatitude: boundingBox["minLatitude"],
+          maxLatitude: boundingBox["maxLatitude"],
+          minLongitude: boundingBox["minLongitude"],
+          maxLongitude: boundingBox["maxLongitude"],
+        ))
+            .first;
       default:
         throw UnknownSourceException;
     }
