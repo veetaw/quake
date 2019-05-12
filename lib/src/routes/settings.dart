@@ -283,7 +283,7 @@ class NotitificationsEnabledTile extends StatelessWidget {
               ),
               QuakeStreamBuilder<bool>(
                   stream: nearEnabledController.stream,
-                  initialData: nearSwitchEnabled,
+                  initialData: quakeSharedPreferences.getValue<bool>(key: QuakeSharedPreferencesKey.onlyNearNotificationsEnabled),
                   builder: (context, onlyNear) {
                     return SwitchListTile(
                       title: Text(
