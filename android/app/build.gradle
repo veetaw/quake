@@ -46,25 +46,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    if (System.getenv("CI") == true) {
-        signingConfigs {
-            release {
-                keyAlias "quake"
-                keyPassword System.getenv('KEY_PASSWORD')
-                storeFile file('ci.keystore')
-                storePassword System.getenv('STORE_PASSWORD')
-            }
-        }
-    } else {
-        signingConfigs {
-            release {
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-                storeFile file(keystoreProperties['storeFile'])
-                storePassword keystoreProperties['storePassword']
-            }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
+    
 
     buildTypes {
         release {
