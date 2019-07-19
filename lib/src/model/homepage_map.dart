@@ -189,7 +189,7 @@ class _EarthquakeMapState extends State<EarthquakeMap>
   }
 
   /// update _mapPosition on user interaction
-  void _handleOnPositionChanged(MapPosition position, bool _) {
+  void _handleOnPositionChanged(MapPosition position, bool _, bool __) {
     // hacky, try catch used to prevent error "setState() or markNeedsBuild() called during build"
     try {
       setState(() {
@@ -346,7 +346,7 @@ class MapCreditsOption extends LayerOptions {
 class MapCreditsPlugin extends MapPlugin {
   @override
   Widget createLayer(
-      LayerOptions options, MapState mapState, Stream<Null> stream) {
+      LayerOptions options, MapState mapState, Stream<void> stream) {
     if (options is MapCreditsOption) {
       return Builder(
         builder: (context) => Align(
