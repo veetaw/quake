@@ -54,7 +54,7 @@ class EarthquakeCard extends StatelessWidget {
               children: <Widget>[
                 _buildText(
                   context: context,
-                  text: earthquake.eventLocationName,
+                  text: toBeginningOfSentenceCase(earthquake.eventLocationName),
                   size: _kEarthquakeLocationNameSize,
                 ),
                 Padding(

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-11T17:25:35.328992",
+  "@@last_modified": "2019-07-19T14:37:47.814269",
   "applicationName": "Quake",
   "@applicationName": {
     "description": "application name",
@@ -100,12 +100,12 @@
     "type": "text",
     "placeholders": {}
   },
-  "noInternetConnection": "You're not connected to internet, you must enable an internet connectionto use Quake.",
+  "noInternetConnection": "You're not connected to internet, you must enable an internet connectionto use Quake.\n\nIf you are already connected to the internet this is most likely an error, please try to disable your connection and enable it again while the app is running. Expect a fix soon.",
   "@noInternetConnection": {
     "type": "text",
     "placeholders": {}
   },
-  "noEarthquakes": "No earthquakes happened in the last 7 days.",
+  "noEarthquakes": "No earthquakes happened in a radius of 30 km around you during the last 7 days.",
   "@noEarthquakes": {
     "type": "text",
     "placeholders": {}

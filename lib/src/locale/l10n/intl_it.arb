@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-11T17:25:35.328992",
+  "@@last_modified": "2019-07-19T14:37:47.814269",
   "applicationName": "Terremoti",
   "@applicationName": {
     "description": "application name",
@@ -100,12 +100,12 @@
     "type": "text",
     "placeholders": {}
   },
-  "noInternetConnection": "Non sei connesso ad internet, devi avere una connessione attiva per poter vedere gli ultimi terremoti.",
+  "noInternetConnection": "Non sei connesso ad internet, devi avere una connessione attiva per poter vedere gli ultimi terremoti.\n\nSe sei già connesso ad internet questo e' molto probabilmente un errore, prova a disattivare e riattivare la connessione mentre l'applicazione è aperta. Ci sarà un aggiornamento molto presto.",
   "@noInternetConnection": {
     "type": "text",
     "placeholders": {}
   },
-  "noEarthquakes": "Non ci sono stati terremoti negli ultimi giorni.",
+  "noEarthquakes": "Non ci sono stati terremoti negli ultimi giorni in un raggio di 30 kilometri intorno a te.",
   "@noEarthquakes": {
     "type": "text",
     "placeholders": {}

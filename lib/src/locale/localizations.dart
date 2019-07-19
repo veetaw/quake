@@ -132,12 +132,12 @@ class QuakeLocalizations {
       );
 
   String get noInternetConnection => Intl.message(
-        "You're not connected to internet, you must enable an internet connectionto use Quake.",
+        "You're not connected to internet, you must enable an internet connectionto use Quake.\n\nIf you are already connected to the internet this is most likely an error, please try to disable your connection and enable it again while the app is running. Expect a fix soon.",
         name: "noInternetConnection",
       );
 
   String get noEarthquakes => Intl.message(
-        "No earthquakes happened in the last 7 days.",
+        "No earthquakes happened in a radius of 30 km around you during the last 7 days.",
         name: "noEarthquakes",
       );
 

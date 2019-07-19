@@ -3,6 +3,8 @@
 // messages from the main program should be duplicated here with the same
 // function name.
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 
@@ -78,8 +80,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "nearNotificationsSettingsTileSubtitle" : MessageLookupByLibrary.simpleMessage("Devi abilitare le notifiche e dare il permesso di localizzazione per abilitare."),
     "nearby" : MessageLookupByLibrary.simpleMessage("Nei dintorni"),
     "next" : MessageLookupByLibrary.simpleMessage("prossimo"),
-    "noEarthquakes" : MessageLookupByLibrary.simpleMessage("Non ci sono stati terremoti negli ultimi giorni."),
-    "noInternetConnection" : MessageLookupByLibrary.simpleMessage("Non sei connesso ad internet, devi avere una connessione attiva per poter vedere gli ultimi terremoti."),
+    "noEarthquakes" : MessageLookupByLibrary.simpleMessage("Non ci sono stati terremoti negli ultimi giorni in un raggio di 30 kilometri intorno a te."),
+    "noInternetConnection" : MessageLookupByLibrary.simpleMessage("Non sei connesso ad internet, devi avere una connessione attiva per poter vedere gli ultimi terremoti.\n\nSe sei già connesso ad internet questo e\' molto probabilmente un errore, prova a disattivare e riattivare la connessione mentre l\'applicazione è aperta. Ci sarà un aggiornamento molto presto."),
     "noResponse" : MessageLookupByLibrary.simpleMessage("Il server non ha risposto, questo potrebbe essere un problema di connessione o un problema del server. Riprova tra qualche minuto."),
     "notAvailable" : MessageLookupByLibrary.simpleMessage("Non disponibile."),
     "notifications" : MessageLookupByLibrary.simpleMessage("Notifiche"),

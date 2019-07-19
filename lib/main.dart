@@ -106,31 +106,44 @@ class _QuakeState extends State<Quake> {
         initialData:
             ThemeProvider().getPrefTheme(), // load theme from sharedPreferences
         builder: (context, theme) => MaterialApp(
-              localizationsDelegates: [
-                QuakeLocalizations.delegate, // custom locale
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              onGenerateTitle: (context) =>
-                  QuakeLocalizations.of(context).title,
-              supportedLocales: supportedLocales,
-              routes: routes,
-              theme: theme,
-              home: Builder(builder: (ctx) {
-                setLocaleMessages(
-                  QuakeLocalizations.localeCode,
-                  getLocaleStringsClass(QuakeLocalizations.localeCode),
-                );
+          localizationsDelegates: [
+            QuakeLocalizations.delegate, // custom locale
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          onGenerateTitle: (context) => QuakeLocalizations.of(context).title,
+          supportedLocales: supportedLocales,
+          routes: routes,
+          theme: theme,
+          home: Builder(builder: (ctx) {
+            setLocaleMessages(
+              QuakeLocalizations.localeCode,
+              getLocaleStringsClass(QuakeLocalizations.localeCode),
+            );
 
-                // initialize dart's date formatter with the current locale code
-                initializeDateFormatting(
-                  QuakeLocalizations.localeCode,
-                  null,
-                );
+            // initialize dart's date formatter with the current locale code
+            initializeDateFormatting(
+              QuakeLocalizations.localeCode,
+              null,
+            );
 
-                return Home();
-              }),
-            ),
+            if (sharedPreferences.getValue<String>(
+                        key: QuakeSharedPreferencesKey.earthquakesSource,
+                        defaultValue: null) ==
+                    null &&
+                !QuakeLocalizations.localeCode.toLowerCase().startsWith('it')) {
+              sharedPreferences.setValue<String>(
+                  key: QuakeSharedPreferencesKey.earthquakesSource,
+                  value: EarthquakesListSource.emsc.toString());
+            } else {
+              sharedPreferences.setValue<String>(
+                  key: QuakeSharedPreferencesKey.earthquakesSource,
+                  value: EarthquakesListSource.ingv.toString());
+            }
+
+            return Home();
+          }),
+        ),
       ),
     );
   }
@@ -159,8 +172,8 @@ void initNotificationsPluginAndBackgroundFetch(BuildContext context) async {
         context,
         MaterialPageRoute(
           builder: (context) => EarthquakeDetails(
-                earthquake: earthquake,
-              ),
+            earthquake: earthquake,
+          ),
         ),
       );
     } catch (_) {
