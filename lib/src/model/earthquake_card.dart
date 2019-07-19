@@ -54,7 +54,7 @@ class EarthquakeCard extends StatelessWidget {
               children: <Widget>[
                 _buildText(
                   context: context,
-                  text: toBeginningOfSentenceCase(earthquake.eventLocationName),
+                  text: __capitalize(earthquake.eventLocationName),
                   size: _kEarthquakeLocationNameSize,
                 ),
                 Padding(
@@ -114,6 +114,15 @@ class EarthquakeCard extends StatelessWidget {
           color: Theme.of(context).textTheme.title.color,
         ),
       );
+
+  String __capitalize(String string) => string.length < 1
+      ? ""
+      : string
+          .split(" ")
+          .map((substr) =>
+              substr[0].toUpperCase() + substr.substring(1).toLowerCase())
+          .toList()
+          .join(" ");
 }
 
 class _EarthquakeCardBottomInfos extends StatelessWidget {

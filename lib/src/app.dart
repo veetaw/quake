@@ -14,8 +14,6 @@ import 'package:quake/src/model/quake_builders.dart';
 import 'package:quake/src/routes/settings.dart';
 import 'package:quake/src/utils/connectivity.dart';
 
-GlobalKey scaffoldKey = GlobalKey();
-
 class Home extends StatelessWidget {
   /// Route name, used by [MaterialApp] to identify app's routes
   static const routeName = "/home";
@@ -51,7 +49,6 @@ class Home extends StatelessWidget {
               initialData: screens[0],
               builder: (context, page) {
                 return Scaffold(
-                  key: scaffoldKey,
                   appBar: _buildAppBar(context),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   bottomNavigationBar: BottomNavigationBar(
