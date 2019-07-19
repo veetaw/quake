@@ -142,31 +142,12 @@ class Home extends StatelessWidget {
         //   tooltip: QuakeLocalizations.of(context).searchTooltip,
         // ),
         IconButton(
-          icon: Icon(Icons.settings),
+          icon: Hero(tag: "settings", child: Icon(Icons.settings)),
           onPressed: iconsEnabled
               ? () => Navigator.of(context).push(
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => Settings(),
-                      transitionsBuilder: (
-                        BuildContext context,
-                        Animation animation,
-                        Animation secondaryAnimation,
-                        Widget child,
-                      ) =>
-                          SlideTransition(
-                            position: Tween<Offset>(
-                              begin: Offset(0, 1),
-                              end: Offset.zero,
-                            ).animate(animation),
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: Offset.zero,
-                                end: Offset(1, 0),
-                              ).animate(secondaryAnimation),
-                              child: child,
-                            ),
-                          ),
-                    ),
+                    MaterialPageRoute<void>(
+                      builder: (context) => Hero(tag: "settings", child: Settings()),
+                    )
                   )
               : null,
           tooltip: QuakeLocalizations.of(context).settingsTooltip,

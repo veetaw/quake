@@ -48,178 +48,182 @@ class EarthquakeDetails extends StatelessWidget {
 
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: ConstrainedBox(
-        constraints: BoxConstraints.expand(),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2 - 56,
-              child: _buildStaticMap(tileLayerOptions),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        _buildLeftTile(
-                            context,
-                            paddingBetween,
-                            earthquake.magnitude.toString(),
-                            QuakeLocalizations.of(context).magnitude),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: paddingBetween,
-                          ),
-                        ),
-                        _buildLeftTile(
-                          context,
-                          paddingBetween,
-                          // convert depth to the current unit of measurement.
-                          UnitOfMeasurementConversion.convertTo(
-                            kmValue: earthquake.depth,
-                            unit: currentUnitOfMeasurement,
-                          ).toString(),
-                          QuakeLocalizations.of(context).depth +
-                              " (" +
-                              QuakeLocalizations.of(context).unitOfMeasurement(
-                                currentUnitOfMeasurement,
-                                short: true,
-                              ) +
-                              ")",
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16.0,
-                      horizontal: 16.0,
-                    ),
-                    child: VerticalDivider(
-                      width: 2,
-                      height: MediaQuery.of(context).size.height / 2,
-                      color: Theme.of(context).dividerColor,
-                    ),
-                  ),
-                  Expanded(
-                    // right infos
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            _buildRightTile(
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height -
+              (MediaQuery.of(context).padding.top + 56),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height / 2 - 56,
+                child: _buildStaticMap(tileLayerOptions),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          _buildLeftTile(
                               context,
                               paddingBetween,
-                              Icons.access_time,
-                              DateFormat.yMMMMd()
-                                  .format(earthquake.time)
-                                  .toString(),
-                              DateFormat.Hm()
-                                  .format(earthquake.time)
-                                  .toString(),
+                              earthquake.magnitude.toString(),
+                              QuakeLocalizations.of(context).magnitude),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: paddingBetween,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: paddingBetween,
+                          ),
+                          _buildLeftTile(
+                            context,
+                            paddingBetween,
+                            // convert depth to the current unit of measurement.
+                            UnitOfMeasurementConversion.convertTo(
+                              kmValue: earthquake.depth,
+                              unit: currentUnitOfMeasurement,
+                            ).toString(),
+                            QuakeLocalizations.of(context).depth +
+                                " (" +
+                                QuakeLocalizations.of(context)
+                                    .unitOfMeasurement(
+                                  currentUnitOfMeasurement,
+                                  short: true,
+                                ) +
+                                ")",
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16.0,
+                        horizontal: 16.0,
+                      ),
+                      child: VerticalDivider(
+                        width: 2,
+                        height: MediaQuery.of(context).size.height / 2,
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                    Expanded(
+                      // right infos
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              _buildRightTile(
+                                context,
+                                paddingBetween,
+                                Icons.access_time,
+                                DateFormat.yMMMMd()
+                                    .format(earthquake.time)
+                                    .toString(),
+                                DateFormat.Hm()
+                                    .format(earthquake.time)
+                                    .toString(),
                               ),
-                            ),
-                            QuakeFutureBuilder<Map>(
-                                future: OpenStreetMapNominatim().reverseGeo(
-                                  latitude: earthquake.latitude,
-                                  longitude: earthquake.longitude,
-                                  language: QuakeLocalizations.localeCode,
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: paddingBetween,
                                 ),
-                                onError: (_) => _buildRightTile(
-                                      context,
-                                      paddingBetween,
-                                      Icons.location_on,
-                                      earthquake.eventLocationName,
-                                      "",
-                                    ),
-                                onLoading: () => _buildRightTile(
-                                      context,
-                                      paddingBetween,
-                                      Icons.location_on,
-                                      earthquake.eventLocationName,
-                                      "",
-                                    ),
-                                builder: (context, data) {
-                                  if (data == null || data["address"] == null)
+                              ),
+                              QuakeFutureBuilder<Map>(
+                                  future: OpenStreetMapNominatim().reverseGeo(
+                                    latitude: earthquake.latitude,
+                                    longitude: earthquake.longitude,
+                                    language: QuakeLocalizations.localeCode,
+                                  ),
+                                  onError: (_) => _buildRightTile(
+                                        context,
+                                        paddingBetween,
+                                        Icons.location_on,
+                                        earthquake.eventLocationName,
+                                        "",
+                                      ),
+                                  onLoading: () => _buildRightTile(
+                                        context,
+                                        paddingBetween,
+                                        Icons.location_on,
+                                        earthquake.eventLocationName,
+                                        "",
+                                      ),
+                                  builder: (context, data) {
+                                    if (data == null || data["address"] == null)
+                                      return _buildRightTile(
+                                        context,
+                                        paddingBetween,
+                                        Icons.location_on,
+                                        earthquake.eventLocationName,
+                                        "",
+                                      );
+
                                     return _buildRightTile(
                                       context,
                                       paddingBetween,
                                       Icons.location_on,
-                                      earthquake.eventLocationName,
-                                      "",
+                                      // good game osm for consistency ...
+                                      data["address"]["village"] ??
+                                          data["address"]["town"] ??
+                                          data["address"]["city"] ??
+                                          data["address"]["hamlet"] ??
+                                          data["display_name"],
+                                      data["address"]["country"],
                                     );
-
-                                  return _buildRightTile(
-                                    context,
-                                    paddingBetween,
-                                    Icons.location_on,
-                                    // good game osm for consistency ...
-                                    data["address"]["village"] ??
-                                        data["address"]["town"] ??
-                                        data["address"]["city"] ??
-                                        data["address"]["hamlet"] ??
-                                        data["display_name"],
-                                    data["address"]["country"],
-                                  );
-                                }),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: paddingBetween,
+                                  }),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: paddingBetween,
+                                ),
                               ),
-                            ),
-                            QuakeFutureBuilder<Map>(
-                              future: getPopulationByCoordinates(
-                                latitude: earthquake.latitude,
-                                longitude: earthquake.longitude,
-                              ),
-                              onLoading: () => _buildRightTile(
-                                    context,
-                                    paddingBetween,
-                                    Icons.people,
-                                    QuakeLocalizations.of(context)
-                                        .peopleInvolved,
-                                    "...",
-                                  ),
-                              onError: (_) => _buildRightTile(
-                                    context,
-                                    paddingBetween,
-                                    Icons.people,
-                                    QuakeLocalizations.of(context)
-                                        .peopleInvolved,
-                                    "0",
-                                  ),
-                              builder: (context, data) {
-                                return _buildRightTile(
+                              QuakeFutureBuilder<Map>(
+                                future: getPopulationByCoordinates(
+                                  latitude: earthquake.latitude,
+                                  longitude: earthquake.longitude,
+                                ),
+                                onLoading: () => _buildRightTile(
                                   context,
                                   paddingBetween,
                                   Icons.people,
                                   QuakeLocalizations.of(context).peopleInvolved,
-                                  data["results"][0]["value"]["estimates"]
-                                          ["gpw-v4-population-count-rev10_2020"]
-                                      ["SUM"],
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
+                                  "...",
+                                ),
+                                onError: (_) => _buildRightTile(
+                                  context,
+                                  paddingBetween,
+                                  Icons.people,
+                                  QuakeLocalizations.of(context).peopleInvolved,
+                                  "0",
+                                ),
+                                builder: (context, data) {
+                                  return _buildRightTile(
+                                    context,
+                                    paddingBetween,
+                                    Icons.people,
+                                    QuakeLocalizations.of(context)
+                                        .peopleInvolved,
+                                    data["results"][0]["value"]["estimates"][
+                                            "gpw-v4-population-count-rev10_2020"]
+                                        ["SUM"],
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

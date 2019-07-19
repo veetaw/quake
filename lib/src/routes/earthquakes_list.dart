@@ -44,14 +44,17 @@ class EarthquakesList extends StatelessWidget {
                     BuildContext context,
                     int index,
                   ) =>
-                      EarthquakeCard(
-                        key: Key(list[index].eventID),
-                        earthquake: list[index],
-                        onTap: () => startDetailPage(
-                              context,
-                              list[index],
-                            ),
+                      Hero(
+                    tag: list[index].eventID,
+                    child: EarthquakeCard(
+                      key: Key(list[index].eventID),
+                      earthquake: list[index],
+                      onTap: () => startDetailPage(
+                        context,
+                        list[index],
                       ),
+                    ),
+                  ),
                 ),
               )
             : QuakeErrorWidget(
@@ -65,29 +68,13 @@ class EarthquakesList extends StatelessWidget {
 
 void startDetailPage(BuildContext context, Earthquake earthquake) {
   Navigator.of(context).push(
-    PageRouteBuilder(
-      pageBuilder: (_, __, ___) => EarthquakeDetails(
-            earthquake: earthquake,
-          ),
-      transitionsBuilder: (
-        BuildContext context,
-        Animation animation,
-        Animation secondaryAnimation,
-        Widget child,
-      ) =>
-          SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset(0, 1),
-              end: Offset.zero,
-            ).animate(animation),
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: Offset.zero,
-                end: Offset(1, 0),
-              ).animate(secondaryAnimation),
-              child: child,
-            ),
-          ),
+    MaterialPageRoute<void>(
+      builder: (context) => Hero(
+        tag: earthquake.eventID,
+        child: EarthquakeDetails(
+          earthquake: earthquake,
+        ),
+      ),
     ),
   );
 }
