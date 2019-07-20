@@ -1,2 +1,2 @@
-# Quake
+# Quake [![Codemagic build status](https://api.codemagic.io/apps/5d32eda3074fca00088646d1/5d32eda3074fca00088646d0/status_badge.svg)](https://codemagic.io/apps/5d32eda3074fca00088646d1/5d32eda3074fca00088646d0/latest_build)
 > heavy refactor in progress, see master branch for a stable version.
