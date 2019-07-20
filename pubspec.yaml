@@ -14,17 +14,17 @@ description: Track the latest earthquakes in a material design way
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  http: ^0.12.0+2
   cupertino_icons: ^0.1.2
+  meta: ^1.1.6
 
 dev_dependencies:
+  test: ^1.6.3
   flutter_test:
     sdk: flutter
 
