@@ -1,0 +1,182 @@
+<q:quakeml xmlns:q="http://quakeml.org/xmlns/quakeml/1.2" xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:ingv="http://webservices.ingv.it/fdsnws/event/1">
+<eventParameters publicID="smi:webservices.ingv.it/fdsnws/event/1/query">
+<event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=22712421">
+<type>earthquake</type>
+<description>
+<type>region name</type>
+<text>7 km SE Castelsantangelo sul Nera (MC)</text>
+</description>
+<preferredMagnitudeID>
+smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=74112971
+</preferredMagnitudeID>
+<preferredOriginID>
+smi:webservices.ingv.it/fdsnws/event/1/query?originId=70749801
+</preferredOriginID>
+<creationInfo>
+<agencyID>INGV</agencyID>
+<author>SURVEY-INGV</author>
+<creationTime>2019-07-20T23:48:00</creationTime>
+</creationInfo>
+<origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=70749801">
+<evaluationMode>manual</evaluationMode>
+<type>hypocenter</type>
+<time>
+<value>2019-07-20T23:47:44.940000</value>
+<uncertainty>0.05</uncertainty>
+</time>
+<latitude>
+<value>42.8493</value>
+<uncertainty>0.0027</uncertainty>
+</latitude>
+<longitude>
+<value>13.2133</value>
+<uncertainty>0.0037</uncertainty>
+</longitude>
+<depth>
+<value>8800</value>
+<uncertainty>400</uncertainty>
+</depth>
+<depthType>from location</depthType>
+<originUncertainty>
+<preferredDescription>uncertainty ellipse</preferredDescription>
+<horizontalUncertainty>310.0</horizontalUncertainty>
+<minHorizontalUncertainty>207</minHorizontalUncertainty>
+<maxHorizontalUncertainty>314</maxHorizontalUncertainty>
+<azimuthMaxHorizontalUncertainty>251</azimuthMaxHorizontalUncertainty>
+<confidenceLevel>68</confidenceLevel>
+</originUncertainty>
+<quality>
+<azimuthalGap>49</azimuthalGap>
+<associatedPhaseCount>54</associatedPhaseCount>
+<usedPhaseCount>31</usedPhaseCount>
+<standardError>0.23</standardError>
+<minimumDistance>0.00000</minimumDistance>
+<maximumDistance>0.51891</maximumDistance>
+<associatedStationCount>39</associatedStationCount>
+<usedStationCount>21</usedStationCount>
+</quality>
+<evaluationStatus>reviewed</evaluationStatus>
+<methodID>
+smi:webservices.ingv.it/fdsnws/event/1/query?methodId=1
+</methodID>
+<earthModelID>
+smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=1
+</earthModelID>
+<creationInfo>
+<agencyID>INGV</agencyID>
+<author>SURVEY-INGV</author>
+<version>100</version>
+<creationTime>2019-07-20T23:54:30</creationTime>
+</creationInfo>
+</origin>
+<magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=74112971">
+<stationCount>80</stationCount>
+<originID>
+smi:webservices.ingv.it/fdsnws/event/1/query?originId=70749801
+</originID>
+<type>ML</type>
+<mag>
+<value>2.0</value>
+<uncertainty>0.3</uncertainty>
+</mag>
+<methodID>
+smi:webservices.ingv.it/fdsnws/event/1/query?methodId=1
+</methodID>
+<creationInfo>
+<agencyID>INGV</agencyID>
+<author>Sala Sismica INGV-Roma</author>
+<creationTime>2019-07-20T23:54:30</creationTime>
+</creationInfo>
+</magnitude>
+</event>
+<event publicID="smi:webservices.ingv.it/fdsnws/event/1/query?eventId=22712371">
+<type>earthquake</type>
+<description>
+<type>region name</type>
+<text>2 km SW Gubbio (PG)</text>
+</description>
+<preferredMagnitudeID>
+smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=74112961
+</preferredMagnitudeID>
+<preferredOriginID>
+smi:webservices.ingv.it/fdsnws/event/1/query?originId=70749791
+</preferredOriginID>
+<creationInfo>
+<agencyID>INGV</agencyID>
+<author>SURVEY-INGV</author>
+<creationTime>2019-07-20T23:32:34</creationTime>
+</creationInfo>
+<origin publicID="smi:webservices.ingv.it/fdsnws/event/1/query?originId=70749791">
+<evaluationMode>manual</evaluationMode>
+<type>hypocenter</type>
+<time>
+<value>2019-07-20T23:32:15.350000</value>
+<uncertainty>0.07</uncertainty>
+</time>
+<latitude>
+<value>43.3433</value>
+<uncertainty>0.0036</uncertainty>
+</latitude>
+<longitude>
+<value>12.5593</value>
+<uncertainty>0.0062</uncertainty>
+</longitude>
+<depth>
+<value>9600</value>
+<uncertainty>400</uncertainty>
+</depth>
+<depthType>from location</depthType>
+<originUncertainty>
+<preferredDescription>uncertainty ellipse</preferredDescription>
+<horizontalUncertainty>460.0</horizontalUncertainty>
+<minHorizontalUncertainty>286</minHorizontalUncertainty>
+<maxHorizontalUncertainty>463</maxHorizontalUncertainty>
+<azimuthMaxHorizontalUncertainty>240</azimuthMaxHorizontalUncertainty>
+<confidenceLevel>68</confidenceLevel>
+</originUncertainty>
+<quality>
+<azimuthalGap>123</azimuthalGap>
+<associatedPhaseCount>19</associatedPhaseCount>
+<usedPhaseCount>18</usedPhaseCount>
+<standardError>0.19</standardError>
+<minimumDistance>0.00000</minimumDistance>
+<maximumDistance>0.49193</maximumDistance>
+<associatedStationCount>11</associatedStationCount>
+<usedStationCount>10</usedStationCount>
+</quality>
+<evaluationStatus>reviewed</evaluationStatus>
+<methodID>
+smi:webservices.ingv.it/fdsnws/event/1/query?methodId=1
+</methodID>
+<earthModelID>
+smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=1
+</earthModelID>
+<creationInfo>
+<agencyID>INGV</agencyID>
+<author>SURVEY-INGV</author>
+<version>100</version>
+<creationTime>2019-07-20T23:53:08</creationTime>
+</creationInfo>
+</origin>
+<magnitude publicID="smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=74112961">
+<stationCount>18</stationCount>
+<originID>
+smi:webservices.ingv.it/fdsnws/event/1/query?originId=70749791
+</originID>
+<type>ML</type>
+<mag>
+<value>0.9</value>
+<uncertainty>0.2</uncertainty>
+</mag>
+<methodID>
+smi:webservices.ingv.it/fdsnws/event/1/query?methodId=1
+</methodID>
+<creationInfo>
+<agencyID>INGV</agencyID>
+<author>Sala Sismica INGV-Roma</author>
+<creationTime>2019-07-20T23:53:08</creationTime>
+</creationInfo>
+</magnitude>
+</event>
+</eventParameters>
+</q:quakeml>
