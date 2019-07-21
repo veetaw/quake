@@ -44,6 +44,7 @@ enum EventType {
   meteorite,
   volcanicEruption
 }
+
 EventType eventTypeFromText(String _rawEventType) {
   switch (_rawEventType) {
     case "not existing":
