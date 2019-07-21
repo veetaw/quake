@@ -1,5 +1,13 @@
-import 'package:http/http.dart';
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
 import 'package:meta/meta.dart';
+import 'package:http/http.dart';
+import 'package:xml2json/xml2json.dart';
+
+import 'package:quake/src/api/exceptions.dart';
+import 'package:quake/src/api/model/earthquake.dart';
 
 /// This enum indicates the method to get earthquakes for a zone.
 ///
@@ -21,7 +29,9 @@ class FSDNews {
 
   /// The classes that are going to inherit this class must call
   /// the super constructor with the custom api url.
-  final String _apiUrl;
+  ///
+  /// Additional query parameters will be ignored.
+  final Uri _apiUrl;
 
   /// This constructor must be called by subclasses in order
   /// t set a custom [_apiUrl].
@@ -33,7 +43,46 @@ class FSDNews {
     Client client,
   }) : _httpClient = client ?? Client();
 
-  void fetchData() {}
+  /// This function takes care to ask the server for an xml of the earthquakes
+  /// that match the options given with [options].
+  Future<List<Earthquake>> fetchData({@required FSDNewsOptions options}) async {
+    Response _response = await _httpClient
+        .get(
+          Uri(
+            scheme: _apiUrl.scheme ?? 'http',
+            host: _apiUrl.host,
+            path: _apiUrl.path ?? 'fdsnws/event/1/query',
+            queryParameters: options.toQueryMap(),
+          ),
+        )
+        .timeout(Duration(seconds: 20));
+
+    if (_response == null) throw NoResponseException();
+
+    if (_response.statusCode == 204) throw NoContentException();
+
+    if (_response.statusCode == 400) throw BadResponseException();
+
+    final Map _responseAsJson =
+        await compute(_convertXmlToJson, _response.body);
+
+    if (_responseAsJson.isEmpty ||
+        _responseAsJson["q:quakeml"] == null ||
+        _responseAsJson["q:quakeml"]["eventParameters"] == null)
+      throw BadResponseException();
+
+    return (_responseAsJson["q:quakeml"]["eventParameters"]["event"] as List)
+        .map((_event) => Earthquake.fromJson(_event))
+        .toList();
+  }
+
+  /// This function will parse the passed [xml] to a json and will
+  /// be run in a separate isolate by the compute call
+  /// in [fetchData()]
+  static Map _convertXmlToJson(String xml) {
+    final Xml2Json _xml2Json = Xml2Json()..parse(xml);
+    return json.decode(_xml2Json.toParker());
+  }
 }
 
 /// Specification of FSDNewsEvent 1.2 from:
@@ -250,18 +299,18 @@ class FSDNewsOptions {
           ].where((var field) => field == null).isEmpty;
   }
 
-  Map toQueryMap() {
-    if(!isValid()) throw OptionsNotValidException();
+  Map<String, dynamic> toQueryMap() {
+    if (!isValid()) throw OptionsNotValidException();
 
-    Map _queryParameters = {
+    Map<String, dynamic> _queryParameters = {
       "starttime": __toStandardDate(start),
       "endtime": __toStandardDate(end),
       "mindepth": __round(minDepth),
       "maxdepth": __round(maxDepth),
       "minmagnitude": __round(minMagnitude),
       "maxmagnitude": __round(maxMagnitude),
-      "limit": limit,
-      "offset": offset,
+      "limit": limit.toString(),
+      "offset": offset.toString(),
       "format": _format,
     };
 
@@ -291,5 +340,3 @@ class FSDNewsOptions {
   /// String to make it compatible with the API
   String __round(double n) => n.toStringAsFixed(2);
 }
-
-class OptionsNotValidException implements Exception {}
