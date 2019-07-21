@@ -1,0 +1,77 @@
+{
+  "type": "earthquake",
+  "description": {
+    "type": "region name",
+    "text": "3 km SE Cerreto di Spoleto (PG)"
+  },
+  "preferredMagnitudeID": "smi:webservices.ingv.it/fdsnws/event/1/query?magnitudeId=74008611",
+  "preferredOriginID": "smi:webservices.ingv.it/fdsnws/event/1/query?originId=70659781",
+  "creationInfo": {
+    "agencyID": "INGV",
+    "author": "SURVEY-INGV",
+    "creationTime": "2019-07-17T17:16:55"
+  },
+  "origin": {
+    "evaluationMode": "manual",
+    "type": "hypocenter",
+    "time": {
+      "value": "2019-07-17T17:16:31.730000",
+      "uncertainty": "0.06"
+    },
+    "latitude": {
+      "value": "42.7915",
+      "uncertainty": "0.0027"
+    },
+    "longitude": {
+      "value": "12.9335",
+      "uncertainty": "0.0037"
+    },
+    "depth": {
+      "value": "10900",
+      "uncertainty": "400"
+    },
+    "depthType": "from location",
+    "originUncertainty": {
+      "preferredDescription": "uncertainty ellipse",
+      "horizontalUncertainty": "310.0",
+      "minHorizontalUncertainty": "262",
+      "maxHorizontalUncertainty": "312",
+      "azimuthMaxHorizontalUncertainty": "251",
+      "confidenceLevel": "68"
+    },
+    "quality": {
+      "azimuthalGap": "46",
+      "associatedPhaseCount": "48",
+      "usedPhaseCount": "25",
+      "standardError": "0.19",
+      "minimumDistance": "0.00000",
+      "maximumDistance": "0.34984",
+      "associatedStationCount": "38",
+      "usedStationCount": "15"
+    },
+    "evaluationStatus": "reviewed",
+    "methodID": "smi:webservices.ingv.it/fdsnws/event/1/query?methodId=1",
+    "earthModelID": "smi:webservices.ingv.it/fdsnws/event/1/query?earthModelId=1",
+    "creationInfo": {
+      "agencyID": "INGV",
+      "author": "SURVEY-INGV",
+      "version": "100",
+      "creationTime": "2019-07-17T17:30:30"
+    }
+  },
+  "magnitude": {
+    "stationCount": "6",
+    "originID": "smi:webservices.ingv.it/fdsnws/event/1/query?originId=70659781",
+    "type": "ML",
+    "mag": {
+      "value": "0.8",
+      "uncertainty": "0.2"
+    },
+    "methodID": "smi:webservices.ingv.it/fdsnws/event/1/query?methodId=1",
+    "creationInfo": {
+      "agencyID": "INGV",
+      "author": "Sala Sismica INGV-Roma",
+      "creationTime": "2019-07-17T17:30:30"
+    }
+  }
+}
