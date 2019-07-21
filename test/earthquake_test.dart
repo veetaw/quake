@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:quake/src/api/model/earthquake.dart';
-
 import 'package:test/test.dart';
+
+import 'package:quake/src/api/model/earthquake.dart';
 
 main() {
   group('Earthquake', () {
