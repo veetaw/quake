@@ -103,9 +103,6 @@ void main() {
     FSDNews _mockedFsdNews;
     final _MockedClient _client = _MockedClient();
 
-    const String _url =
-        "http://webservices.ingv.it/fdsnws/event/1/query?starttime=2019-07-15T17%3A00%3A00&endtime=2019-07-21T00%3A00%3A00&mindepth=0.00&maxdepth=100.00&minmagnitude=0.00&maxmagnitude=12.00&limit=2&offset=1&format=xml&latitude=41.89&longitude=12.49&minradius=0.00&maxradius=10.00";
-
     final Matcher throwsNoResponse =
         throwsA(TypeMatcher<NoResponseException>());
     final Matcher throwsNoContent = throwsA(TypeMatcher<NoContentException>());
