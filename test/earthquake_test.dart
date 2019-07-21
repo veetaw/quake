@@ -10,8 +10,13 @@ main() {
     Map _jsonText;
 
     setUp(() async {
-      _jsonText =
-          json.decode(await File('test/earthquake.json').readAsString());
+      try {
+        _jsonText =
+            json.decode(await File('test/earthquake.json').readAsString());
+      } catch (_) {
+        _jsonText =
+            json.decode(await File('earthquake.json').readAsString());
+      }
     });
 
     test('fromJson constructor should work correctly with valid data', () {

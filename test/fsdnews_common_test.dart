@@ -132,9 +132,16 @@ void main() {
     });
 
     test('fetchData should work correctly with a correct response', () async {
+      String response;
+
+      try {
+        response = (await File('test/response.xml').readAsString());
+      } catch (_) {
+        response = (await File('response.xml').readAsString());
+      }
+
       when(_client.get(any)).thenAnswer(
-        (_) async =>
-            Response((await File('test/response.xml').readAsString()), 200),
+        (_) async => Response(response, 200),
       );
 
       expect(await _mockedFsdNews.fetchData(options: _circleOptions), isList);
