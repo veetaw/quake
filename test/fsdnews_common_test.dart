@@ -8,6 +8,9 @@ import 'package:http/http.dart';
 
 import 'package:quake/src/api/exceptions.dart';
 import 'package:quake/src/api/fsdnews_common.dart';
+import 'package:quake/src/api/emsc.dart';
+import 'package:quake/src/api/ingv.dart';
+import 'package:quake/src/api/usgs.dart';
 
 class _MockedClient extends Mock implements Client {}
 
@@ -123,12 +126,18 @@ void main() {
     });
 
     test('test fetchData from the internet', () async {
-      expect(await _fsdNews.fetchData(options: _circleOptions), isList,
-          reason:
-              'This could fail at any time due to lack of internet connection');
-      expect(await _fsdNews.fetchData(options: _bBoxOptions), isList,
-          reason:
-              'This could fail at any time due to lack of internet connection');
+      expect(
+        await _fsdNews.fetchData(options: _circleOptions),
+        isList,
+        reason:
+            'This could fail at any time due to lack of internet connection',
+      );
+      expect(
+        await _fsdNews.fetchData(options: _bBoxOptions),
+        isList,
+        reason:
+            'This could fail at any time due to lack of internet connection',
+      );
     });
 
     test('fetchData should work correctly with a correct response', () async {
@@ -196,6 +205,36 @@ void main() {
       expect(
         () async => await _mockedFsdNews.fetchData(options: _circleOptions),
         throwsTimeoutException,
+      );
+    });
+  });
+
+  group("FSDNews subclasses", () {
+    test('INGV (Italy)', () async {
+      Ingv ingv = Ingv();
+      expect(
+        await ingv.fetchData(options: _bBoxOptions),
+        isList,
+        reason:
+            'This could fail at any time due to lack of internet connection',
+      );
+    });
+    test('USGS (USA/world)', () async {
+      Usgs usgs = Usgs();
+      expect(
+        await usgs.fetchData(options: _bBoxOptions),
+        isList,
+        reason:
+            'This could fail at any time due to lack of internet connection',
+      );
+    });
+    test('EMSC (Europe)', () async {
+      Emsc emsc = Emsc();
+      expect(
+        await emsc.fetchData(options: _bBoxOptions),
+        isList,
+        reason:
+            'This could fail at any time due to lack of internet connection',
       );
     });
   });
