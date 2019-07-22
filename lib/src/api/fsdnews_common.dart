@@ -49,9 +49,9 @@ class FSDNews {
     Response _response = await _httpClient
         .get(
           Uri(
-            scheme: _apiUrl.scheme ?? 'http',
+            scheme: _apiUrl.scheme.isEmpty ? 'http' : _apiUrl.scheme,
             host: _apiUrl.host,
-            path: _apiUrl.path ?? 'fdsnws/event/1/query',
+            path: _apiUrl.path.isEmpty ? 'fdsnws/event/1/query' : _apiUrl.path,
             queryParameters: options.toQueryMap(),
           ),
         )
