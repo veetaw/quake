@@ -14,8 +14,7 @@ main() {
         _jsonText =
             json.decode(await File('test/earthquake.json').readAsString());
       } catch (_) {
-        _jsonText =
-            json.decode(await File('earthquake.json').readAsString());
+        _jsonText = json.decode(await File('earthquake.json').readAsString());
       }
     });
 

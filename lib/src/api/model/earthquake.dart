@@ -70,7 +70,8 @@ class Earthquake {
           double.parse(json["origin"]["longitude"]["value"]),
         ),
         depth = double.parse(json["origin"]["depth"]["value"]),
-        depthUncertainity = double.parse(json["origin"]["depth"]["uncertainity"] ?? "0"),
+        depthUncertainity =
+            double.parse(json["origin"]["depth"]["uncertainity"] ?? "0"),
         magnitude = double.parse(json["magnitude"]["mag"]["value"]),
         magnitudeUncertainity =
             double.parse(json["magnitude"]["mag"]["uncertainity"] ?? "0"),
