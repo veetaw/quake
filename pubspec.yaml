@@ -23,6 +23,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   meta: ^1.1.6
   xml2json: ^3.0.3
+  moor_flutter: ^1.6.0
+
+builders:
+  moor_generator: ^1.6.0+2
 
 dev_dependencies:
   test: ^1.6.3
