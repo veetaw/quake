@@ -102,7 +102,7 @@ class ControlsRow extends StatelessWidget {
         Expanded(
           flex: 2,
           child: ActionButton(
-            key: Key("previous_button"),
+            key: Key("next_button"),
             text: notifier.page == notifier.pageCount - 1 ? "finish" : "next",
             onPressed: notifier.page == notifier.pageCount - 1 ? finish : next,
             textStyle: TextStyle(
