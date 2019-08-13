@@ -144,9 +144,9 @@ void main() {
       String response;
 
       try {
-        response = (await File('test/response.xml').readAsString());
+        response = (await File('test/unit/api/response.xml').readAsString());
       } catch (_) {
-        response = (await File('response.xml').readAsString());
+        response = (await File('unit/api/response.xml').readAsString());
       }
 
       when(_client.get(any)).thenAnswer(

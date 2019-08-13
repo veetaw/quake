@@ -12,9 +12,9 @@ main() {
     setUp(() async {
       try {
         _jsonText =
-            json.decode(await File('test/earthquake.json').readAsString());
+            json.decode(await File('test/unit/api/earthquake.json').readAsString());
       } catch (_) {
-        _jsonText = json.decode(await File('earthquake.json').readAsString());
+        _jsonText = json.decode(await File('unit/api/earthquake.json').readAsString());
       }
     });
 
