@@ -24,6 +24,7 @@ dependencies:
   meta: ^1.1.6
   xml2json: ^3.0.3
   moor_flutter: ^1.6.0
+  provider: ^3.0.0+1
 
 builders:
   moor_generator: ^1.6.0+2
