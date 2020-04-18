@@ -1,4 +1,5 @@
 import 'package:quake/models/coordinates.dart';
+import 'package:quake/database/database.dart' as db;
 
 class Earthquake {
   /// Contains the location name of where the earthquake happened.
@@ -70,4 +71,19 @@ class Earthquake {
             double.parse(json["magnitude"]["mag"]["uncertainity"] ?? "0"),
         stationCount = int.parse(json["magnitude"]["stationCount"] ?? "0"),
         time = DateTime.parse(json["origin"]["time"]["value"]);
+
+  Earthquake.fromDatabaseModel(db.Earthquake earthquake)
+      : eventName = earthquake.eventName,
+        author = earthquake.author,
+        creationTime = earthquake.creationTime,
+        coordinates = Coordinates(
+          earthquake.latitude,
+          earthquake.longitude,
+        ),
+        depth = earthquake.depth,
+        depthUncertainity = earthquake.depthUncertainity,
+        magnitude = earthquake.magnitude,
+        magnitudeUncertainity = earthquake.magnitudeUncertainity,
+        stationCount = earthquake.stationCount,
+        time = earthquake.time;
 }
