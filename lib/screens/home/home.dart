@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quake/components/logo_title.dart';
+import 'package:quake/screens/home/components/date_selection_row.dart';
 import 'package:quake/screens/home/components/magnitude_row.dart';
 
 class Home extends StatelessWidget {
@@ -66,25 +67,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   ),
                 ],
               ),
-              if (isOpened)
-                MagnitudeRow(),
-              Row(
-                // heavy development in progress
-                children: <Widget>[
-                  Container(
-                    width: width / (isPortrait ? 8 : 16),
-                    height: height / (isPortrait ? 16 : 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(16),
-                      ),
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
-                  ),
-                ],
-              ),
+              if (isOpened) MagnitudeRow(),
+              DateSelectionRow(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
