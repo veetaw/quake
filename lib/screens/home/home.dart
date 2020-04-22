@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quake/components/logo_title.dart';
+import 'package:quake/screens/home/components/magnitude_row.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -57,7 +59,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("Quake"),
+                  LogoTitle(),
                   IconButton(
                     icon: Icon(Icons.settings),
                     onPressed: () {},
@@ -65,24 +67,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 ],
               ),
               if (isOpened)
-                Row(
-                  mainAxisAlignment: isPortrait
-                      ? MainAxisAlignment.spaceBetween
-                      : MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      "magnitude",
-                    ),
-                    Text("0.2"),
-                    Text("-"),
-                    Text("3.0"),
-                  ],
-                ),
+                MagnitudeRow(),
               Row(
+                // heavy development in progress
                 children: <Widget>[
                   Container(
-                    width: width / 8,
-                    height: height / 16,
+                    width: width / (isPortrait ? 8 : 16),
+                    height: height / (isPortrait ? 16 : 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(16),
@@ -91,7 +82,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           ? Colors.black
                           : Colors.white,
                     ),
-                  )
+                  ),
                 ],
               ),
               Column(
