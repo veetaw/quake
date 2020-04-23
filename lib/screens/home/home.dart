@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quake/components/logo_title.dart';
-import 'package:quake/screens/home/components/date_selection_row.dart';
-import 'package:quake/screens/home/components/magnitude_row.dart';
+import 'package:quake/screens/home/components/custom_app_bar.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -10,96 +8,120 @@ class Home extends StatelessWidget {
       body: Column(
         children: <Widget>[
           CustomAppBar(),
+          EarthquakeCard(),
         ],
       ),
     );
   }
 }
 
-class CustomAppBar extends StatefulWidget {
-  const CustomAppBar({
+class EarthquakeCard extends StatelessWidget {
+  const EarthquakeCard({
     Key key,
   }) : super(key: key);
 
   @override
-  _CustomAppBarState createState() => _CustomAppBarState();
-}
-
-class _CustomAppBarState extends State<CustomAppBar> {
-  bool isOpened = false;
-
-  changeState() => setState(() => isOpened = !isOpened);
-  @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final height = mediaQuery.size.height;
 
-    final double width = mediaQuery.size.width;
-    final double height = mediaQuery.size.height;
+    final cardHeight = height / 6;
 
-    final bool isPortrait = mediaQuery.orientation == Orientation.portrait;
-
-    final double _barHeight = isPortrait
-        ? height / (isOpened ? 4 : 5)
-        : height / (isOpened ? 2 : 2.5);
-
-    final EdgeInsets _internalPadding = EdgeInsets.all(6);
-
-    return SafeArea(
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
-        width: width,
-        height: _barHeight,
-        color: Theme.of(context).cardColor,
-        padding: _internalPadding,
-        child: InkWell(
-          onTap: changeState,
+    return Container(
+      // height: cardHeight,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        margin: EdgeInsets.all(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Location",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(fontSize: 26),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+              ),
+              Text(
+                "Date",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .copyWith(fontSize: 20),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+              ),
+              Text(
+                "Time",
+                style:
+                    Theme.of(context).textTheme.caption.copyWith(fontSize: 18),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  LogoTitle(),
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () {},
+                children: [
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Icon(Icons.place),
+                        Column(
+                          children: [
+                            Text(
+                              "1.4",
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            Text(
+                              "km",
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 30,
+                    width: 1,
+                    color: Theme.of(context).dividerColor,
+                  ),
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Icon(Icons.place),
+                        Column(
+                          children: [
+                            Text(
+                              "1.4",
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            Text(
+                              "km",
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              if (isOpened) MagnitudeRow(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  "Selected date",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
-              DateSelectionRow(),
-              Center(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 4),
-                    ),
-                    Container(
-                      height: 6,
-                      width: MediaQuery.of(context).size.width / 8,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16),
-                        ),
-                        color: Colors.grey[350],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 4),
-                    ),
-                    Text("Tap to expand"),
-                  ],
-                ),
-              )
             ],
           ),
         ),
