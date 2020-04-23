@@ -14,7 +14,7 @@ class MagnitudeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
+    return ChangeNotifierProvider<_MagnitudeSelectorNotifier>.value(
       value: _MagnitudeSelectorNotifier(initialValue),
       child: Builder(
         builder: (context) {
