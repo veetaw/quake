@@ -49,7 +49,7 @@ class _MagnitudeSelectorNotifier extends ChangeNotifier {
   _MagnitudeSelectorNotifier(this._currentMagnitude);
 
   set currentMagnitude(int newMagnitude) {
-    this._currentMagnitude = newMagnitude;
+    _currentMagnitude = newMagnitude;
 
     notifyListeners();
   }
