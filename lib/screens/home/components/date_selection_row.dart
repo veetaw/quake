@@ -100,7 +100,7 @@ class DateSelectionItem extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline5,
                 )
               : Icon(
-                  dateProvider.customDate == null ? Icons.edit : Icons.clear,
+                  dateProvider.customDate == null ? Icons.calendar_today : Icons.clear,
                 ),
         ),
       ),
@@ -132,7 +132,7 @@ class _DateChangeProvider extends ChangeNotifier {
 
   _notify() {
     // TODO: notify BLOC
-    
+
     notifyListeners();
   }
 }

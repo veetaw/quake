@@ -39,7 +39,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     final bool isPortrait = mediaQuery.orientation == Orientation.portrait;
 
     final double _barHeight = isPortrait
-        ? height / (isOpened ? 4 : 6)
+        ? height / (isOpened ? 4 : 5)
         : height / (isOpened ? 2 : 2.5);
 
     final EdgeInsets _internalPadding = EdgeInsets.all(6);
@@ -54,6 +54,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         child: InkWell(
           onTap: changeState,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
@@ -68,25 +69,36 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 ],
               ),
               if (isOpened) MagnitudeRow(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  "Selected date",
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ),
               DateSelectionRow(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 6,
-                    width: MediaQuery.of(context).size.width / 8,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(16),
-                      ),
-                      color: Colors.grey[350],
+              Center(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 4),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 4),
-                  ),
-                  Text("Tap to expand"),
-                ],
+                    Container(
+                      height: 6,
+                      width: MediaQuery.of(context).size.width / 8,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                        color: Colors.grey[350],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 4),
+                    ),
+                    Text("Tap to expand"),
+                  ],
+                ),
               )
             ],
           ),
