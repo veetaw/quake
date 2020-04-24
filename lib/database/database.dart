@@ -5,7 +5,7 @@ import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-import 'package:quake/database/tables/tables.dart';
+import 'package:quake/database/tables/earthquakes_table.dart';
 
 part 'database.g.dart';
 
@@ -17,12 +17,12 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: tables)
-class Database extends _$Database {
+@UseMoor(tables: [Earthquakes])
+class QuakeDatabase extends _$QuakeDatabase {
   @override
   int get schemaVersion => 1;
 
-  Database() : super(_openConnection());
+  QuakeDatabase() : super(_openConnection());
 
   Future<List<Earthquake>> get allEarthquakes => select(earthquakes).get();
 

@@ -583,8 +583,8 @@ class $EarthquakesTable extends Earthquakes
   }
 }
 
-abstract class _$Database extends GeneratedDatabase {
-  _$Database(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+abstract class _$QuakeDatabase extends GeneratedDatabase {
+  _$QuakeDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $EarthquakesTable _earthquakes;
   $EarthquakesTable get earthquakes => _earthquakes ??= $EarthquakesTable(this);
   @override
