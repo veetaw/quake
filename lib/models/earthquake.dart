@@ -55,6 +55,19 @@ class Earthquake {
   /// position in json: `json["origin"]["time"]["value"]`
   DateTime time;
 
+  Earthquake({
+    this.eventName,
+    this.author,
+    this.creationTime,
+    this.coordinates,
+    this.depth,
+    this.depthUncertainity,
+    this.magnitude,
+    this.magnitudeUncertainity,
+    this.stationCount,
+    this.time,
+  });
+
   Earthquake.fromJson(Map json)
       : eventName = json["description"]["text"],
         author = json["creationInfo"]["author"],
