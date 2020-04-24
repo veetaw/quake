@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:xml2json/xml2json.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 
 import 'package:quake/models/earthquake.dart';
 import 'package:quake/services/exceptions.dart';
@@ -41,16 +42,24 @@ class FSDNews {
   FSDNews(
     this._apiUrl, {
     Dio client,
-  }) : _httpClient = client ?? Dio();
+  }) : _httpClient = client ?? Dio()
+          ..interceptors.add(
+            DioCacheManager(CacheConfig()).interceptor,
+          );
 
   /// This function takes care to ask the server for an xml of the earthquakes
   /// that match the options given with [options].
-  Future<List<Earthquake>> fetchData({@required FSDNewsOptions options}) async {
+  Future<List<Earthquake>> fetchData({
+    @required FSDNewsOptions options,
+    bool forceRefresh = false,
+  }) async {
     Response _response;
     try {
       _response = await _httpClient.get(
         _buildUrl(),
         queryParameters: options.toQueryMap(),
+        options: buildCacheOptions(Duration(days: 7),
+            forceRefresh: forceRefresh ?? false),
       );
 
       print(_response);
