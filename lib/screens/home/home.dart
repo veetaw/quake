@@ -22,13 +22,7 @@ class EarthquakeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height;
-
-    final cardHeight = height / 6;
-
     return Container(
-      // height: cardHeight,
       child: Card(
         elevation: 2,
         shape: RoundedRectangleBorder(
